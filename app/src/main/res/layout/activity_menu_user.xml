@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:textSize="30sp"
-    android:background="@drawable/sfondocofit2"
+    android:background="@drawable/sfondocofit"
     tools:context=".admin.MenuUserActivity">
 
     <androidx.appcompat.widget.Toolbar
