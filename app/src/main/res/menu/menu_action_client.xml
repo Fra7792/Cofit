@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/itemTasse"
+        android:title="Inserisci tassa" />
+
+
+    <item android:id="@+id/itemDocumenti"
+        android:title="Invia documenti" />
+
+
+    <item android:id="@+id/itemAnagrafica"
+        android:title="Visualizza anagrafica"/>
+
+</menu>

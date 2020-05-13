@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Cofit</string>
+
+    <array name="debiti">
+        <item>Obbligazioni e obbligazioni convertibili</item>
+        <item>Debiti verso soci per finanziamenti</item>
+        <item>Debiti verso banche</item>
+        <item>Debiti verso altri finanziatori</item>
+        <item>Acconti</item>
+        <item>Debiti verso fornitori</item>
+        <item>Debiti rappresentati da titoli di credito</item>
+        <item>Debiti verso imprese controllate</item>
+        <item>Debiti verso imprese collegate</item>
+        <item>Debiti verso controllanti</item>
+        <item>Debiti verso imprese sottoposte al controllo delle controllanti</item>
+        <item>Debiti tributari</item>
+        <item>Debiti verso istituti di previdenza e di sicurezza sociale</item>
+        <item>Altri debiti</item>
+    </array>
+
+    <array name="contabilita">
+        <item>Minimo</item>
+        <item>Forfettario</item>
+        <item>Semplificata</item>
+        <item>Ordinaria</item>
+        <item>Enti non commerciali</item>
+        <item>Agricoltura</item>
+    </array>
+
+    <array name="f24">
+        <item>IVA</item>
+        <item>INPS</item>
+        <item>INAIL</item>
+        <item>CCIAA</item>
+        <item>RITENUTE</item>
+        <item>DIPENDENTI</item>
+        <item>IMU - TASI</item>
+        <item>TASSE</item>
+
+    </array>
+
+    <array name="anno">
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+    </array>
+
+
+</resources>

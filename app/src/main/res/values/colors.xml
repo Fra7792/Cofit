@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="viola">#4A3289</color>
+    <color name="prugna">#A2186F</color>
+    <color name="rosso1">#F62217</color>
+    <color name="rosso2">#E42217</color>
+    <color name="verde1">#41A317</color>
+    <color name="verde2">#4AA02C</color>
+</resources>

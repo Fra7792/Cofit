@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cofitconsulting.cofit">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Register">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".Login"/>
+        <activity android:name=".user.anagrafica.ModificaAnagrafica"></activity>
+        <activity android:name=".user.anagrafica.InserimentoAnagrafica" />
+        <activity android:name=".admin.TasseClienteActivity" />
+        <activity android:name=".admin.MenuUserActivity" />
+        <activity android:name=".admin.ListaClienti" />
+        <activity android:name=".admin.AnagraficaCliente" />
+        <activity android:name=".admin.AdminActivity" />
+        <activity android:name=".user.bilancio.crediti.UpdateDeleteCreditiActivity" />
+        <activity android:name=".user.bilancio.crediti.InserimentoCrediti"/>
+        <activity android:name=".user.bilancio.debiti.InserimentoDebiti"/>
+        <activity android:name=".user.bilancio.debiti.UpdateDeleteActivity"/>
+        <activity android:name=".MainActivity"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
