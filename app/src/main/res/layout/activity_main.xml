@@ -58,11 +58,18 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="382dp" />
 
+        <ImageButton
+            android:id="@+id/whatsapp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/whatsapp"
+            android:layout_marginStart="260dp"/>
+
         <Button
             android:id="@+id/logout"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
-            android:layout_marginStart="300dp"
+            android:layout_marginStart="10dp"
             android:background="@drawable/ic_exit_to_app_black_24dp" />
 
 

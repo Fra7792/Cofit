@@ -90,6 +90,7 @@ public class InserimentoAnagrafica extends AppCompatActivity {
             }
         });
 
+
         btnSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +143,7 @@ public class InserimentoAnagrafica extends AppCompatActivity {
         user.put("Id", uid);
         user.put("Email", email);
         user.put("Denominazione", nome);
+        user.put("search", nome.toLowerCase());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(uid).set(user);
@@ -178,6 +180,7 @@ public class InserimentoAnagrafica extends AppCompatActivity {
         }
         return index;
     }
+
 }
 
 

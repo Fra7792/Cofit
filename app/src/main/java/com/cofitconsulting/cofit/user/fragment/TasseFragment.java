@@ -15,6 +15,7 @@ import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.StrutturaTassa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -37,9 +38,10 @@ public class TasseFragment extends Fragment {
         userID = fAuth.getInstance().getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+
         mRecyclerView = v.findViewById(R.id.recyclerview_tasse);
 
-        Query query = firebaseFirestore.collection(userID);
+        Query query = firebaseFirestore.collection(userID).orderBy("Tassa");
         final FirestoreRecyclerOptions<StrutturaTassa> options = new FirestoreRecyclerOptions.Builder<StrutturaTassa>()
                 .setQuery(query, StrutturaTassa.class)
                 .build();

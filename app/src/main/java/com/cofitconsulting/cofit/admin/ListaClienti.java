@@ -2,135 +2,158 @@ package com.cofitconsulting.cofit.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.CustomAdapterClienti;
 import com.cofitconsulting.cofit.utility.User;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
+public class ListaClienti extends AppCompatActivity {
 
-public class ListaClienti extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
-
-    private FirebaseFirestore firebaseFirestore;
-    private RecyclerView mRecyclerView;
-    private FirestoreRecyclerAdapter adapter;
-
-
+    EditText etCerca;
+    ImageButton btnCerca;
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    List<User> userList = new ArrayList<>();
+    FirebaseFirestore db;
+    CustomAdapterClienti adapter;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_clienti);
 
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         mRecyclerView = findViewById(R.id.recyclerview_users);
-
-
-        Query query = firebaseFirestore.collection("Users");
-        final FirestoreRecyclerOptions <User> options = new FirestoreRecyclerOptions.Builder<User>()
-                .setQuery(query, User.class)
-                .build();
-
-        adapter = new FirestoreRecyclerAdapter<User, UserViewHolder>(options) {
-            @NonNull
-            @Override
-            public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lv_item_lista_clienti, parent, false);
-
-                return new UserViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull User model) {
-                holder.text_denominazione.setText(model.getDenominazione());
-                holder.text_email.setText(model.getEmail());
-                holder.text_id.setText(model.getId()+ " ");
-            }
-        };
-
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        etCerca = findViewById(R.id.cercaCliente);
+        btnCerca = findViewById(R.id.cerca);
+
+        pd = new ProgressDialog(this);
+
+        showData();
+
+       etCerca.setOnKeyListener(new View.OnKeyListener() {
+           @Override
+           public boolean onKey(View v, int keyCode, KeyEvent event) {
+               if (event.getAction() == KeyEvent.ACTION_DOWN)
+               {
+                   switch (keyCode)
+                   {
+                       case KeyEvent.KEYCODE_DPAD_CENTER:
+                       case KeyEvent.KEYCODE_ENTER:
+                           String cerca = etCerca.getText().toString().toLowerCase().trim();
+                           searchData(cerca);
+                           return true;
+                       default:
+                           break;
+                   }
+               }
+               return false;
+           }
+       });
+
+        btnCerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cerca = etCerca.getText().toString().toLowerCase().trim();
+                searchData(cerca);
+            }
+        });
+
     }
 
-    private class UserViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView text_denominazione;
-        private TextView text_email;
-        private TextView text_id;
+    private void showData() {
+        pd.setTitle("Loading...");
+        pd.show();
 
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
+        db.collection("Users").orderBy("Denominazione")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        pd.dismiss();
+                        for(DocumentSnapshot doc : task.getResult())
+                        {
+                            User user = new User(doc.getString("Id"),
+                                    doc.getString("Denominazione"),
+                                    doc.getString("Email"));
+                            userList.add(user);
+                        }
 
-            text_denominazione = itemView.findViewById(R.id.txt_den);
-            text_email = itemView.findViewById(R.id.txt_email);
-            text_id = itemView.findViewById(R.id.txt_id);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String ID = text_id.getText().toString();
-                    Intent intent = new Intent(ListaClienti.this, MenuUserActivity.class);
-                    intent.putExtra("User_ID", ID);
-                    startActivity(intent);
-                }
-            });
-        }
+                        adapter = new CustomAdapterClienti(ListaClienti.this, userList);
+                        mRecyclerView.setAdapter(adapter);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
+    private void searchData(final String s) {
+        pd.setTitle("Loading...");
+        pd.show();
+
+        db.collection("Users").orderBy("Denominazione")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        pd.dismiss();
+                        userList.clear();
+                        for (DocumentSnapshot doc : task.getResult())
+                        {
+                            User user = new User(doc.getString("Id"),
+                                    doc.getString("Denominazione"),
+                                    doc.getString("Email"));
+                            if(doc.getString("search").contains(s))
+                            {
+                                userList.add(user);
+                            }
+                            adapter = new CustomAdapterClienti(ListaClienti.this, userList);
+                            mRecyclerView.setAdapter(adapter);
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
 
-    public void showPopup(View V){
-        PopupMenu popup = new PopupMenu(this, V);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.menu_action_client);
-        popup.show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.itemTasse:
-                Toast.makeText(this, "Vuoi inserire le tasse", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.itemDocumenti:
-                Toast.makeText(this, "Vuoi inserire i documenti", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.itemAnagrafica:
-             /*   Intent intent = new Intent(ListaClienti.this, AnagraficaCliente.class);
-               intent.putExtra("User_ID", ID);
-                startActivity(intent);
-                Toast.makeText(this, "Vuoi visualizzare l'anagrafica", Toast.LENGTH_SHORT).show();*/
-                return true;
-            default:
-                return false;
-        }
-    }
 }
 

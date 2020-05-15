@@ -1,11 +1,17 @@
 package com.cofitconsulting.cofit.admin;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,8 +23,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,8 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
-public class TasseClienteActivity extends AppCompatActivity {
+public class InserimentoTasseCliente extends AppCompatActivity {
 
     private ImageButton btnBack;
     private Spinner tipoF24, annoRif;
@@ -42,9 +47,10 @@ public class TasseClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasse_cliente);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
         fStore = FirebaseFirestore.getInstance();
+
 
         btnBack = findViewById(R.id.btnBack);
         tipoF24 = findViewById(R.id.spinnerF24);
@@ -68,7 +74,7 @@ public class TasseClienteActivity extends AppCompatActivity {
                 int anno = calendar.get(Calendar.YEAR);
                 int mese = calendar.get(Calendar.MONTH);
                 int giorno = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(TasseClienteActivity.this,
+                DatePickerDialog dialog = new DatePickerDialog(InserimentoTasseCliente.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, anno, mese, giorno);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -101,11 +107,17 @@ public class TasseClienteActivity extends AppCompatActivity {
                 String totale = f24 + " " + anno;
 
                 writeOnDatabaseTasse(f24, anno, valore, dataScadenza, totale);
-                Toast.makeText(TasseClienteActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
+                notification();
+                Toast.makeText(InserimentoTasseCliente.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(InserimentoTasseCliente.this, VisualizzaTasseCliente.class);
+                intent.putExtra("User_ID", userID);
+                startActivity(intent);
                 finish();
             }
         });
+
     }
+
     private void writeOnDatabaseTasse(String f24, String anno, String valore, String dataScadenza, String totale){
         Map<String, Object> user = new HashMap<>();
         user.put("Tassa", totale);
@@ -114,5 +126,25 @@ public class TasseClienteActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(userID).document(f24 + " " + anno).set(user);
+
     }
+
+    private void notification(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel = new NotificationChannel("n", "n", NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "n")
+                .setContentText("Code Sphere")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setAutoCancel(true)
+                .setContentText("New Data is added");
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        managerCompat.notify(999, builder.build());
+    }
+
 }

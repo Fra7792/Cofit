@@ -2,6 +2,8 @@ package com.cofitconsulting.cofit;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private CreditiFragment creditiFragment;
     private TasseFragment tasseFragment;
     private Button btnLogOut;
+    private ImageButton btnViewAnagrafica, whatsapp;
     private String email;
 
-    ImageButton btnViewAnagrafica;
+
     private FirebaseAuth fAuth;
 
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         btnViewAnagrafica = findViewById(R.id.btnViewAnagrafica);
         calendarView = findViewById(R.id.calendarView);
         btnLogOut = findViewById(R.id.logout);
+        whatsapp = findViewById(R.id.whatsapp);
 
 
         email = fAuth.getInstance().getCurrentUser().getEmail();
@@ -112,6 +116,38 @@ public class MainActivity extends AppCompatActivity {
            });
        }
 
+       whatsapp.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String mobileNumber = "3401861219";
+
+               boolean installed = appInstalledOnNot("com.whatsapp");
+
+               if(installed)
+               {
+                   Intent intent = new Intent(Intent.ACTION_VIEW);
+                   intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+"39"+mobileNumber));
+                   startActivity(intent);
+               } else
+               {
+                   Toast.makeText(MainActivity.this, "WhatsApp non è installato sul tuo dispositivo", Toast.LENGTH_SHORT).show();
+               }
+           }
+       });
+
+    }
+
+    private boolean appInstalledOnNot(String url) {
+        PackageManager packageManager = getPackageManager();
+        boolean app_installed;
+        try{
+            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e)
+        {
+            app_installed = false;
+        }
+        return app_installed;
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -145,5 +181,7 @@ public class MainActivity extends AppCompatActivity {
             return fragmentTitle.get(position);
         }
     }
+
+
 
 }

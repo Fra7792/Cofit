@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "843943781430",
-    "firebase_url": "https://cofit-f6731.firebaseio.com",
-    "project_id": "cofit-f6731",
-    "storage_bucket": "cofit-f6731.appspot.com"
+    "project_number": "203794847738",
+    "firebase_url": "https://cofit-1cce7.firebaseio.com",
+    "project_id": "cofit-1cce7",
+    "storage_bucket": "cofit-1cce7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:843943781430:android:4d5a706e67c01f65566497",
+        "mobilesdk_app_id": "1:203794847738:android:03eadbf482641b65d97643",
         "android_client_info": {
           "package_name": "com.cofitconsulting.cofit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "843943781430-e60b55imgiid14h6bv2116ic73nosvcs.apps.googleusercontent.com",
+          "client_id": "203794847738-265e9lniall5j0v6b7hacp195q6m628i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cofitconsulting.cofit",
+            "certificate_hash": "3dc82a0d7594c25bf70281b7d90a7bfef06c56f7"
+          }
+        },
+        {
+          "client_id": "203794847738-kcs942pkd18sb0ebo2v1bn74822c34r1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAgHw8O7kxSwnxZ0i_oWKnrUSldZPTEeBc"
+          "current_key": "AIzaSyCYfdg3s_w2FewIX39fErrrsdL1p_r9Vss"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "843943781430-e60b55imgiid14h6bv2116ic73nosvcs.apps.googleusercontent.com",
+              "client_id": "203794847738-kcs942pkd18sb0ebo2v1bn74822c34r1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

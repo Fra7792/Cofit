@@ -90,7 +90,5 @@ public class ModificaAnagrafica extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 }
