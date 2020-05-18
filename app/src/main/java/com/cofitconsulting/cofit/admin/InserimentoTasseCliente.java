@@ -35,7 +35,7 @@ import java.util.Map;
 public class InserimentoTasseCliente extends AppCompatActivity {
 
     private ImageButton btnBack;
-    private Spinner tipoF24, annoRif;
+    private Spinner tipoF24, annoRif, meseRif;
     private EditText importo, scadenza;
     private Button btnInserisci;
     private String userID;
@@ -55,6 +55,7 @@ public class InserimentoTasseCliente extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         tipoF24 = findViewById(R.id.spinnerF24);
         annoRif = findViewById(R.id.spinnerAnno);
+        meseRif = findViewById(R.id.spinnerMese);
         importo = findViewById(R.id.etImporto);
         scadenza = findViewById(R.id.etScadenza);
         btnInserisci = findViewById(R.id.btnInserisci);
@@ -102,11 +103,12 @@ public class InserimentoTasseCliente extends AppCompatActivity {
             public void onClick(View v) {
                 String f24 = tipoF24.getSelectedItem().toString().trim();
                 String anno = annoRif.getSelectedItem().toString().trim();
+                String mese = meseRif.getSelectedItem().toString().trim();
                 String valore = importo.getText().toString().trim() + "€";
                 String dataScadenza = scadenza.getText().toString().trim();
-                String totale = f24 + " " + anno;
+                String totale = f24 + " " + mese + " " + anno;
 
-                writeOnDatabaseTasse(f24, anno, valore, dataScadenza, totale);
+                writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, totale);
                 notification();
                 Toast.makeText(InserimentoTasseCliente.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InserimentoTasseCliente.this, VisualizzaTasseCliente.class);
@@ -118,14 +120,14 @@ public class InserimentoTasseCliente extends AppCompatActivity {
 
     }
 
-    private void writeOnDatabaseTasse(String f24, String anno, String valore, String dataScadenza, String totale){
+    private void writeOnDatabaseTasse(String f24, String anno, String mese, String valore, String dataScadenza, String totale){
         Map<String, Object> user = new HashMap<>();
         user.put("Tassa", totale);
         user.put("Importo", valore);
         user.put("Scadenza", dataScadenza);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(userID).document(f24 + " " + anno).set(user);
+        db.collection(userID).document(f24 + " " + mese + " " + anno).set(user);
 
     }
 

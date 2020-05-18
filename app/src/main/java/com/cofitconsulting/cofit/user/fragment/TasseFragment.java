@@ -1,5 +1,6 @@
 package com.cofitconsulting.cofit.user.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +16,14 @@ import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.StrutturaTassa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class TasseFragment extends Fragment {
@@ -29,6 +33,7 @@ public class TasseFragment extends Fragment {
     private FirestoreRecyclerAdapter adapter;
     private FirebaseAuth fAuth;
     private String userID;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +65,21 @@ public class TasseFragment extends Fragment {
                 holder.text_tassa.setText(model.getTassa());
                 holder.text_scadenza.setText(model.getScadenza());
                 holder.text_importo.setText(model.getImporto());
+                Date currentTime = Calendar.getInstance().getTime();
+                String dataScadenza = model.getScadenza();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
+                try {
+                    Date date = dateFormat.parse(model.getScadenza());
+                    if(currentTime.after(date))
+                    {
+                        holder.text_scadenza.setText(model.getScadenza() + " " +"SCADUTO");
+                        holder.text_scadenza.setTextColor(Color.RED);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         };
 

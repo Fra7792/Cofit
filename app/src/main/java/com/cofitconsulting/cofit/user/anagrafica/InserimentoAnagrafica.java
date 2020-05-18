@@ -25,18 +25,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 public class InserimentoAnagrafica extends AppCompatActivity {
 
-    EditText text_nome, text_indirizzo, text_inpsP, text_inpsD, text_inailP, text_inailD, text_iva, text_cf, text_rea;
-    Spinner text_contabilita;
-    RadioButton azienda, societa, professionista, ritSi, ritNo;
-    RadioGroup radioGroupTipo;
-    Button btnSalva;
-    ImageButton btnBack;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String userId;
+    private EditText text_nome, text_indirizzo, text_inpsP, text_inpsD, text_inailP, text_inailD, text_iva, text_cf, text_rea;
+    private Spinner text_contabilita;
+    private RadioButton azienda, societa, professionista, ritSi, ritNo;
+    private RadioGroup radioGroupTipo;
+    private Button btnSalva;
+    private ImageButton btnBack;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/menuProfile"
+        android:title="Profilo"
+        android:icon="@drawable/ic_account_circle_black_24dp" />
+
+
+    <item android:title="Documenti">
+
+        <menu>
+
+            <item android:id="@+id/menuInserisciDoc"
+                android:title="Inserisci documenti"
+                android:icon="@drawable/ic_cloud_upload_black_24dp" />
+
+
+            <item android:id="@+id/menuVisualizzaDoc"
+                android:title="Scarica documenti"
+                android:icon="@drawable/ic_description_black_24dp" />
+
+
+        </menu>
+
+
+    </item>
+
+    <item android:title="Assistenza">
+
+        <menu>
+
+            <item android:id="@+id/menuWhatsapp"
+                android:title="Whatsapp"
+                android:icon="@drawable/whatsappbrands01" />
+
+        </menu>
+
+
+    </item>
+
+    <item android:id="@+id/menuEsci"
+        android:title="Esci"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+
+
+
+
+
+
+</menu>

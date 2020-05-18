@@ -32,11 +32,11 @@ public class CreditiFragment extends Fragment {
     private FloatingActionButton btnMenu, btnCrediti, btnDebiti;
     private ArrayList<StrutturaConto> strutturaContoArrayList;
     private CustomAdapterCrediti customAdapterCrediti;
-    Float translationY = 100f;
-    Float translationX = 100f;
-    OvershootInterpolator interpolator = new OvershootInterpolator();
+    private Float translationY = 100f;
+    private Float translationX = 100f;
+    private OvershootInterpolator interpolator = new OvershootInterpolator();
     private DatabaseHelper databaseHelper;
-    Boolean isMenuOpen = false;
+    private Boolean isMenuOpen = false;
 
 
     @Override

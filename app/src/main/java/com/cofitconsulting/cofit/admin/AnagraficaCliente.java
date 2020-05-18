@@ -21,12 +21,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class AnagraficaCliente extends AppCompatActivity {
 
-    String userID;
-    TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda, titolo;
-    Button btn;
-    ImageButton btnBack;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
+    private String userID;
+    private TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda, titolo;
+    private Button btn;
+    private ImageButton btnBack;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,6 @@ public class AnagraficaCliente extends AppCompatActivity {
         cf = findViewById(R.id.text_cf);
         rea = findViewById(R.id.text_rea);
         ritenuta = findViewById(R.id.text_ritenuta);
-        rea.setText(userID);
         btn = findViewById(R.id.btnModifyAnagrafic);
         btn.setVisibility(View.INVISIBLE);
         fAuth = FirebaseAuth.getInstance();
@@ -77,6 +76,7 @@ public class AnagraficaCliente extends AppCompatActivity {
                 inailD.setText("INAIL Dipendenti: " + documentSnapshot.getString("Inail Dipendenti"));
                 pi.setText("Partita IVA: " + documentSnapshot.getString("Partita IVA"));
                 cf.setText("Codice Fiscale: " + documentSnapshot.getString("Codice Fiscale"));
+                rea.setText("Codice REA: " + documentSnapshot.getString("Codice REA"));
                 ritenuta.setText("Ritenuta d'acconto: " + documentSnapshot.getString("Ritenuta d'acconto"));
                 titolo.setText(documentSnapshot.getString("Denominazione"));
             }

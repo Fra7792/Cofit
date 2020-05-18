@@ -1,14 +1,10 @@
 package com.cofitconsulting.cofit.user.anagrafica;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 
-
+import android.os.Bundle;
 import android.content.Intent;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,16 +19,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
-
-
 public class ModificaAnagrafica extends AppCompatActivity {
 
-    TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
-    Button btnModifica;
-    ImageButton btnBack;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String userId;
+    private TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
+    private Button btnModifica;
+    private ImageButton btnBack;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

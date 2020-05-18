@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sfondocofit"
     android:orientation="vertical">
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -20,34 +18,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <EditText
-            android:id="@+id/cercaCliente"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Cerca cliente"
+            android:background="@drawable/ic_arrow_back_black_24dp" />
+
+        <TextView
+            android:id="@+id/titolo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visualizza F24"
+            android:layout_marginStart="35sp"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
             android:textSize="25sp"
-            android:imeOptions="actionSearch"/>
-
-        <ImageButton
-            android:id="@+id/cerca"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_search_black_24dp"
-            android:layout_marginStart="40dp"/>
-
-        <ImageButton
-            android:id="@+id/btnLogOut"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_exit_to_app_black_24dp"
-            android:layout_marginStart="100dp"/>
+            tools:layout_editor_absoluteX="54dp"
+            tools:layout_editor_absoluteY="11dp" />
 
     </androidx.appcompat.widget.Toolbar>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_users"
+        android:id="@+id/recyclerview_tasse"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"

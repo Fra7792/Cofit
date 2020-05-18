@@ -13,9 +13,9 @@ import com.cofitconsulting.cofit.R;
 
 public class MenuUserActivity extends AppCompatActivity {
 
-    private TextView tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
+    private TextView titolo, tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
     private ImageButton btnBack;
-    String userID;
+    private String userID, denominazione;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class MenuUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu_user);
 
         btnBack = findViewById(R.id.btnBack);
+        titolo = findViewById(R.id.titolo);
         tvAnagrafica = findViewById(R.id.tvAnagrafica);
         tvVisualizzaTasse = findViewById(R.id.tvVisualizzaTasse);
         tvTasse = findViewById(R.id.tvTasse);
@@ -31,6 +32,10 @@ public class MenuUserActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
+        denominazione = intent.getStringExtra("Nome").trim();
+
+
+        titolo.setText(denominazione);
 
         tvVisualizzaTasse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +64,22 @@ public class MenuUserActivity extends AppCompatActivity {
             }
         });
 
+        tvVisualizzaDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImagesActivity();
+            }
+        });
+
+        tvInserisciDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuUserActivity.this, CaricaDocumento.class);
+                intent.putExtra("User_ID", userID);
+                startActivity(intent);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,8 +89,14 @@ public class MenuUserActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
+    private void openImagesActivity() {
+        Intent intent = new Intent(MenuUserActivity.this, VisualizzaDocCliente.class);
+        intent.putExtra("User_ID", userID);
+        startActivity(intent);
+    }
 
 
 }

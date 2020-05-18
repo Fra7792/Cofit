@@ -8,25 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.CustomAdapterTasse;
 import com.cofitconsulting.cofit.utility.StrutturaTassa;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -34,21 +27,23 @@ import java.util.List;
 
 public class VisualizzaTasseCliente extends AppCompatActivity {
 
-    List<StrutturaTassa> modelList = new ArrayList<>();
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    FirebaseFirestore fStore;
-    CustomAdapterTasse adapter;
-    ProgressDialog pd;
-    String userID;
+    private List<StrutturaTassa> modelList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private FirebaseFirestore fStore;
+    private CustomAdapterTasse adapter;
+    private ProgressDialog pd;
+    private ImageButton btnBack;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tasse);
+        setContentView(R.layout.visualizza_tasse_cliente);
 
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
+        btnBack = findViewById(R.id.btnBack);
         fStore = FirebaseFirestore.getInstance();
 
         //btnAggiungi = findViewById(R.id.btnFloatingAggiungi);
@@ -59,6 +54,13 @@ public class VisualizzaTasseCliente extends AppCompatActivity {
         pd = new ProgressDialog(this);
 
         showData();
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

@@ -21,11 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Register extends AppCompatActivity {
 
-    EditText  mEmail, mPassword, mConfPass;
-    Button mBtnRegistra;
-    TextView linkLogin;
-    ProgressBar progressBar;
-    FirebaseAuth fAuth; //crea un oggetto della classe FirebaseAuth per l'autentificazione
+    private EditText  mEmail, mPassword, mConfPass;
+    private Button mBtnRegistra;
+    private TextView linkLogin;
+    private ProgressBar progressBar;
+    private FirebaseAuth fAuth; //crea un oggetto della classe FirebaseAuth per l'autentificazione
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,6 @@ public class Register extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
-
-
 
         mBtnRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,11 +83,14 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {   //bisogna gestire le attività asincrone
                         if(task.isSuccessful())
                         {
+                            progressBar.setVisibility(View.INVISIBLE);
                             //Se l'utente è creato correttamente viene visualizzato un toast e si passerà alla main activity
                             Toast.makeText(Register.this, "Utente creato correttamente", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
                         } else
                         {
+                            progressBar.setVisibility(View.INVISIBLE);
                             //Se ci sono problemi verrà visualizzato un errore
                             Toast.makeText(Register.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -104,6 +105,7 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

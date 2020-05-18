@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Cofit</string>
+    <string name="open" />
+    <string name="close" />
 
     <array name="debiti">
         <item>Obbligazioni e obbligazioni convertibili</item>
@@ -39,12 +41,19 @@
 
     </array>
 
-    <array name="anno">
-        <item>2018</item>
-        <item>2019</item>
-        <item>2020</item>
-        <item>2021</item>
+    <array name="mese">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
     </array>
-
 
 </resources>

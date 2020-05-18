@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,12 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.cofitconsulting.cofit.Login;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.CustomAdapterClienti;
 import com.cofitconsulting.cofit.utility.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,14 +32,14 @@ import java.util.List;
 
 public class ListaClienti extends AppCompatActivity {
 
-    EditText etCerca;
-    ImageButton btnCerca;
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    List<User> userList = new ArrayList<>();
-    FirebaseFirestore db;
-    CustomAdapterClienti adapter;
-    ProgressDialog pd;
+    private EditText etCerca;
+    private ImageButton btnCerca, btnLogOut;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<User> userList = new ArrayList<>();
+    private FirebaseFirestore db;
+    private CustomAdapterClienti adapter;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class ListaClienti extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         etCerca = findViewById(R.id.cercaCliente);
         btnCerca = findViewById(R.id.cerca);
+        btnLogOut = findViewById(R.id.btnLogOut);
 
         pd = new ProgressDialog(this);
 
@@ -80,6 +84,16 @@ public class ListaClienti extends AppCompatActivity {
             public void onClick(View v) {
                 String cerca = etCerca.getText().toString().toLowerCase().trim();
                 searchData(cerca);
+            }
+        });
+
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
             }
         });
 

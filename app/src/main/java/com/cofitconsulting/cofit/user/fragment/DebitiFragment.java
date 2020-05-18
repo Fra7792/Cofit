@@ -31,10 +31,10 @@ public class DebitiFragment extends Fragment {
     private ArrayList<StrutturaConto> strutturaContoArrayList;
     private CustomAdapterDebiti customAdapter;
     private DatabaseHelper databaseHelper;
-    Float translationY = 100f;
-    Float translationX = 100f;
-    OvershootInterpolator interpolator = new OvershootInterpolator();
-    Boolean isMenuOpen = false;
+    private Float translationY = 100f;
+    private Float translationX = 100f;
+    private OvershootInterpolator interpolator = new OvershootInterpolator();
+    private Boolean isMenuOpen = false;
 
 
     @Nullable

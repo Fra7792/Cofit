@@ -38,6 +38,7 @@ public class CustomAdapterClienti extends RecyclerView.Adapter<ViewHolderClienti
                 String id = modelList.get(position).getId();
                 Intent intent = new Intent(listaClienti, MenuUserActivity.class);
                 intent.putExtra("User_ID", id);
+                intent.putExtra("Nome", denominazione);
                 listaClienti.startActivity(intent);
             }
 

@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cofitconsulting.cofit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,14 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin.VisualizzaTasseCliente"></activity>
-        <activity android:name=".Register">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".user.documenti.VisualizzaDocumentiActivity" />
+        <activity android:name=".admin.VisualizzaDocCliente" />
+        <activity android:name=".user.documenti.CaricaDocumentiActivity" />
+        <activity android:name=".admin.CaricaDocumento" />
+        <activity android:name=".admin.VisualizzaTasseCliente" />
+        <activity android:name=".Register"></activity>
         <activity android:name=".Login" />
         <activity android:name=".user.anagrafica.ModificaAnagrafica" />
         <activity android:name=".user.anagrafica.InserimentoAnagrafica" />
@@ -24,13 +31,17 @@
         <activity android:name=".admin.MenuUserActivity" />
         <activity android:name=".admin.ListaClienti" />
         <activity android:name=".admin.AnagraficaCliente" />
-        <activity android:name=".admin.AdminActivity" />
         <activity android:name=".user.bilancio.crediti.UpdateDeleteCreditiActivity" />
         <activity android:name=".user.bilancio.crediti.InserimentoCrediti" />
         <activity android:name=".user.bilancio.debiti.InserimentoDebiti" />
         <activity android:name=".user.bilancio.debiti.UpdateDeleteActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <service android:name=".Java.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

@@ -25,11 +25,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
 
-    EditText mEmail, mPassword;
-    Button mAccediBtn;
-    TextView linkRegistra, linkResetPass;
-    ProgressBar progressBar;
-    FirebaseAuth fAuth;
+    private EditText mEmail, mPassword;
+    private Button mAccediBtn;
+    private TextView linkRegistra, linkResetPass;
+    private ProgressBar progressBar;
+    private FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity {
 
         mEmail = findViewById(R.id.email);
         mPassword = findViewById(R.id.password);
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar2);
         fAuth = FirebaseAuth.getInstance();
         mAccediBtn = findViewById(R.id.btnAccedi);
         linkRegistra = findViewById(R.id.createText);
@@ -63,6 +63,8 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 //Autentificazione utente
 
                 fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,9 +75,11 @@ public class Login extends AppCompatActivity {
                             Toast.makeText(Login.this, "Accesso eseguito", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         else
                         {
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(Login.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
