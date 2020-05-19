@@ -21,9 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ModificaAnagraficaActivity extends AppCompatActivity {
 
-    private TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
-    private Button btnModifica;
-    private ImageButton btnBack;
+    private TextView nome, numero, email, indirizzo_completo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
+    private ImageButton btnBack, btnModifica;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
     private String userId;
@@ -35,7 +34,9 @@ public class ModificaAnagraficaActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         tipo_azienda = findViewById(R.id.textTipoAzienda);
         nome = findViewById(R.id.textNome);
-        indirizzo = findViewById(R.id.textIndizzo);
+        numero = findViewById(R.id.textNumero);
+        email = findViewById(R.id.textEmail);
+        indirizzo_completo = findViewById(R.id.textIndizzo);
         contabilita = findViewById(R.id.text_contabilita);
         inpsP = findViewById(R.id.textInpsP);
         inpsD = findViewById(R.id.textInpsD);
@@ -45,7 +46,7 @@ public class ModificaAnagraficaActivity extends AppCompatActivity {
         cf = findViewById(R.id.text_cf);
         rea = findViewById(R.id.text_rea);
         ritenuta = findViewById(R.id.text_ritenuta);
-        btnModifica = findViewById(R.id.btnModifyAnagrafic);
+        btnModifica = findViewById(R.id.btnModifica);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -62,17 +63,21 @@ public class ModificaAnagraficaActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 tipo_azienda.setText("Tipo Cliente: " + documentSnapshot.getString("Tipo cliente"));
-                nome.setText("Denominazione: " + documentSnapshot.getString("Denominazione"));
-                indirizzo.setText("Indirizzo: " + documentSnapshot.getString("Indirizzo"));
-                contabilita.setText("Tipo di contabilità: " + documentSnapshot.getString("Tipo di contabilità"));
-                inpsP.setText("INPS Personale: " + documentSnapshot.getString("Inps Personale"));
-                inailP.setText("INAIL Personale: " + documentSnapshot.getString("Inail Personale"));
-                inpsD.setText("INPS Dipendenti: " + documentSnapshot.getString("Inps Dipendenti"));
-                inailD.setText("INAIL Dipendenti: " + documentSnapshot.getString("Inail Dipendenti"));
-                pi.setText("Partita IVA: " + documentSnapshot.getString("Partita IVA"));
-                cf.setText("Codice Fiscale: " + documentSnapshot.getString("Codice Fiscale"));
-                rea.setText("Codice REA: " + documentSnapshot.getString("Codice REA"));
-                ritenuta.setText("Ritenuta d'acconto: " + documentSnapshot.getString("Ritenuta d'acconto"));
+                nome.setText(documentSnapshot.getString("Denominazione"));
+                email.setText(documentSnapshot.getString("Email"));
+                String citta = documentSnapshot.getString("Città");
+                String indirizzo = documentSnapshot.getString("Indirizzo");
+                indirizzo_completo.setText(citta + ", " + indirizzo);
+                numero.setText(documentSnapshot.getString("Numero di telefono"));
+                contabilita.setText(documentSnapshot.getString("Tipo di contabilità"));
+                inpsP.setText(documentSnapshot.getString("Inps Personale"));
+                inailP.setText(documentSnapshot.getString("Inail Personale"));
+                inpsD.setText(documentSnapshot.getString("Inps Dipendenti"));
+                inailD.setText(documentSnapshot.getString("Inail Dipendenti"));
+                pi.setText(documentSnapshot.getString("Partita IVA"));
+                cf.setText(documentSnapshot.getString("Codice Fiscale"));
+                rea.setText(documentSnapshot.getString("Codice REA"));
+                ritenuta.setText(documentSnapshot.getString("Ritenuta d'acconto"));
             }
         });
 

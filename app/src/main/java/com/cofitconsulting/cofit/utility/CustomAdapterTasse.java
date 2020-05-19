@@ -1,5 +1,6 @@
 package com.cofitconsulting.cofit.utility;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -84,6 +85,7 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
         return viewHolderTasse;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolderTasse viewHolderTasse, int i) {
 
@@ -93,9 +95,9 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
         viewHolderTasse.mPagato.setText(modelList.get(i).getPagato());
         String dataScadenza = modelList.get(i).getScadenza();
         String pagato = modelList.get(i).getPagato();
-        if(scaduto(dataScadenza) && pagato.equals("No"))
+       if(scaduto(dataScadenza) && pagato.equals("No"))
         {
-            viewHolderTasse.mScadenza.setText(modelList.get(i).getScadenza() + " " +"SCADUTO");
+            viewHolderTasse.mScadenza.setText(modelList.get(i).getScadenza() + " " + "SCADUTO");
             viewHolderTasse.mScadenza.setTextColor(Color.RED);
         }
 

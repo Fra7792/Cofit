@@ -3,6 +3,7 @@ package com.cofitconsulting.cofit.user.anagrafica;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
-    private EditText text_nome, text_indirizzo, text_inpsP, text_inpsD, text_inailP, text_inailD, text_iva, text_cf, text_rea;
+    private EditText text_nome, text_citta, text_indirizzo, text_numero, text_inpsP, text_inpsD, text_inailP, text_inailD, text_iva, text_cf, text_rea;
     private Spinner text_contabilita;
     private RadioGroup radioGroupTipo, radioGroupRit;
     private Button btnSalva;
@@ -41,7 +42,9 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimento_anagrafica);
         text_nome = findViewById(R.id.text_denominazione);
+        text_citta = findViewById(R.id.text_citta);
         text_indirizzo = findViewById(R.id.text_indirizzo);
+        text_numero = findViewById(R.id.text_numero);
         text_inpsP = findViewById(R.id.text_inpsP);
         text_inpsD = findViewById(R.id.text_inpsD);
         text_inailP = findViewById(R.id.text_inailP);
@@ -75,7 +78,9 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
                 String cont = documentSnapshot.getString("Tipo di contabilità");
                 text_nome.setText(documentSnapshot.getString("Denominazione"));
+                text_citta.setText(documentSnapshot.getString("Città"));
                 text_indirizzo.setText(documentSnapshot.getString("Indirizzo"));
+                text_numero.setText(documentSnapshot.getString("Numero di telefono"));
                 text_inpsP.setText(documentSnapshot.getString("Inps Personale"));
                 text_inailP.setText(documentSnapshot.getString("Inail Personale"));
                 text_inpsD.setText(documentSnapshot.getString("Inps Dipendenti"));
@@ -92,7 +97,9 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String nome = text_nome.getText().toString();
-                final String indirizzo= text_indirizzo.getText().toString();
+                final String indirizzo = text_indirizzo.getText().toString();
+                final String citta = text_citta.getText().toString();
+                final String numero = text_numero.getText().toString();
                 final String inailP = text_inailP.getText().toString();
                 final String inpsD = text_inpsD.getText().toString();
                 final String inailD = text_inailD.getText().toString();
@@ -112,19 +119,23 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 final String ritenuta = selectedIdRadioGroup(radioGroupRit);
 
                 String uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
-                writeOnDatabaseAnagrafica(nome, indirizzo, inpsP, inpsD, inailP, inailD, iva, cf, rea, contabilita, tipo_cliente, ritenuta, email, uid);
+                writeOnDatabaseAnagrafica(nome, citta, indirizzo, numero, inpsP, inpsD, inailP, inailD, iva, cf, rea, contabilita, tipo_cliente, ritenuta, email, uid);
                 Toast.makeText(InserimentoAnagraficaActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 writeOnDatabaseUser(nome, email, userId);
+                Intent intent = new Intent(InserimentoAnagraficaActivity.this, ModificaAnagraficaActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
     }
 
-    private void writeOnDatabaseAnagrafica(String nome, String indirizzo, String inpsP, String inpsD, String inailP, String inailD, String iva, String cf, String rea, String contabilita, String tipo_cliente, String ritenuta, String email, String uid){
+    private void writeOnDatabaseAnagrafica(String nome, String citta, String indirizzo, String numero,  String inpsP, String inpsD, String inailP, String inailD, String iva, String cf, String rea, String contabilita, String tipo_cliente, String ritenuta, String email, String uid){
         Map<String, Object> user = new HashMap<>();
         user.put("Id", uid);
         user.put("Email", email);
         user.put("Denominazione", nome);
+        user.put("Numero di telefono", numero);
+        user.put("Città", citta);
         user.put("Indirizzo", indirizzo);
         user.put("Inps Personale", inpsP);
         user.put("Inail Personale", inailP);

@@ -104,14 +104,14 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
-            android:id="@+id/text_indirizzo"
+            android:id="@+id/text_citta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Indirizzo sede"
+            android:hint="Città"
             android:inputType="textPersonName"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
@@ -121,6 +121,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_denominazione"
             app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/text_indirizzo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Indirizzo"
+            android:inputType="textPersonName"
+            android:textColor="@color/viola"
+            android:textColorHint="@color/viola"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_citta"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/text_numero"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Numero di telefono"
+            android:inputType="textPersonName"
+            android:textColor="@color/viola"
+            android:textColorHint="@color/viola"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_indirizzo"
+            app:layout_constraintVertical_bias="0.0" />
+
 
         <EditText
             android:id="@+id/text_pIva"
@@ -138,7 +177,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_indirizzo"
+            app:layout_constraintTop_toBottomOf="@+id/text_numero"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
