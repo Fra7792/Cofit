@@ -23,7 +23,7 @@ import java.util.Calendar;
 
 
 
-public class InserimentoDebiti extends AppCompatActivity {
+public class InserimentoDebitiActivity extends AppCompatActivity {
 
     private TextView titolo;
     private Button btnStore;
@@ -56,7 +56,7 @@ public class InserimentoDebiti extends AppCompatActivity {
                 int anno = calendar.get(Calendar.YEAR);
                 int mese = calendar.get(Calendar.MONTH);
                 int giorno = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(InserimentoDebiti.this,
+                DatePickerDialog dialog = new DatePickerDialog(InserimentoDebitiActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, anno, mese, giorno);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -78,8 +78,8 @@ public class InserimentoDebiti extends AppCompatActivity {
                 etdescrizione.setText("");
                 etimporto.setText("");
                 etdata.setText("");
-                Toast.makeText(InserimentoDebiti.this, "Elemento inserito!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(InserimentoDebiti.this, MainActivity.class);
+                Toast.makeText(InserimentoDebitiActivity.this, "Elemento inserito!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(InserimentoDebitiActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

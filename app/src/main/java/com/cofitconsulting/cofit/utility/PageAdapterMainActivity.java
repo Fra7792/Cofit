@@ -10,11 +10,11 @@ import com.cofitconsulting.cofit.user.fragment.CreditiFragment;
 import com.cofitconsulting.cofit.user.fragment.DebitiFragment;
 import com.cofitconsulting.cofit.user.fragment.TasseFragment;
 
-public class PageAdapter extends FragmentPagerAdapter {
+public class PageAdapterMainActivity extends FragmentPagerAdapter {
 
     private int tabsNumber;
 
-    public PageAdapter(@NonNull FragmentManager fm, int behavior, int tabs) {
+    public PageAdapterMainActivity(@NonNull FragmentManager fm, int behavior, int tabs) {
         super(fm, behavior);
         this.tabsNumber = tabs;
     }

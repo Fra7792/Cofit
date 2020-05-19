@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.CustomAdapterImage;
+import com.cofitconsulting.cofit.utility.CustomAdapterDoc;
 import com.cofitconsulting.cofit.utility.StrutturaUpload;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,11 +35,11 @@ import java.util.List;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
-public class VisualizzaDocCliente extends AppCompatActivity implements CustomAdapterImage.OnItemClickListener{
+public class VisualizzaDocAdminActivity extends AppCompatActivity implements CustomAdapterDoc.OnItemClickListener{
 
     private ImageButton btnBack;
     private RecyclerView mRecyclerView;
-    private CustomAdapterImage mAdapter;
+    private CustomAdapterDoc mAdapter;
     private ProgressBar mProgressBar;
     private String userID;
 
@@ -62,9 +62,9 @@ public class VisualizzaDocCliente extends AppCompatActivity implements CustomAda
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mUploads = new ArrayList<>();
-        mAdapter = new CustomAdapterImage(VisualizzaDocCliente.this, mUploads);
+        mAdapter = new CustomAdapterDoc(VisualizzaDocAdminActivity.this, mUploads);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(VisualizzaDocCliente.this);
+        mAdapter.setOnItemClickListener(VisualizzaDocAdminActivity.this);
         firebaseStorage = FirebaseStorage.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference(userID);
 
@@ -87,7 +87,7 @@ public class VisualizzaDocCliente extends AppCompatActivity implements CustomAda
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(VisualizzaDocCliente.this, "Errore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VisualizzaDocAdminActivity.this, "Errore", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -103,8 +103,8 @@ public class VisualizzaDocCliente extends AppCompatActivity implements CustomAda
     @Override
     public void onDownloadClick(int position) {
         StrutturaUpload selectedItem = mUploads.get(position);
-        downloadFiles(VisualizzaDocCliente.this, selectedItem.getFileName(), DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
-        Toast.makeText(VisualizzaDocCliente.this, "Download in corso...",Toast.LENGTH_SHORT).show();
+        downloadFiles(VisualizzaDocAdminActivity.this, selectedItem.getFileName(), DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
+        Toast.makeText(VisualizzaDocAdminActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
 
     }
         private void downloadFiles(Context context, String fileName, String destinatonDirectory, String url){
@@ -122,7 +122,7 @@ public class VisualizzaDocCliente extends AppCompatActivity implements CustomAda
 
     @Override
     public void onDeleteClick(final int position) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(VisualizzaDocCliente.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(VisualizzaDocAdminActivity.this);
         builder.setMessage("Vuoi eliminare? ")
                 .setCancelable(false)
                 .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
@@ -135,7 +135,7 @@ public class VisualizzaDocCliente extends AppCompatActivity implements CustomAda
                             @Override
                             public void onSuccess(Void aVoid) {
                                 databaseReference.child(selectedKey).removeValue();
-                                Toast.makeText(VisualizzaDocCliente.this, "Elemento rimosso", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VisualizzaDocAdminActivity.this, "Elemento rimosso", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.cofitconsulting.cofit.R;
 
 
-public class MenuUserActivity extends AppCompatActivity {
+public class MenuAdminActivity extends AppCompatActivity {
 
     private TextView titolo, tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
     private ImageButton btnBack;
@@ -40,7 +40,7 @@ public class MenuUserActivity extends AppCompatActivity {
         tvVisualizzaTasse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuUserActivity.this, VisualizzaTasseCliente.class);
+                Intent intent = new Intent(MenuAdminActivity.this, VisualizzaTasseAdminActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }
@@ -49,7 +49,7 @@ public class MenuUserActivity extends AppCompatActivity {
         tvAnagrafica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuUserActivity.this, AnagraficaCliente.class);
+                Intent intent = new Intent(MenuAdminActivity.this, AnagraficaClienteActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }
@@ -58,7 +58,7 @@ public class MenuUserActivity extends AppCompatActivity {
         tvTasse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuUserActivity.this, InserimentoTasseCliente.class);
+                Intent intent = new Intent(MenuAdminActivity.this, InserimentoTasseActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }
@@ -74,7 +74,7 @@ public class MenuUserActivity extends AppCompatActivity {
         tvInserisciDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuUserActivity.this, CaricaDocumento.class);
+                Intent intent = new Intent(MenuAdminActivity.this, CaricaDocAdminActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }
@@ -83,7 +83,7 @@ public class MenuUserActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuUserActivity.this, ListaClienti.class);
+                Intent intent = new Intent(MenuAdminActivity.this, ListaClientiActivity.class);
                 startActivity(intent);
                 finish();;
             }
@@ -93,7 +93,7 @@ public class MenuUserActivity extends AppCompatActivity {
     }
 
     private void openImagesActivity() {
-        Intent intent = new Intent(MenuUserActivity.this, VisualizzaDocCliente.class);
+        Intent intent = new Intent(MenuAdminActivity.this, VisualizzaDocAdminActivity.class);
         intent.putExtra("User_ID", userID);
         startActivity(intent);
     }

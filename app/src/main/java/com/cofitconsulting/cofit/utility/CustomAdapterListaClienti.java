@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.admin.ListaClienti;
-import com.cofitconsulting.cofit.admin.MenuUserActivity;
+import com.cofitconsulting.cofit.admin.ListaClientiActivity;
+import com.cofitconsulting.cofit.admin.MenuAdminActivity;
 
 import java.util.List;
 
-public class CustomAdapterClienti extends RecyclerView.Adapter<ViewHolderClienti> {
+public class CustomAdapterListaClienti extends RecyclerView.Adapter<ViewHolderClienti> {
 
-    ListaClienti listaClienti;
+    ListaClientiActivity listaClientiActivity;
     List<User> modelList;
 
-    public CustomAdapterClienti(ListaClienti listaClienti, List<User> modelList) {
-        this.listaClienti = listaClienti;
+    public CustomAdapterListaClienti(ListaClientiActivity listaClientiActivity, List<User> modelList) {
+        this.listaClientiActivity = listaClientiActivity;
         this.modelList = modelList;
     }
 
@@ -36,15 +36,15 @@ public class CustomAdapterClienti extends RecyclerView.Adapter<ViewHolderClienti
                 String denominazione = modelList.get(position).getDenominazione();
                 String email = modelList.get(position).getEmail();
                 String id = modelList.get(position).getId();
-                Intent intent = new Intent(listaClienti, MenuUserActivity.class);
+                Intent intent = new Intent(listaClientiActivity, MenuAdminActivity.class);
                 intent.putExtra("User_ID", id);
                 intent.putExtra("Nome", denominazione);
-                listaClienti.startActivity(intent);
+                listaClientiActivity.startActivity(intent);
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(listaClienti, "Hai tenuto schiacciato", Toast.LENGTH_SHORT).show();
+                Toast.makeText(listaClientiActivity, "Hai tenuto schiacciato", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -23,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmail, mPassword;
     private Button mAccediBtn;
@@ -72,7 +72,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful())
                         {
-                            Toast.makeText(Login.this, "Accesso eseguito", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Accesso eseguito", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -80,7 +80,7 @@ public class Login extends AppCompatActivity {
                         else
                         {
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(Login.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -103,12 +103,12 @@ public class Login extends AppCompatActivity {
                         fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Login.this, "Email inviata", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Email inviata", Toast.LENGTH_LONG).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Login.this, "Errore! Email non inviata" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Errore! Email non inviata" + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -126,7 +126,7 @@ public class Login extends AppCompatActivity {
         linkRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Register.class);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });

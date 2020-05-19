@@ -20,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.admin.CaricaDocumento;
 import com.cofitconsulting.cofit.utility.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CaricaDocumentiActivity extends AppCompatActivity {
+public class CaricaDocUsersActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnScegliImag, btnCaricaImag;
@@ -94,7 +93,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (uploadTask != null && uploadTask.isInProgress()) {
-                    Toast.makeText(CaricaDocumentiActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaricaDocUsersActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
                 } else {
                     uploadFile();
                 }
@@ -152,7 +151,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
                                 }
                             }, 500);
 
-                            Toast.makeText(CaricaDocumentiActivity.this, "File caricato", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CaricaDocUsersActivity.this, "File caricato", Toast.LENGTH_SHORT).show();
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(! urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
@@ -166,7 +165,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CaricaDocumentiActivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CaricaDocUsersActivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
 
                         }
                     })
@@ -194,7 +193,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
         for(String perm : wanted) //per ogni permesso cercato
         {
             //se il permesso NON è stati dati allora lo dobbiamo richiedere
-            if(!(CaricaDocumentiActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
+            if(!(CaricaDocUsersActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
             {
                 result.add(perm);
             }
@@ -208,7 +207,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
         {
             for(String perm : permissionsToRequest)//per ogni permesso in permissionsToRequest
             {
-                if(!(CaricaDocumentiActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
+                if(!(CaricaDocUsersActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
                 {
                     permissionsRejected.add(perm);//lo aggiungiamo in permissionRejected
                 }
@@ -217,7 +216,7 @@ public class CaricaDocumentiActivity extends AppCompatActivity {
             {
                 if(shouldShowRequestPermissionRationale(permissionsRejected.get(0)))
                 {
-                    Toast.makeText(CaricaDocumentiActivity.this, "Approva tutto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaricaDocUsersActivity.this, "Approva tutto", Toast.LENGTH_SHORT).show();
                 }
             }
             else //altrimenti puoi procedere per cambiare l'immagine.

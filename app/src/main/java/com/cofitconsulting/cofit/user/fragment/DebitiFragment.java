@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.user.bilancio.crediti.InserimentoCrediti;
+import com.cofitconsulting.cofit.user.bilancio.crediti.InserimentoCreditiActivity;
 import com.cofitconsulting.cofit.user.bilancio.debiti.DatabaseHelper;
-import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebiti;
+import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebitiActivity;
 import com.cofitconsulting.cofit.user.bilancio.debiti.UpdateDeleteActivity;
 import com.cofitconsulting.cofit.utility.CustomAdapterDebiti;
 import com.cofitconsulting.cofit.utility.StrutturaConto;
@@ -81,7 +81,7 @@ public class DebitiFragment extends Fragment {
         btnCrediti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), InserimentoCrediti.class);
+                Intent intent = new Intent(getContext(), InserimentoCreditiActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,7 +89,7 @@ public class DebitiFragment extends Fragment {
         btnDebiti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), InserimentoDebiti.class);
+                Intent intent = new Intent(getContext(), InserimentoDebitiActivity.class);
                 startActivity(intent);
             }
         });

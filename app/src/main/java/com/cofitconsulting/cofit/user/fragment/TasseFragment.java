@@ -65,20 +65,14 @@ public class TasseFragment extends Fragment {
                 holder.text_tassa.setText(model.getTassa());
                 holder.text_scadenza.setText(model.getScadenza());
                 holder.text_importo.setText(model.getImporto());
-                Date currentTime = Calendar.getInstance().getTime();
+                holder.text_pagato.setText(model.getPagato());
                 String dataScadenza = model.getScadenza();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
-                try {
-                    Date date = dateFormat.parse(model.getScadenza());
-                    if(currentTime.after(date))
-                    {
-                        holder.text_scadenza.setText(model.getScadenza() + " " +"SCADUTO");
-                        holder.text_scadenza.setTextColor(Color.RED);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                String pagato = holder.text_pagato.getText().toString();
+                if(scaduto(dataScadenza) && pagato.equals("No"))
+                {
+                    holder.text_scadenza.setText(model.getScadenza() + " " +"SCADUTO");
+                    holder.text_scadenza.setTextColor(Color.RED);
                 }
-
 
             }
         };
@@ -95,6 +89,7 @@ public class TasseFragment extends Fragment {
         private TextView text_tassa;
         private TextView text_importo;
         private TextView text_scadenza;
+        private TextView text_pagato;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,7 +97,8 @@ public class TasseFragment extends Fragment {
             text_tassa = itemView.findViewById(R.id.txt_tassa);
             text_importo = itemView.findViewById(R.id.txt_importo);
             text_scadenza = itemView.findViewById(R.id.txt_scadenza);
-                }
+            text_pagato = itemView.findViewById(R.id.txt_pagato);
+        }
     }
 
     @Override
@@ -115,6 +111,22 @@ public class TasseFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.startListening();
+    }
+
+    public boolean scaduto(String data_scadenza){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
+        Date currentTime = Calendar.getInstance().getTime();
+        try {
+            Date date = dateFormat.parse(data_scadenza);
+            if(currentTime.after(date))
+            {
+               return true;
+            }
+            else return false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

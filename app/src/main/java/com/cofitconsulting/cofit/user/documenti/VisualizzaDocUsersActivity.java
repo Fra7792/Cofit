@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.admin.VisualizzaDocCliente;
-import com.cofitconsulting.cofit.utility.CustomAdapterImage;
+import com.cofitconsulting.cofit.utility.CustomAdapterDoc;
 import com.cofitconsulting.cofit.utility.StrutturaUpload;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +35,11 @@ import java.util.List;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
-public class VisualizzaDocumentiActivity extends AppCompatActivity implements CustomAdapterImage.OnItemClickListener {
+public class VisualizzaDocUsersActivity extends AppCompatActivity implements CustomAdapterDoc.OnItemClickListener {
 
     private ImageButton btnBack;
     private RecyclerView mRecyclerView;
-    private CustomAdapterImage mAdapter;
+    private CustomAdapterDoc mAdapter;
     private ProgressBar mProgressBar;
     private String userID;
 
@@ -64,9 +61,9 @@ public class VisualizzaDocumentiActivity extends AppCompatActivity implements Cu
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mUploads = new ArrayList<>();
-        mAdapter = new CustomAdapterImage(VisualizzaDocumentiActivity.this, mUploads);
+        mAdapter = new CustomAdapterDoc(VisualizzaDocUsersActivity.this, mUploads);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(VisualizzaDocumentiActivity.this);
+        mAdapter.setOnItemClickListener(VisualizzaDocUsersActivity.this);
         firebaseStorage = FirebaseStorage.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference(userID);
 
@@ -89,7 +86,7 @@ public class VisualizzaDocumentiActivity extends AppCompatActivity implements Cu
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(VisualizzaDocumentiActivity.this, "Errore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VisualizzaDocUsersActivity.this, "Errore", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -106,18 +103,18 @@ public class VisualizzaDocumentiActivity extends AppCompatActivity implements Cu
     @Override
     public void onDownloadClick(int position) {
         StrutturaUpload selectedItem = mUploads.get(position);
-        downloadFiles(VisualizzaDocumentiActivity.this, selectedItem.getFileName(), DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
-        Toast.makeText(VisualizzaDocumentiActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
+        String fileExtension = MimeTypeMap.getFileExtensionFromUrl(selectedItem.getFileUrl());
+        downloadFiles(VisualizzaDocUsersActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
+        Toast.makeText(VisualizzaDocUsersActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
 
     }
-    private void downloadFiles(Context context, String fileName, String destinatonDirectory, String url){
+    private void downloadFiles(Context context, String fileName, String fileExtension, String destinatonDirectory, String url){
         DownloadManager downloadManager = (DownloadManager) context.
                 getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName);
+        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName + "." + fileExtension);
 
         downloadManager.enqueue(request);
 
@@ -125,7 +122,7 @@ public class VisualizzaDocumentiActivity extends AppCompatActivity implements Cu
 
     @Override
     public void onDeleteClick(final int position) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(VisualizzaDocumentiActivity.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(VisualizzaDocUsersActivity.this);
         builder.setMessage("Vuoi eliminare? ")
                 .setCancelable(false)
                 .setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
@@ -138,7 +135,7 @@ public class VisualizzaDocumentiActivity extends AppCompatActivity implements Cu
                             @Override
                             public void onSuccess(Void aVoid) {
                                 databaseReference.child(selectedKey).removeValue();
-                                Toast.makeText(VisualizzaDocumentiActivity.this, "Elemento rimosso", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VisualizzaDocUsersActivity.this, "Elemento rimosso", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

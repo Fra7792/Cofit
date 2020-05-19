@@ -30,9 +30,27 @@
 
         <menu>
 
+            <item android:id="@+id/menuIndirizzo"
+                android:title="Via Rigopiano 20/5, 65124 Pescara"
+                android:icon="@drawable/iconposition"/>
+
+            <item android:id="@+id/menuTelefono"
+                android:title="085 4170136"
+                android:icon="@drawable/icontelephone"/>
+
             <item android:id="@+id/menuWhatsapp"
                 android:title="Whatsapp"
                 android:icon="@drawable/whatsappbrands01" />
+
+            <item android:id="@+id/menuFacebook"
+                android:title="Pagina Facebook"
+                android:icon="@drawable/iconfacebook"/>
+
+            <item android:id="@+id/menuWeb"
+                android:title="www.cofitconsulting.com"
+                android:icon="@drawable/iconweb"/>
+
+
 
         </menu>
 

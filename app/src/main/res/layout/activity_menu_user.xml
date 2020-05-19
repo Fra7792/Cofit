@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:textSize="30sp"
     android:background="@drawable/sfondocofit"
-    tools:context=".admin.MenuUserActivity">
+    tools:context=".admin.MenuAdminActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

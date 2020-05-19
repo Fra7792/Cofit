@@ -8,23 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CustomAdapterImage extends RecyclerView.Adapter<CustomAdapterImage.ImageViewHolder> {
+public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.ImageViewHolder> {
     private Context mContext;
     private List<StrutturaUpload> mStrutturaUploadList;
     private OnItemClickListener mListener;
 
-    public CustomAdapterImage(Context context, List<StrutturaUpload> uploads ){
+    public CustomAdapterDoc(Context context, List<StrutturaUpload> uploads ){
         mContext = context;
         mStrutturaUploadList = uploads;
     }

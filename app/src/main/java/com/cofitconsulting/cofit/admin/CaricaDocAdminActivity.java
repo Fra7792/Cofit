@@ -36,7 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CaricaDocumento extends AppCompatActivity {
+public class CaricaDocAdminActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnScegliImag, btnCaricaImag;
@@ -100,7 +100,7 @@ public class CaricaDocumento extends AppCompatActivity {
                     }
                     if(uploadTask != null && uploadTask.isInProgress())
                     {
-                        Toast.makeText(CaricaDocumento.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CaricaDocAdminActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
                     } else
                     {
                         uploadFile();
@@ -162,7 +162,7 @@ public class CaricaDocumento extends AppCompatActivity {
                                 }
                             }, 500);
 
-                            Toast.makeText(CaricaDocumento.this, "File caricato", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CaricaDocAdminActivity.this, "File caricato", Toast.LENGTH_SHORT).show();
                        /*     StrutturaUpload strutturaUpload = new StrutturaUpload(fileName.getText().toString().trim(),
                                     taskSnapshot.getUploadSessionUri().toString());
                             String uploadId = databaseReference.push().getKey();
@@ -180,7 +180,7 @@ public class CaricaDocumento extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CaricaDocumento.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CaricaDocAdminActivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
 
                         }
                     })
@@ -212,7 +212,7 @@ public class CaricaDocumento extends AppCompatActivity {
         for(String perm : wanted) //per ogni permesso cercato
         {
             //se il permesso NON è stati dati allora lo dobbiamo richiedere
-            if(!(CaricaDocumento.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
+            if(!(CaricaDocAdminActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
             {
                 result.add(perm);
             }
@@ -226,7 +226,7 @@ public class CaricaDocumento extends AppCompatActivity {
         {
             for(String perm : permissionsToRequest)//per ogni permesso in permissionsToRequest
             {
-                if(!(CaricaDocumento.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
+                if(!(CaricaDocAdminActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
                 {
                     permissionsRejected.add(perm);//lo aggiungiamo in permissionRejected
                 }
@@ -235,7 +235,7 @@ public class CaricaDocumento extends AppCompatActivity {
             {
                 if(shouldShowRequestPermissionRationale(permissionsRejected.get(0)))
                 {
-                    Toast.makeText(CaricaDocumento.this, "Approva tutto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaricaDocAdminActivity.this, "Approva tutto", Toast.LENGTH_SHORT).show();
                 }
             }
             else //altrimenti puoi procedere per cambiare l'immagine.

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
-public class ModificaAnagrafica extends AppCompatActivity {
+public class ModificaAnagraficaActivity extends AppCompatActivity {
 
     private TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
     private Button btnModifica;
@@ -79,7 +79,7 @@ public class ModificaAnagrafica extends AppCompatActivity {
         btnModifica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ModificaAnagrafica.this, InserimentoAnagrafica.class);
+                Intent intent = new Intent(ModificaAnagraficaActivity.this, InserimentoAnagraficaActivity.class);
                 startActivity(intent);
                 finish();
             }

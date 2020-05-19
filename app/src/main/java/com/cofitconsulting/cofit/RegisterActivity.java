@@ -19,7 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText  mEmail, mPassword, mConfPass;
     private Button mBtnRegistra;
@@ -85,14 +85,14 @@ public class Register extends AppCompatActivity {
                         {
                             progressBar.setVisibility(View.INVISIBLE);
                             //Se l'utente è creato correttamente viene visualizzato un toast e si passerà alla main activity
-                            Toast.makeText(Register.this, "Utente creato correttamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Utente creato correttamente", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
                         } else
                         {
                             progressBar.setVisibility(View.INVISIBLE);
                             //Se ci sono problemi verrà visualizzato un errore
-                            Toast.makeText(Register.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -103,7 +103,7 @@ public class Register extends AppCompatActivity {
         linkLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

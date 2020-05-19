@@ -25,12 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class InserimentoAnagrafica extends AppCompatActivity {
+public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
     private EditText text_nome, text_indirizzo, text_inpsP, text_inpsD, text_inailP, text_inailD, text_iva, text_cf, text_rea;
     private Spinner text_contabilita;
-    private RadioButton azienda, societa, professionista, ritSi, ritNo;
-    private RadioGroup radioGroupTipo;
+    private RadioGroup radioGroupTipo, radioGroupRit;
     private Button btnSalva;
     private ImageButton btnBack;
     private FirebaseAuth fAuth;
@@ -51,14 +50,13 @@ public class InserimentoAnagrafica extends AppCompatActivity {
         text_cf = findViewById(R.id.text_cf);
         text_rea = findViewById(R.id.text_rea);
         text_contabilita = findViewById(R.id.spinnerTipoContabilita);
-        azienda = findViewById(R.id.tipoAzienda);
-        societa = findViewById(R.id.tipoSocieta);
-        professionista = findViewById(R.id.tipoProfessionista);
+
         radioGroupTipo = findViewById(R.id.radioGroup1);
-        ritSi = findViewById(R.id.ritSi);
-        ritNo = findViewById(R.id.ritNo);
+        radioGroupRit = findViewById(R.id.radioGroup2);
+
         btnSalva = findViewById(R.id.btnSalva);
         btnBack = findViewById(R.id.btnBack);
+
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
@@ -103,13 +101,19 @@ public class InserimentoAnagrafica extends AppCompatActivity {
                 final String cf = text_cf.getText().toString();
                 final String rea = text_rea.getText().toString();
                 final String contabilita = text_contabilita.getSelectedItem().toString();
-                final String tipo_cliente = selectedButton_Cliente();
-                final String ritenuta = selectedButton_Ritenuta();
                 final String email = fAuth.getCurrentUser().getEmail();
+
+                if(!(checkedRadioGroup(radioGroupTipo)) || !(checkedRadioGroup(radioGroupRit)))
+                {
+                   Toast.makeText(InserimentoAnagraficaActivity.this, "Devi completare tutti i campi", Toast.LENGTH_SHORT).show();
+                   return;
+                }
+                final String tipo_cliente = selectedIdRadioGroup(radioGroupTipo);
+                final String ritenuta = selectedIdRadioGroup(radioGroupRit);
 
                 String uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
                 writeOnDatabaseAnagrafica(nome, indirizzo, inpsP, inpsD, inailP, inailD, iva, cf, rea, contabilita, tipo_cliente, ritenuta, email, uid);
-                Toast.makeText(InserimentoAnagrafica.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InserimentoAnagraficaActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 writeOnDatabaseUser(nome, email, userId);
                 finish();
             }
@@ -148,27 +152,6 @@ public class InserimentoAnagrafica extends AppCompatActivity {
         db.collection("Users").document(uid).set(user);
     }
 
-    public String selectedButton_Cliente(){
-        String scelta=" ";
-        if (azienda.isChecked()) {
-            scelta = azienda.getText().toString();
-        } else if (professionista.isChecked()) {
-            scelta = professionista.getText().toString();
-        } else if (societa.isChecked()) {
-            scelta = societa.getText().toString();
-        }
-        return scelta;
-    }
-
-    public String selectedButton_Ritenuta(){
-        String scelta=" ";
-        if (ritSi.isChecked()) {
-            scelta = ritSi.getText().toString();
-        } else if (ritNo.isChecked()) {
-            scelta = ritNo.getText().toString();
-        }
-        return scelta;
-    }
 
     private int getIndex(Spinner spinner, String myString){
         int index = 0;
@@ -178,6 +161,28 @@ public class InserimentoAnagrafica extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    private boolean checkedRadioGroup(RadioGroup radioGroup){
+        if(radioGroup.getCheckedRadioButtonId()==-1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    }
+
+    private String selectedIdRadioGroup(RadioGroup radioGroup){
+        String scelta;
+            // get selected radio button from radioGroup
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+            // find the radiobutton by returned id
+            RadioButton selectedRadioButton = findViewById(selectedId);
+            scelta = selectedRadioButton.getText().toString();
+        return scelta;
     }
 
 }

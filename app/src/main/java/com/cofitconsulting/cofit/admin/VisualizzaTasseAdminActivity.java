@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisualizzaTasseCliente extends AppCompatActivity {
+public class VisualizzaTasseAdminActivity extends AppCompatActivity {
 
     private List<StrutturaTassa> modelList = new ArrayList<>();
     private RecyclerView mRecyclerView;
@@ -39,7 +39,7 @@ public class VisualizzaTasseCliente extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.visualizza_tasse_cliente);
+        setContentView(R.layout.activity_visualizza_tasse_admin);
 
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
@@ -78,11 +78,12 @@ public class VisualizzaTasseCliente extends AppCompatActivity {
                         {
                             StrutturaTassa strutturaTassa = new StrutturaTassa(doc.getString("Tassa"),
                                     doc.getString("Importo"),
-                                    doc.getString("Scadenza"));
+                                    doc.getString("Scadenza"),
+                                    doc.getString("Pagato"));
                             modelList.add(strutturaTassa);
                         }
 
-                        adapter = new CustomAdapterTasse(VisualizzaTasseCliente.this, modelList);
+                        adapter = new CustomAdapterTasse(VisualizzaTasseAdminActivity.this, modelList);
                         mRecyclerView.setAdapter(adapter);
 
                     }
@@ -107,7 +108,7 @@ public class VisualizzaTasseCliente extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         modelList.clear();
                         pd.dismiss();
-                        Toast.makeText(VisualizzaTasseCliente.this, "Cancellazione effettuata", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VisualizzaTasseAdminActivity.this, "Cancellazione effettuata", Toast.LENGTH_SHORT).show();
                         showData();
                     }
                 })
@@ -115,12 +116,21 @@ public class VisualizzaTasseCliente extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(VisualizzaTasseCliente.this, "Errore", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VisualizzaTasseAdminActivity.this, "Errore", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-
+    public void updateData(int index, String pagato){
+        fStore.collection(userID).document(modelList.get(index).getTassa()).update("Pagato", pagato)
+        .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                modelList.clear();
+                showData();
+            }
+        });
+    }
 
 }
 

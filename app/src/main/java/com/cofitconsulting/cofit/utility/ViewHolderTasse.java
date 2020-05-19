@@ -10,7 +10,7 @@ import com.cofitconsulting.cofit.R;
 
 public class ViewHolderTasse extends RecyclerView.ViewHolder {
 
-    TextView mDescrizione, mImporto, mScadenza;
+    TextView mDescrizione, mImporto, mScadenza, mPagato;
     View mView;
 
     public ViewHolderTasse(@NonNull View itemView){
@@ -36,6 +36,7 @@ public class ViewHolderTasse extends RecyclerView.ViewHolder {
         mDescrizione = itemView.findViewById(R.id.txt_tassa);
         mImporto = itemView.findViewById(R.id.txt_importo);
         mScadenza = itemView.findViewById(R.id.txt_scadenza);
+        mPagato = itemView.findViewById(R.id.txt_pagato);
     }
 
     private ViewHolderTasse.ClickListener mClickListener;

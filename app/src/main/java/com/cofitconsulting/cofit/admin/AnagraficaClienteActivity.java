@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
-public class AnagraficaCliente extends AppCompatActivity {
+public class AnagraficaClienteActivity extends AppCompatActivity {
 
     private String userID;
     private TextView nome, indirizzo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda, titolo;

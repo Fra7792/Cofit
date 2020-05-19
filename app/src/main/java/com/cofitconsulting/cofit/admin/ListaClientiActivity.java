@@ -14,9 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.cofitconsulting.cofit.Login;
+import com.cofitconsulting.cofit.LoginActivity;
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.CustomAdapterClienti;
+import com.cofitconsulting.cofit.utility.CustomAdapterListaClienti;
 import com.cofitconsulting.cofit.utility.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListaClienti extends AppCompatActivity {
+public class ListaClientiActivity extends AppCompatActivity {
 
     private EditText etCerca;
     private ImageButton btnCerca, btnLogOut;
@@ -38,7 +38,7 @@ public class ListaClienti extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<User> userList = new ArrayList<>();
     private FirebaseFirestore db;
-    private CustomAdapterClienti adapter;
+    private CustomAdapterListaClienti adapter;
     private ProgressDialog pd;
 
     @Override
@@ -91,7 +91,7 @@ public class ListaClienti extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -118,7 +118,7 @@ public class ListaClienti extends AppCompatActivity {
                             userList.add(user);
                         }
 
-                        adapter = new CustomAdapterClienti(ListaClienti.this, userList);
+                        adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
                         mRecyclerView.setAdapter(adapter);
                     }
                 })
@@ -126,7 +126,7 @@ public class ListaClienti extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListaClientiActivity.this, "Errore", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -151,7 +151,7 @@ public class ListaClienti extends AppCompatActivity {
                             {
                                 userList.add(user);
                             }
-                            adapter = new CustomAdapterClienti(ListaClienti.this, userList);
+                            adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
                             mRecyclerView.setAdapter(adapter);
                         }
 
@@ -160,9 +160,9 @@ public class ListaClienti extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListaClientiActivity.this, "Errore", Toast.LENGTH_SHORT).show();
                         pd.dismiss();
-                        Toast.makeText(ListaClienti.this, "Errore", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ListaClientiActivity.this, "Errore", Toast.LENGTH_SHORT).show();
                     }
                 });
 

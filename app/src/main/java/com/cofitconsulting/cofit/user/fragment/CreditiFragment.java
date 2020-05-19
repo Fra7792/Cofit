@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment;
 import com.cofitconsulting.cofit.R;
 
 import com.cofitconsulting.cofit.user.bilancio.crediti.DatabaseHelper;
-import com.cofitconsulting.cofit.user.bilancio.crediti.InserimentoCrediti;
+import com.cofitconsulting.cofit.user.bilancio.crediti.InserimentoCreditiActivity;
 import com.cofitconsulting.cofit.user.bilancio.crediti.UpdateDeleteCreditiActivity;
-import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebiti;
+import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebitiActivity;
 import com.cofitconsulting.cofit.utility.CustomAdapterCrediti;
 import com.cofitconsulting.cofit.utility.StrutturaConto;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,9 +48,6 @@ public class CreditiFragment extends Fragment {
         btnMenu = v.findViewById(R.id.btnFloatingMenu);
         btnCrediti = v.findViewById(R.id.btnAggCred);
         btnDebiti = v.findViewById(R.id.btnAggDeb);
-        titolo = v.findViewById(R.id.txtTitolo);
-        titolo.setText("I tuoi crediti");
-        titolo.setTextColor(0xFF41A317);
         listView = v.findViewById(R.id.lv);
 
         btnCrediti.setAlpha(0f);
@@ -94,7 +91,7 @@ public class CreditiFragment extends Fragment {
         btnCrediti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), InserimentoCrediti.class);
+                Intent intent = new Intent(getContext(), InserimentoCreditiActivity.class);
                 startActivity(intent);
             }
         });
@@ -102,7 +99,7 @@ public class CreditiFragment extends Fragment {
         btnDebiti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), InserimentoDebiti.class);
+                Intent intent = new Intent(getContext(), InserimentoDebitiActivity.class);
                 startActivity(intent);
             }
         });
