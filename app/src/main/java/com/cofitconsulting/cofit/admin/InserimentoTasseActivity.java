@@ -113,7 +113,6 @@ public class InserimentoTasseActivity extends AppCompatActivity {
                     return;
                 }
                 final String pagato = selectedIdRadioGroup(radioGroupPagato);
-
                 writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, pagato, totale);
                 Toast.makeText(InserimentoTasseActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InserimentoTasseActivity.this, VisualizzaTasseAdminActivity.class);
@@ -152,9 +151,9 @@ public class InserimentoTasseActivity extends AppCompatActivity {
 
     private String selectedIdRadioGroup(RadioGroup radioGroup){
         String scelta;
-        // get selected radio button from radioGroup
+
         int selectedId = radioGroup.getCheckedRadioButtonId();
-        // find the radiobutton by returned id
+
         RadioButton selectedRadioButton = findViewById(selectedId);
         scelta = selectedRadioButton.getText().toString();
         Toast.makeText(getApplicationContext(), scelta + " is selected", Toast.LENGTH_SHORT).show();

@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.StrutturaConto;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 
 import java.util.Calendar;
 

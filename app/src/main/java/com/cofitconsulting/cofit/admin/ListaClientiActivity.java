@@ -2,6 +2,7 @@ package com.cofitconsulting.cofit.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,8 +19,8 @@ import android.widget.Toast;
 
 import com.cofitconsulting.cofit.LoginActivity;
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.CustomAdapterListaClienti;
-import com.cofitconsulting.cofit.utility.User;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterListaClienti;
+import com.cofitconsulting.cofit.utility.strutture.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +36,7 @@ import java.util.List;
 public class ListaClientiActivity extends AppCompatActivity {
 
     private EditText etCerca;
-    private ImageButton btnCerca, btnLogOut;
+    private Toolbar toolbar;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private List<User> userList = new ArrayList<>();
@@ -47,13 +50,14 @@ public class ListaClientiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_clienti);
 
         db = FirebaseFirestore.getInstance();
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         mRecyclerView = findViewById(R.id.recyclerview_users);
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         etCerca = findViewById(R.id.cercaCliente);
-        btnCerca = findViewById(R.id.cerca);
-        btnLogOut = findViewById(R.id.btnLogOut);
 
         pd = new ProgressDialog(this);
 
@@ -78,24 +82,6 @@ public class ListaClientiActivity extends AppCompatActivity {
                return false;
            }
        });
-
-        btnCerca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String cerca = etCerca.getText().toString().toLowerCase().trim();
-                searchData(cerca);
-            }
-        });
-
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
@@ -168,6 +154,36 @@ public class ListaClientiActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_admin, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menuNovita: {
+                Intent intent = new Intent(ListaClientiActivity.this, Novitactivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.menuEsci: {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
 

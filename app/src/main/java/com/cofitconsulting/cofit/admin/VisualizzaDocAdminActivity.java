@@ -10,16 +10,20 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.CustomAdapterDoc;
-import com.cofitconsulting.cofit.utility.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterDoc;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +42,7 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class VisualizzaDocAdminActivity extends AppCompatActivity implements CustomAdapterDoc.OnItemClickListener{
 
     private ImageButton btnBack;
+    private EditText inputSearch;
     private RecyclerView mRecyclerView;
     private CustomAdapterDoc mAdapter;
     private ProgressBar mProgressBar;
@@ -56,6 +61,7 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
 
+        inputSearch = findViewById(R.id.inputSearch);
         btnBack = findViewById(R.id.btnBack);
         mProgressBar = findViewById(R.id.progress_circle);
         mRecyclerView = findViewById(R.id.recyclerviewImage);
@@ -68,6 +74,8 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
         firebaseStorage = FirebaseStorage.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference(userID);
 
+
+
         mDbListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,17 +86,61 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
                 {
                     StrutturaUpload upload = postSnapshot.getValue(StrutturaUpload.class);
                     upload.setKey(postSnapshot.getKey());
-                    mUploads.add(upload);
-                }
 
+                        mUploads.add(upload);
+                }
                 mAdapter.notifyDataSetChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(VisualizzaDocAdminActivity.this, "Errore", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VisualizzaDocAdminActivity.this, "Errore, impossibile caricare i file", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+       inputSearch.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            mDbListener = databaseReference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    mUploads.clear();
+                                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren())
+                                    {
+                                        StrutturaUpload upload = postSnapshot.getValue(StrutturaUpload.class);
+                                        upload.setKey(postSnapshot.getKey());
+                                        String fullname = upload.getFileName().toLowerCase();
+                                        String search = inputSearch.getText().toString().toLowerCase();
+                                        if(fullname.contains(search))
+                                        {
+                                            mUploads.add(upload);
+                                        }
+                                    }
+                                    mAdapter.notifyDataSetChanged();
+                                    mProgressBar.setVisibility(View.INVISIBLE);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(VisualizzaDocAdminActivity.this, "Errore", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
             }
         });
 
@@ -98,23 +150,28 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
                 finish();
             }
         });
+
+
     }
+
 
     @Override
     public void onDownloadClick(int position) {
         StrutturaUpload selectedItem = mUploads.get(position);
-        downloadFiles(VisualizzaDocAdminActivity.this, selectedItem.getFileName(), DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
+        String fileExtension = MimeTypeMap.getFileExtensionFromUrl(selectedItem.getFileUrl());
+        downloadFiles(VisualizzaDocAdminActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
         Toast.makeText(VisualizzaDocAdminActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
-
     }
-        private void downloadFiles(Context context, String fileName, String destinatonDirectory, String url){
+
+
+        private void downloadFiles(Context context, String fileName, String fileExtension, String destinatonDirectory, String url){
         DownloadManager downloadManager = (DownloadManager) context.
                 getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName);
+        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName + "." + fileExtension);
 
         downloadManager.enqueue(request);
 

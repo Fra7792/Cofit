@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/sfondocofit">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -45,8 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/prugna"
-        android:text="Carica file"
+        android:background="@color/viola"
+        app:backgroundTint="@color/viola"
+        android:text="Seleziona file"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:background="@color/prugna"
+        android:background="@color/viola"
         android:text="Inserisci"
         android:textSize="25sp"
         android:textColor="@android:color/white"
@@ -90,22 +90,40 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnCarica"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnScegliFile"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_nomeFile"
         app:layout_constraintVertical_bias="0.59000003"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
+        app:srcCompat="@drawable/cornice" />
 
     <ProgressBar
         android:id="@+id/progressBar3"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCarica" />
+
+    <Spinner
+        android:id="@+id/spinner_nomeFile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:spinnerMode="dropdown"
+        android:layout_marginEnd="16dp"
+        android:entries="@array/documenti"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeFile"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

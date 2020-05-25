@@ -13,8 +13,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.CustomAdapterTasse;
-import com.cofitconsulting.cofit.utility.StrutturaTassa;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterTasse;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +46,6 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         fStore = FirebaseFirestore.getInstance();
 
-        //btnAggiungi = findViewById(R.id.btnFloatingAggiungi);
         mRecyclerView = findViewById(R.id.recyclerview_tasse);
         mRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -68,7 +67,7 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
         pd.setTitle("Loading Data...");
         pd.show();
 
-        fStore.collection(userID).orderBy("Tassa")
+        fStore.collection(userID).orderBy("Pagato")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

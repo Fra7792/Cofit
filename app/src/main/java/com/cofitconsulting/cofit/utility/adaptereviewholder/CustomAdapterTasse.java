@@ -1,4 +1,4 @@
-package com.cofitconsulting.cofit.utility;
+package com.cofitconsulting.cofit.utility.adaptereviewholder;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.admin.VisualizzaTasseAdminActivity;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.ViewHolderTasse;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -92,13 +94,17 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
         viewHolderTasse.mDescrizione.setText(modelList.get(i).getTassa());
         viewHolderTasse.mImporto.setText(modelList.get(i).getImporto());
         viewHolderTasse.mScadenza.setText(modelList.get(i).getScadenza());
-        viewHolderTasse.mPagato.setText(modelList.get(i).getPagato());
         String dataScadenza = modelList.get(i).getScadenza();
         String pagato = modelList.get(i).getPagato();
        if(scaduto(dataScadenza) && pagato.equals("No"))
         {
-            viewHolderTasse.mScadenza.setText(modelList.get(i).getScadenza() + " " + "SCADUTO");
-            viewHolderTasse.mScadenza.setTextColor(Color.RED);
+            viewHolderTasse.tvScaduto.setVisibility(View.VISIBLE);
+        }
+        if(pagato.equals("Sì"))
+        {
+            viewHolderTasse.tvScaduto.setVisibility(View.VISIBLE);
+            viewHolderTasse.tvScaduto.setText("PAGATO");
+            viewHolderTasse.tvScaduto.setTextColor(visualizzaTasseAdminActivity.getResources().getColor(R.color.verde1));
         }
 
     }

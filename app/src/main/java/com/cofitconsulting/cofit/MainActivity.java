@@ -26,34 +26,48 @@ import com.cofitconsulting.cofit.user.anagrafica.InserimentoAnagraficaActivity;
 import com.cofitconsulting.cofit.user.anagrafica.ModificaAnagraficaActivity;
 import com.cofitconsulting.cofit.user.documenti.CaricaDocUsersActivity;
 import com.cofitconsulting.cofit.user.documenti.VisualizzaDocUsersActivity;
-import com.cofitconsulting.cofit.utility.PageAdapterMainActivity;
+import com.cofitconsulting.cofit.user.documenti.VisualizzaNovitaActivity;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.PageAdapterMainActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
-    NavigationView navigationView;
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    TabItem crediti, debiti, tasse;
-    PagerAdapter adapter;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private TabItem crediti, debiti, tasse;
+    private PagerAdapter adapter;
     private String email;
     private FirebaseAuth fAuth;
+    private StorageReference storageReference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        email = fAuth.getInstance().getCurrentUser().getEmail();
+        try {
+            email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        } catch(NullPointerException e)
+        {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        }
 
         if (email.equals("francesco0792@gmail.com") || email.equals("admin@prova.com")) {
             Intent intent = new Intent(MainActivity.this, ListaClientiActivity.class);
@@ -91,12 +105,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView text_email = headerView.findViewById(R.id.email);
         text_email.setText(email);
 
+        final CircleImageView profileImage = headerView.findViewById(R.id.profileImage);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        String userID = fAuth.getInstance().getCurrentUser().getUid();
+        final StorageReference profileRef = storageReference.child("users/" + userID + "profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
+            }
+        });
+
         adapter = new PageAdapterMainActivity(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager, true);
-        tabLayout.getTabAt(0).setText("Crediti");
-        tabLayout.getTabAt(1).setText("Debiti");
-        tabLayout.getTabAt(2).setText("Tasse");
+        tabLayout.getTabAt(0).setText("F24/Tasse");
+        tabLayout.getTabAt(1).setText("Crediti");
+        tabLayout.getTabAt(2).setText("Debiti");
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -115,85 +140,129 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
-
-
-        if(item.getItemId() == R.id.menuProfile)
-        {
-            Intent intent = new Intent(MainActivity.this, ModificaAnagraficaActivity.class);
-            startActivity(intent);
-        }
-        if(item.getItemId() == R.id.menuInserisciDoc)
-        {
-            Intent intent = new Intent(MainActivity.this, CaricaDocUsersActivity.class);
-            startActivity(intent);
-        }
-
-        if(item.getItemId() == R.id.menuVisualizzaDoc)
-        {
-            Intent intent = new Intent(MainActivity.this, VisualizzaDocUsersActivity.class);
-            startActivity(intent);
-        }
-
-        if(item.getItemId() == R.id.menuIndirizzo)
-        {
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("google.navigation:q=Co.Fi.T+Consulting+-+Studio+di+consulenza+it+via+rigopiano+20+pescara"));
-            startActivity(intent);
-        }
-
-        if(item.getItemId() == R.id.menuTelefono)
-        {
-            String phone = "0854170136";
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
-            startActivity(intent);
-        }
-
-        if(item.getItemId() == R.id.menuWhatsapp)
-        {
-            String mobileNumber = "3401861219";
-
-            boolean installed = appInstalledOnNot("com.whatsapp");
-
-            if (installed) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "39" + mobileNumber));
+        switch (item.getItemId()) {
+            case R.id.menuProfile: {
+                Intent intent = new Intent(MainActivity.this, ModificaAnagraficaActivity.class);
                 startActivity(intent);
-            } else {
-                Toast.makeText(MainActivity.this, "WhatsApp non è installato sul tuo dispositivo", Toast.LENGTH_SHORT).show();
-            }
-        }
-        if(item.getItemId() == R.id.menuFacebook)
-        {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/" + "219948828196163"));
-                startActivity(intent);
-            } catch (Exception e) {
-                Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + "219948828196163"));
-                startActivity(intent);
+                break;
             }
 
-        }
+            case R.id.menuNovita: {
+                Intent intent = new Intent(MainActivity.this, VisualizzaNovitaActivity.class);
+                startActivity(intent);
+                break;
+            }
 
-        if(item.getItemId() == R.id.menuWeb)
-        {
-            Intent intent = new Intent(MainActivity.this, WebActivity.class);
-            startActivity(intent);
-        }
+            case R.id.menuInserisciDoc: {
+                Intent intent = new Intent(MainActivity.this, CaricaDocUsersActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.menuVisualizzaDoc: {
+                Intent intent = new Intent(MainActivity.this, VisualizzaDocUsersActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.menuIndirizzo: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("google.navigation:q=Co.Fi.T+Consulting+-+Studio+di+consulenza+it+via+rigopiano+20+pescara"));
+                startActivity(intent);
+                break;
+            }
+            case R.id.menuTelefono: {
+                String phone = "0854170136";
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
+                break;
+            }
+            case R.id.menuWhatsapp: {
+                String mobileNumber = "3401861219";
+                boolean installed = appInstalledOnNot("com.whatsapp");
 
-        if(item.getItemId() == R.id.menuEsci)
-        {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+                if (installed) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "39" + mobileNumber));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "WhatsApp non è installato sul tuo dispositivo", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.menuFacebook: {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/" + "219948828196163"));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/" + "219948828196163"));
+                    startActivity(intent);
+                }
+                break;
+            }
+            case R.id.menuEmail:
+            {
+                String ind_email = "info@cofit.consulting.com";
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{ind_email});
+                try {
+                    startActivity(Intent.createChooser(i, "Invia email..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(MainActivity.this, "Client di posta non disponibile", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.menuWeb: {
+                Intent intent = new Intent(MainActivity.this, WebActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+
+            case R.id.menuEntrate: {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.agenziaentrate.gov.it/portale/home")));
+                break;
+                }
+
+            case R.id.menuRiscossione: {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.agenziaentrateriscossione.gov.it/it/")));
+                break;
+            }
+            case R.id.menuInps: {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.inps.it/nuovoportaleinps/default.aspx")));
+                break;
+            }
+
+            case R.id.menuInail: {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.inail.it/cs/internet/home.html")));
+                break;
+            }
+
+            case R.id.menuCciaa: {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.pe.camcom.it/")));
+                break;
+            }
+
+            case R.id.menuEsci: {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            }
+            default: return false;
         }
         return false;
     }
+
 
     private boolean appInstalledOnNot(String url) {
         PackageManager packageManager = getPackageManager();
@@ -206,6 +275,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             app_installed = false;
         }
         return app_installed;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 
 }

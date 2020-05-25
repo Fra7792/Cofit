@@ -37,11 +37,17 @@
         <item>RITENUTE</item>
         <item>DIPENDENTI</item>
         <item>IMU - TASI</item>
+        <item>RIFIUTI</item>
         <item>TASSE</item>
 
     </array>
 
-    <array name="mese">
+    <array name="periodo">
+        <item>I Trimestre</item>
+        <item>II Trimestre</item>
+        <item>III Trimestre</item>
+        <item>IV Trimestre</item>
+        <item>Annuale</item>
         <item>Gennaio</item>
         <item>Febbraio</item>
         <item>Marzo</item>
@@ -55,5 +61,23 @@
         <item>Novembre</item>
         <item>Dicembre</item>
     </array>
+
+    <array name="documenti">
+        <item>Tipo di documento</item>
+        <item>Fattura</item>
+        <item>Avviso</item>
+        <item>Cartella</item>
+        <item>Dipendenti</item>
+        <item>Varie</item>
+    </array>
+
+    <array name="documentiAdmin">
+        <item>F24</item>
+        <item>Dichiarazioni</item>
+        <item>Buste paga</item>
+        <item>Comunicazioni</item>
+        <item>DURC</item>
+    </array>
+
 
 </resources>

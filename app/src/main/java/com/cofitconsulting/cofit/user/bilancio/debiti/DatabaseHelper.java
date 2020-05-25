@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.cofitconsulting.cofit.utility.StrutturaConto;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 
 import java.util.ArrayList;
 

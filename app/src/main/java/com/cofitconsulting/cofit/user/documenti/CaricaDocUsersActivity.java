@@ -17,10 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,13 +35,18 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CaricaDocUsersActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnScegliImag, btnCaricaImag;
-    private EditText fileName;
+    private EditText text_fileName;
+    private Spinner spinner_NomeFile;
     private ImageView imageView, btnBack;
     private ProgressBar progressBar;
 
@@ -65,7 +71,9 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         btnScegliImag = findViewById(R.id.btnScegliFile);
         btnCaricaImag = findViewById(R.id.btnCarica);
-        fileName = findViewById(R.id.nomeFile);
+        text_fileName = findViewById(R.id.nomeFile);
+        text_fileName.setVisibility(View.INVISIBLE);
+        spinner_NomeFile = findViewById(R.id.spinner_nomeFile);
         imageView = findViewById(R.id.imageView);
         btnBack = findViewById(R.id.btnBack);
         progressBar = findViewById(R.id.progressBar3);
@@ -92,6 +100,14 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         btnCaricaImag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String default_ = "Tipo di documento";
+                String spinner = spinner_NomeFile.getSelectedItem().toString().trim();
+                if(default_.equals(spinner))
+                {
+                    Toast.makeText(CaricaDocUsersActivity.this, "Seleziona il tipo di documento da inviare", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (uploadTask != null && uploadTask.isInProgress()) {
                     Toast.makeText(CaricaDocUsersActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
                 } else {
@@ -117,7 +133,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             fileUri = data.getData();
-            Picasso.with(this).load(fileUri).into(imageView);
+            Picasso.get().load(fileUri).into(imageView);
         }
     }
 
@@ -155,7 +171,12 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(! urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
-                            StrutturaUpload strutturaUpload = new StrutturaUpload(fileName.getText().toString().trim(), downloadUrl.toString());
+                            String nome = spinner_NomeFile.getSelectedItem().toString().trim();
+                            Date currentTime = Calendar.getInstance().getTime();
+                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            String strDate = dateFormat.format(currentTime);
+                            String fileName = nome + " (" + strDate + ")";
+                            StrutturaUpload strutturaUpload = new StrutturaUpload(fileName, downloadUrl.toString());
 
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(strutturaUpload);
@@ -192,7 +213,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         ArrayList<String> result = new ArrayList<>();
         for(String perm : wanted) //per ogni permesso cercato
         {
-            //se il permesso NON è stati dati allora lo dobbiamo richiedere
+            //se il permesso NON è stato dato allora lo dobbiamo richiedere
             if(!(CaricaDocUsersActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
             {
                 result.add(perm);

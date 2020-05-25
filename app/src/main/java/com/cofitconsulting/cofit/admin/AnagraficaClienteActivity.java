@@ -13,21 +13,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AnagraficaClienteActivity extends AppCompatActivity {
 
     private String userID;
-    private TextView nome, numero, email, indirizzo_completo, contabilita, inpsP, inpsD, inailP, inailD, pi, cf, rea, ritenuta, tipo_azienda;
+    private TextView nome, numero, numeroCell, email, indirizzo_completo, contabilita, pi, cf, tipo_azienda;
     private ImageButton btnBack, btnModifica, btnChiamata, btnEmail;
+    private CircleImageView profileImage;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +43,22 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modifica_anagrafica);
 
         Intent intent = getIntent();
+
+
         btnBack = findViewById(R.id.btnBack);
+        profileImage = findViewById(R.id.profileImage);
         btnChiamata = findViewById(R.id.btnChiamata);
         btnEmail = findViewById(R.id.btnEmail);
         numero = findViewById(R.id.textNumero);
+        numeroCell = findViewById(R.id.textCellulare);
         email = findViewById(R.id.textEmail);
         userID = intent.getStringExtra("User_ID").trim();
         tipo_azienda = findViewById(R.id.textTipoAzienda);
         nome = findViewById(R.id.textNome);
         indirizzo_completo = findViewById(R.id.textIndizzo);
         contabilita = findViewById(R.id.text_contabilita);
-        inpsP = findViewById(R.id.textInpsP);
-        inpsD = findViewById(R.id.textInpsD);
-        inailP = findViewById(R.id.textInailP);
-        inailD = findViewById(R.id.textInailD);
         pi = findViewById(R.id.text_pIva);
         cf = findViewById(R.id.text_cf);
-        rea = findViewById(R.id.text_rea);
-        ritenuta = findViewById(R.id.text_ritenuta);
         btnModifica = findViewById(R.id.btnModifica);
         btnModifica.setVisibility(View.INVISIBLE);
         fAuth = FirebaseAuth.getInstance();
@@ -63,6 +69,15 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference profileRef = storageReference.child("users/" + userID + "profile.jpg");
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profileImage);
             }
         });
 
@@ -77,23 +92,27 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
                 String indirizzo = documentSnapshot.getString("Indirizzo");
                 indirizzo_completo.setText(citta + ", " + indirizzo);
                 numero.setText(documentSnapshot.getString("Numero di telefono"));
+                numeroCell.setText(documentSnapshot.getString("Numero di cellulare"));
                 contabilita.setText(documentSnapshot.getString("Tipo di contabilità"));
-                inpsP.setText(documentSnapshot.getString("Inps Personale"));
-                inailP.setText(documentSnapshot.getString("Inail Personale"));
-                inpsD.setText(documentSnapshot.getString("Inps Dipendenti"));
-                inailD.setText(documentSnapshot.getString("Inail Dipendenti"));
                 pi.setText(documentSnapshot.getString("Partita IVA"));
                 cf.setText(documentSnapshot.getString("Codice Fiscale"));
-                rea.setText(documentSnapshot.getString("Codice REA"));
-                ritenuta.setText(documentSnapshot.getString("Ritenuta d'acconto"));
             }
         });
 
         btnChiamata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phone = numero.getText().toString();
+                String phone = numeroCell.getText().toString();
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
+            }
+        });
+
+        numero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numeroFisso = numero.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", numeroFisso, null));
                 startActivity(intent);
             }
         });

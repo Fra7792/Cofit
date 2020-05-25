@@ -6,8 +6,13 @@
         android:title="Profilo"
         android:icon="@drawable/ic_account_circle_black_24dp" />
 
+    <item android:id="@+id/menuNovita"
+        android:title="Novità"
+        android:icon="@drawable/ic_star_black_24dp"/>
+
 
     <item android:title="Documenti">
+
 
         <menu>
 
@@ -23,16 +28,16 @@
 
         </menu>
 
-
     </item>
+
 
     <item android:title="Assistenza">
 
         <menu>
 
             <item android:id="@+id/menuIndirizzo"
-                android:title="Via Rigopiano 20/5, 65124 Pescara"
-                android:icon="@drawable/iconposition"/>
+                android:title="Via Rigopiano 20/5, Pescara"
+                android:icon="@drawable/position1"/>
 
             <item android:id="@+id/menuTelefono"
                 android:title="085 4170136"
@@ -41,6 +46,10 @@
             <item android:id="@+id/menuWhatsapp"
                 android:title="Whatsapp"
                 android:icon="@drawable/whatsappbrands01" />
+
+            <item android:id="@+id/menuEmail"
+                android:title="info@cofit.consulting.com"
+                android:icon="@drawable/ic_email_black_24dp"/>
 
             <item android:id="@+id/menuFacebook"
                 android:title="Pagina Facebook"
@@ -57,9 +66,41 @@
 
     </item>
 
-    <item android:id="@+id/menuEsci"
-        android:title="Esci"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+    <item android:title="Link utili">
+
+        <menu>
+
+        <item android:id="@+id/menuEntrate"
+            android:title="Agenzia delle entrate"/>
+
+            <item android:id="@+id/menuRiscossione"
+                android:title="Agenzia entrate riscossione"/>
+
+            <item android:id="@+id/menuInps"
+                android:title="INPS"/>
+
+            <item android:id="@+id/menuInail"
+                android:title="INAIL"/>
+
+            <item android:id="@+id/menuCciaa"
+                android:title="Camera di commercio Pescara"/>
+
+
+        </menu>
+
+
+    </item>
+
+    <item android:title=" ">
+        <menu>
+
+            <item android:id="@+id/menuEsci"
+                android:title="Esci"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+
+        </menu>
+
+    </item>
 
 
 

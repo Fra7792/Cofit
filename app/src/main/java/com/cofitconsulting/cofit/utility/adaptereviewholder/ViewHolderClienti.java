@@ -1,4 +1,4 @@
-package com.cofitconsulting.cofit.utility;
+package com.cofitconsulting.cofit.utility.adaptereviewholder;
 
 import android.view.View;
 import android.widget.TextView;
@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ViewHolderClienti extends RecyclerView.ViewHolder {
 
     TextView mDenominazione, mEmail, mId;
+    CircleImageView profileImage;
     View mView;
 
     public ViewHolderClienti(@NonNull View itemView){
@@ -25,25 +28,18 @@ public class ViewHolderClienti extends RecyclerView.ViewHolder {
 
             }
         });
-        itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                mClickListener.onItemLongClick(v, getAdapterPosition());
-                return true;
-            }
-        });
 
         mDenominazione = itemView.findViewById(R.id.txt_den);
         mEmail = itemView.findViewById(R.id.txt_email);
-        mId = itemView.findViewById(R.id.txt_id);
+        profileImage = itemView.findViewById(R.id.profileImage);
     }
 
     public ViewHolderClienti.ClickListener mClickListener;
 
     public interface ClickListener{
         void onItemClick(View view, int position);
-        void onItemLongClick(View view, int position);
     }
+
     public void setOnClickListener(ViewHolderClienti.ClickListener clickListener){
         mClickListener = clickListener;
     }

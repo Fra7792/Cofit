@@ -1,4 +1,4 @@
-package com.cofitconsulting.cofit.utility;
+package com.cofitconsulting.cofit.utility.strutture;
 
 import java.io.Serializable;
 

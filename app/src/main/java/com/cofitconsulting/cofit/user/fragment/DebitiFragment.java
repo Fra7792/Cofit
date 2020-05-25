@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,8 +18,8 @@ import com.cofitconsulting.cofit.user.bilancio.crediti.InserimentoCreditiActivit
 import com.cofitconsulting.cofit.user.bilancio.debiti.DatabaseHelper;
 import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebitiActivity;
 import com.cofitconsulting.cofit.user.bilancio.debiti.UpdateDeleteActivity;
-import com.cofitconsulting.cofit.utility.CustomAdapterDebiti;
-import com.cofitconsulting.cofit.utility.StrutturaConto;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterDebiti;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class DebitiFragment extends Fragment {
     private ListView listView;
+    private TextView tvEmpty;
     private FloatingActionButton btnMenu, btnCrediti, btnDebiti;
     private ArrayList<StrutturaConto> strutturaContoArrayList;
     private CustomAdapterDebiti customAdapter;
@@ -43,6 +45,7 @@ public class DebitiFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_lista_conti, container, false);
 
         listView =  v.findViewById(R.id.lv);
+        tvEmpty = v.findViewById(R.id.emptyElement);
         btnMenu = v.findViewById(R.id.btnFloatingMenu);
         btnCrediti = v.findViewById(R.id.btnAggCred);
         btnDebiti = v.findViewById(R.id.btnAggDeb);
@@ -53,6 +56,9 @@ public class DebitiFragment extends Fragment {
 
         customAdapter = new CustomAdapterDebiti(getContext(), strutturaContoArrayList);
         listView.setAdapter(customAdapter);
+
+        tvEmpty.setText("Non ci sono debiti");
+        listView.setEmptyView(tvEmpty);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -11,19 +11,13 @@
       android:layout_height="wrap_content"
       android:background="?attr/colorPrimary"
       android:theme="?attr/actionBarWidgetTheme"
-      app:titleTextColor="@android:color/white"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.0">
+      app:titleTextColor="@android:color/white">
 
   <androidx.appcompat.widget.AppCompatImageButton
       android:id="@+id/btnBack"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/ic_arrow_back_black_24dp" />
-
 
   <TextView
       android:layout_width="wrap_content"
@@ -37,12 +31,29 @@
 
   </androidx.appcompat.widget.Toolbar>
 
+  <EditText
+      android:id="@+id/inputSearch"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Cerca file..."
+      android:padding="10dp"
+      android:textColor="@android:color/black"
+      android:layout_margin="20dp"
+      android:background="@drawable/et_style"
+      android:gravity="center_vertical"
+      android:paddingLeft="20dp"
+      android:drawableRight="@drawable/ic_search_black_24dp"
+      android:drawableTint="@android:color/black"
+      android:paddingRight="10dp"
+      android:layout_below="@+id/toolbar"/>
+
+
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerviewImage"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_marginTop="60dp"/>
+      android:layout_below="@+id/inputSearch"/>
 
   <ProgressBar
     android:id="@+id/progress_circle"

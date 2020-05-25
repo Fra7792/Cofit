@@ -1,4 +1,4 @@
-package com.cofitconsulting.cofit.utility;
+package com.cofitconsulting.cofit.utility.adaptereviewholder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +24,11 @@ public class PageAdapterMainActivity extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position)
         {
-            case 0: return new CreditiFragment();
+            case 0: return new TasseFragment();
 
-            case 1: return new DebitiFragment();
+            case 1: return new CreditiFragment();
 
-            case 2: return new TasseFragment();
+            case 2: return new DebitiFragment();
 
             default: return null;
         }

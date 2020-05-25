@@ -1,6 +1,5 @@
 package com.cofitconsulting.cofit.user.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.StrutturaTassa;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +45,7 @@ public class TasseFragment extends Fragment {
 
         mRecyclerView = v.findViewById(R.id.recyclerview_tasse);
 
-        Query query = firebaseFirestore.collection(userID).orderBy("Tassa");
+        Query query = firebaseFirestore.collection(userID).orderBy("Pagato");
         final FirestoreRecyclerOptions<StrutturaTassa> options = new FirestoreRecyclerOptions.Builder<StrutturaTassa>()
                 .setQuery(query, StrutturaTassa.class)
                 .build();
@@ -65,13 +64,17 @@ public class TasseFragment extends Fragment {
                 holder.text_tassa.setText(model.getTassa());
                 holder.text_scadenza.setText(model.getScadenza());
                 holder.text_importo.setText(model.getImporto());
-                holder.text_pagato.setText(model.getPagato());
                 String dataScadenza = model.getScadenza();
-                String pagato = holder.text_pagato.getText().toString();
+                String pagato = model.getPagato();
                 if(scaduto(dataScadenza) && pagato.equals("No"))
                 {
-                    holder.text_scadenza.setText(model.getScadenza() + " " +"SCADUTO");
-                    holder.text_scadenza.setTextColor(Color.RED);
+                    holder.tv_scaduto.setVisibility(View.VISIBLE);
+                }
+                if(pagato.equals("Sì"))
+                {
+                    holder.tv_scaduto.setVisibility(View.VISIBLE);
+                    holder.tv_scaduto.setText("PAGATO");
+                    holder.tv_scaduto.setTextColor(getResources().getColor(R.color.verde1));
                 }
 
             }
@@ -89,7 +92,7 @@ public class TasseFragment extends Fragment {
         private TextView text_tassa;
         private TextView text_importo;
         private TextView text_scadenza;
-        private TextView text_pagato;
+        private TextView tv_scaduto;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,7 +100,7 @@ public class TasseFragment extends Fragment {
             text_tassa = itemView.findViewById(R.id.txt_tassa);
             text_importo = itemView.findViewById(R.id.txt_importo);
             text_scadenza = itemView.findViewById(R.id.txt_scadenza);
-            text_pagato = itemView.findViewById(R.id.txt_pagato);
+            tv_scaduto = itemView.findViewById(R.id.tvScaduto);
         }
     }
 

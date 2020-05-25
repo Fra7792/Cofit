@@ -40,22 +40,6 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimento_conti);
 
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Obbligazioni e obbligazioni convertibili");
-        arrayList.add("Crediti verso soci per finanziamenti");
-        arrayList.add("Crediti verso altri finanziatori");
-        arrayList.add("Crediti verso clienti");
-        arrayList.add("Crediti rappresentati da titoli di credito");
-        arrayList.add("Crediti verso imprese controllate");
-        arrayList.add("Acconti");
-        arrayList.add("Crediti verso imprese collegate");
-        arrayList.add("Crediti verso controllanti");
-        arrayList.add("Credi verso imprese sottoposte al controllo delle controllanti");
-        arrayList.add("Crediti tributari");
-        arrayList.add("Crediti verso istituti di previdenza e di sicurezza sociale");
-        arrayList.add("Altri crediti");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         databaseHelper = new DatabaseHelper(this);
 
         titolo = findViewById(R.id.titolo);
@@ -63,7 +47,7 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
         btnStore = findViewById(R.id.btnAggiungi);
         btnBack = findViewById(R.id.btnBack);
         ettipo = findViewById(R.id.spinnerTipoDebito);
-        ettipo.setAdapter(arrayAdapter);
+        adapterSpinner();
         etdescrizione = findViewById(R.id.editDescrizione);
         etimporto = findViewById(R.id.editImporto);
         etdata = findViewById(R.id.editScadenza);
@@ -109,6 +93,27 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void adapterSpinner()
+    {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Obbligazioni e obbligazioni convertibili");
+        arrayList.add("Crediti verso soci per finanziamenti");
+        arrayList.add("Crediti verso altri finanziatori");
+        arrayList.add("Crediti verso clienti");
+        arrayList.add("Crediti rappresentati da titoli di credito");
+        arrayList.add("Crediti verso imprese controllate");
+        arrayList.add("Acconti");
+        arrayList.add("Crediti verso imprese collegate");
+        arrayList.add("Crediti verso controllanti");
+        arrayList.add("Credi verso imprese sottoposte al controllo delle controllanti");
+        arrayList.add("Crediti tributari");
+        arrayList.add("Crediti verso istituti di previdenza e di sicurezza sociale");
+        arrayList.add("Altri crediti");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ettipo.setAdapter(arrayAdapter);
     }
 }
 

@@ -14,14 +14,16 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +43,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnScegliImag, btnCaricaImag;
     private EditText fileName;
+    private Spinner spinnerNomeDoc;
     private ImageView imageView, btnBack;
     private ProgressBar progressBar;
 
@@ -67,6 +70,8 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         btnScegliImag = findViewById(R.id.btnScegliFile);
         btnCaricaImag = findViewById(R.id.btnCarica);
         fileName = findViewById(R.id.nomeFile);
+        spinnerNomeDoc = findViewById(R.id.spinner_nomeFile);
+        adapterSpinner();
         imageView = findViewById(R.id.imageView);
         btnBack = findViewById(R.id.btnBack);
         progressBar = findViewById(R.id.progressBar3);
@@ -93,19 +98,16 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         btnCaricaImag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    String nome = fileName.getText().toString().trim();
+                   String nome = fileName.getText().toString().trim();
+                Toast.makeText(CaricaDocAdminActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
                     if(TextUtils.isEmpty(nome))
                     {
                         fileName.setError("Inserire il nome del file");
-                    }
-                    if(uploadTask != null && uploadTask.isInProgress())
-                    {
-                        Toast.makeText(CaricaDocAdminActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
+                        return;
                     } else
-                    {
-                        uploadFile();
-                    }
-
+                {
+                    uploadFile();
+                }
                 }
         });
 
@@ -127,7 +129,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                 && data != null && data.getData() != null)
         {
             fileUri = data.getData();
-            Picasso.with(this).load(fileUri).into(imageView);
+            Picasso.get().load(fileUri).into(imageView);
         }
     }
 
@@ -163,17 +165,19 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                             }, 500);
 
                             Toast.makeText(CaricaDocAdminActivity.this, "File caricato", Toast.LENGTH_SHORT).show();
-                       /*     StrutturaUpload strutturaUpload = new StrutturaUpload(fileName.getText().toString().trim(),
-                                    taskSnapshot.getUploadSessionUri().toString());
-                            String uploadId = databaseReference.push().getKey();
-                            databaseReference.child(uploadId).setValue(strutturaUpload);*/
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(! urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
-                            StrutturaUpload strutturaUpload = new StrutturaUpload(fileName.getText().toString().trim(), downloadUrl.toString());
+                            String nomeCompleto = "COFIT - " + spinnerNomeDoc.getSelectedItem().toString() + " - " + fileName.getText().toString().trim();
+                            StrutturaUpload strutturaUpload = new StrutturaUpload(nomeCompleto, downloadUrl.toString());
 
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(strutturaUpload);
+
+                            Intent intent = new Intent(CaricaDocAdminActivity.this, VisualizzaDocAdminActivity.class);
+                            intent.putExtra("User_ID", userID);
+                            startActivity(intent);
+                            finish();
 
                         }
                     })
@@ -181,24 +185,15 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(CaricaDocAdminActivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
-
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            try {
                                 double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                                 progressBar.setProgress((int) progress);
-                            }
-                            catch (Exception e)
-                            {
-
-                            }
-
                         }
                     });
-
         } else
         {
             Toast.makeText(this, "Nessun file selezionato", Toast.LENGTH_SHORT).show();
@@ -211,7 +206,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         ArrayList<String> result = new ArrayList<>();
         for(String perm : wanted) //per ogni permesso cercato
         {
-            //se il permesso NON è stati dati allora lo dobbiamo richiedere
+            //se il permesso NON è stato dato allora lo dobbiamo richiedere
             if(!(CaricaDocAdminActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
             {
                 result.add(perm);
@@ -243,6 +238,19 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                 openFileChooser();
             }
         }
+    }
+
+    private void adapterSpinner()
+    {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("F24");
+        arrayList.add("Dichiarazione");
+        arrayList.add("Busta paga");
+        arrayList.add("Comunicazione");
+        arrayList.add("DURC");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerNomeDoc.setAdapter(arrayAdapter);
     }
 
 }

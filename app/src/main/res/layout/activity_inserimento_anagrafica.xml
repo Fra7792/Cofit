@@ -42,19 +42,34 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <TextView
+            android:id="@+id/tvTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Tipo di società: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0" />
+
         <RadioGroup
             android:id="@+id/radioGroup1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.54"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/tvTipo"
             app:layout_constraintVertical_bias="0.0">
 
             <RadioButton
@@ -84,6 +99,22 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/tvDenominazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Denominazione: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup1"
+            app:layout_constraintVertical_bias="0.0" />
+
         <EditText
             android:id="@+id/text_denominazione"
             android:layout_width="0dp"
@@ -93,6 +124,8 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Denominazione"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
             android:inputType="textPersonName"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
@@ -100,7 +133,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup1"
+            app:layout_constraintTop_toBottomOf="@+id/tvDenominazione"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvCitta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Città: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_denominazione"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
@@ -112,6 +161,8 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Città"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
             android:inputType="textPersonName"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
@@ -119,7 +170,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_denominazione"
+            app:layout_constraintTop_toBottomOf="@+id/tvCitta"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvIndirizzo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Indirizzo: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_citta"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
@@ -131,6 +198,8 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Indirizzo"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
             android:inputType="textPersonName"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
@@ -138,7 +207,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_citta"
+            app:layout_constraintTop_toBottomOf="@+id/tvIndirizzo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvNumero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Numero di telefono: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_indirizzo"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
@@ -146,20 +231,75 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Numero di telefono"
-            android:inputType="textPersonName"
+            android:inputType="phone"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_indirizzo"
+            app:layout_constraintTop_toBottomOf="@+id/tvNumero"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/tvCellulare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Numero di cellulare: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_numero"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/text_cellulare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Numero di cellulare"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
+            android:inputType="phone"
+            android:textColor="@color/viola"
+            android:textColorHint="@color/viola"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCellulare"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/tvIVA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Partita IVA: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_cellulare"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/text_pIva"
@@ -170,14 +310,32 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="P. IVA"
-            android:inputType="textPersonName"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
+            android:inputType="phone"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_numero"
+            app:layout_constraintTop_toBottomOf="@+id/tvIVA"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvCf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Codice Fiscale: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_pIva"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
@@ -188,112 +346,18 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
+            android:textAllCaps="true"
             android:hint="C. F."
-            android:inputType="textPersonName"
             android:textColor="@color/viola"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
             android:textColorHint="@color/viola"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_pIva"
+            app:layout_constraintTop_toBottomOf="@+id/tvCf"
             app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/text_inpsP"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Matricola INPS Personale"
-            android:inputType="textPersonName"
-            android:textColor="@color/viola"
-            android:textColorHint="@color/viola"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_cf"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/text_inailP"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Matricola INAIL Personale"
-            android:inputType="textPersonName"
-            android:textColor="@color/viola"
-            android:textColorHint="@color/viola"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_inpsP"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/text_inpsD"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Matricola INPS Dipendenti"
-            android:inputType="textPersonName"
-            android:textColor="@color/viola"
-            android:textColorHint="@color/viola"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_inailP"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/text_inailD"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Matricola INAIL Dipendenti"
-            android:inputType="textPersonName"
-            android:textColor="@color/viola"
-            android:textColorHint="@color/viola"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_inpsD"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/text_rea"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ems="10"
-            android:hint="Codice REA"
-            android:inputType="textPersonName"
-            android:textColor="@color/viola"
-            android:textColorHint="@color/viola"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_inailD"
-            app:layout_constraintVertical_bias="0.0" />
-
 
         <TextView
             android:id="@+id/textViewCont"
@@ -310,7 +374,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_rea"
+            app:layout_constraintTop_toBottomOf="@+id/text_cf"
             app:layout_constraintVertical_bias="0.0" />
 
         <Spinner
@@ -345,21 +409,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Ritenuta d'acconto: "
+                android:layout_gravity="center"
+                android:paddingEnd="10dp"
+                android:text="Sei cliente COFIT? "
                 android:textColor="@color/prugna"
                 android:textSize="20sp" />
 
             <RadioButton
-                android:id="@+id/ritSi"
+                android:id="@+id/clienteSi"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
-                android:text="Si"
+                android:text="Sì"
                 android:textColor="@color/viola" />
 
             <RadioButton
-                android:id="@+id/ritNo"
+                android:id="@+id/clienteNo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
@@ -375,7 +440,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:background="@color/prugna"
+            android:backgroundTint="@color/viola"
             android:text="Inserisci"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -67,7 +67,9 @@ public class MenuAdminActivity extends AppCompatActivity {
         tvVisualizzaDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImagesActivity();
+                Intent intent = new Intent(MenuAdminActivity.this, VisualizzaDocAdminActivity.class);
+                intent.putExtra("User_ID", userID);
+                startActivity(intent);
             }
         });
 
@@ -91,12 +93,5 @@ public class MenuAdminActivity extends AppCompatActivity {
 
 
     }
-
-    private void openImagesActivity() {
-        Intent intent = new Intent(MenuAdminActivity.this, VisualizzaDocAdminActivity.class);
-        intent.putExtra("User_ID", userID);
-        startActivity(intent);
-    }
-
 
 }

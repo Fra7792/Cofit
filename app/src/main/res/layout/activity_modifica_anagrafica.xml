@@ -27,14 +27,13 @@ android:layout_width="match_parent">
                 android:layout_marginTop="20dp"
                 android:background="@drawable/circle_border">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_margin="9dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_account_circle_black_24dp" />
+                    android:src="@drawable/ic_account_circle_black_24dp"
+                    android:background="@drawable/circle" />
 
             </RelativeLayout>
 
@@ -115,17 +114,16 @@ android:layout_width="match_parent">
                     android:layout_width="@android:dimen/app_icon_size"
                     android:layout_height="@android:dimen/app_icon_size"
                     android:fontFamily="sans-serif-light"
-                    android:background="@drawable/ic_phone_black_24dp"
+                    android:background="@drawable/ic_smartphone_black_24dp"
                     android:textColor="@android:color/white"
                     />
 
                     <TextView
-                        android:id="@+id/textNumero"
+                        android:id="@+id/textCellulare"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Numero"
-                        android:textAllCaps="true"
+                        android:text="Numero di cellulare"
                         android:textColor="@android:color/white"
                         android:textSize="13sp" />
 
@@ -176,7 +174,8 @@ android:layout_width="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/linlay1">
+            android:layout_below="@+id/linlay1"
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -190,37 +189,66 @@ android:layout_width="match_parent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Indirizzo completo"
-                        android:textColor="@android:color/black"
+                        android:text="Numero di telefono"
+                        android:textColor="@color/prugna"
                         android:textSize="13sp" />
 
-                    <ImageButton
-                        android:id="@+id/btnPosition"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="@drawable/iconposition"
-                        android:textColor="@android:color/white"
-                        />
                     <TextView
-                        android:id="@+id/textIndizzo"
+                        android:id="@+id/textNumero"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Indirizzo"
+                        android:text="Numero di telefono"
+                        android:drawableRight="@drawable/ic_phone_black_24dp"
+                        android:drawableTint="@android:color/black"
+                        android:drawablePadding="15dp"
                         android:textColor="#000000"
                         android:textSize="18sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
+                        android:layout_marginTop="5dp"
+                        android:background="@color/viola" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Indirizzo completo"
+                        android:textColor="@color/prugna"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/textIndizzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Indirizzo"
+                        android:drawableRight="@drawable/position2"
+                        android:drawablePadding="15dp"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/viola" />
 
                 </LinearLayout>
 
@@ -234,7 +262,7 @@ android:layout_width="match_parent">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Partita IVA"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/prugna"
                         android:textSize="13sp" />
 
                     <TextView
@@ -249,8 +277,8 @@ android:layout_width="match_parent">
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
+                        android:layout_marginTop="5dp"
+                        android:background="@color/viola" />
 
                 </LinearLayout>
 
@@ -264,7 +292,7 @@ android:layout_width="match_parent">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Codice Fiscale"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/prugna"
                         android:textSize="13sp" />
 
                     <TextView
@@ -273,164 +301,15 @@ android:layout_width="match_parent">
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:text="Codice fiscale"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INPS Personale"
+                        android:textAllCaps="true"
                         android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/textInpsP"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Inps Personale"
-                        android:textColor="#000000"
                         android:textSize="18sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INAIL Personale"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/textInailP"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Inail Personale"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INPS Dipendenti"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/textInpsD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Inps Dipendenti"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INAIL Dipendenti"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/textInailD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Inail Dipendenti"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Codice REA"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/text_rea"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Codice REA"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
+                        android:layout_marginTop="5dp"
+                        android:background="@color/viola" />
 
                 </LinearLayout>
 
@@ -444,7 +323,7 @@ android:layout_width="match_parent">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tipo di contabilità"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/prugna"
                         android:textSize="13sp" />
 
                     <TextView
@@ -459,45 +338,10 @@ android:layout_width="match_parent">
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
+                        android:layout_marginTop="5dp"
+                        android:background="@color/viola" />
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ritenuta d'acconto:"
-                        android:textColor="@android:color/black"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/text_ritenuta"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Ritenuta d'acconto"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@color/prugna" />
-
-                </LinearLayout>
-
-
-
-
-
 
 
             </LinearLayout>

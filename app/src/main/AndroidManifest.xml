@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user.WebActivity"></activity>
+        <activity android:name=".user.documenti.VisualizzaNovitaActivity"></activity>
+        <activity android:name=".admin.Novitactivity" />
+        <activity android:name=".user.WebActivity" />
         <activity android:name=".user.documenti.VisualizzaDocUsersActivity" />
         <activity android:name=".admin.VisualizzaDocAdminActivity" />
         <activity android:name=".user.documenti.CaricaDocUsersActivity" />
@@ -42,9 +44,7 @@
         <activity android:name=".user.bilancio.crediti.InserimentoCreditiActivity" />
         <activity android:name=".user.bilancio.debiti.InserimentoDebitiActivity" />
         <activity android:name=".user.bilancio.debiti.UpdateDeleteActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
 
         <service android:name=".Java.MyFirebaseMessagingService">
             <intent-filter>

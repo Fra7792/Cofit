@@ -1,6 +1,8 @@
-package com.cofitconsulting.cofit.utility;
+package com.cofitconsulting.cofit.utility.adaptereviewholder;
+
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,12 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.lv_item_documenti, parent, false);
         return new ImageViewHolder(v);
     }
 
@@ -49,18 +53,59 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener{
 
         public TextView textViewName;
-        public ImageButton btnDownload, btnDelete;
+        public ImageButton btnDownload, btnMenu;
 
-        public ImageViewHolder(@NonNull View itemView) {
+
+        public ImageViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.nome);
-            btnDownload = itemView.findViewById(R.id.btnDownload);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+        //    btnDownload = itemView.findViewById(R.id.btnDownload);
+            btnMenu = itemView.findViewById(R.id.btnMenu);
 
-            itemView.setOnCreateContextMenuListener(this);
 
-            btnDownload.setOnClickListener(new View.OnClickListener() {
+            btnMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(mContext, btnMenu);
+                    popupMenu.inflate(R.menu.menu_doc);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch(item.getItemId())
+                            {
+                                case R.id.menu_download:
+                                {
+                                    if (mListener != null) {
+                                        int position = getAdapterPosition();
+                                        if (position != RecyclerView.NO_POSITION) {
+                                            mListener.onDownloadClick(position);
+                                            break;
+                                        }
+                                    }
+                                }
+                                case R.id.menu_delete:
+                                {
+                                    if (mListener != null) {
+                                        int position = getAdapterPosition();
+                                        if (position != RecyclerView.NO_POSITION) {
+                                            mListener.onDeleteClick(position);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+
+
+       //     btnDelete.setOnCreateContextMenuListener(this);
+
+     /*       btnDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
@@ -70,9 +115,9 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
                         }
                     }
                 }
-            });
+            });*/
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
+       /*     btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
@@ -82,7 +127,7 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
                         }
                     }
                 }
-            });
+            });*/
         }
 
 
