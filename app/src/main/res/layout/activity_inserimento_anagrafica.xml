@@ -78,7 +78,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:text="Azienda"
-                android:textColor="@color/viola" />
+                android:textColor="@color/viola"
+                android:buttonTint="@color/prugna"/>
 
             <RadioButton
                 android:id="@+id/tipoSocieta"
@@ -86,7 +87,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:text="Società"
-                android:textColor="@color/viola" />
+                android:textColor="@color/viola"
+                android:buttonTint="@color/prugna"/>
 
             <RadioButton
                 android:id="@+id/tipoProfessionista"
@@ -94,7 +96,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:text="Professionista"
-                android:textColor="@color/viola" />
+                android:textColor="@color/viola"
+                android:buttonTint="@color/prugna" />
 
 
         </RadioGroup>
@@ -421,7 +424,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:text="Sì"
-                android:textColor="@color/viola" />
+                android:textColor="@color/viola"
+                android:buttonTint="@color/prugna"/>
 
             <RadioButton
                 android:id="@+id/clienteNo"
@@ -429,7 +433,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:text="No"
-                android:textColor="@color/viola" />
+                android:textColor="@color/viola"
+                android:buttonTint="@color/prugna"/>
 
         </RadioGroup>
 

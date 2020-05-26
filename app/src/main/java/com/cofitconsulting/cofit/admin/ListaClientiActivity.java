@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.LoginActivity;
@@ -29,8 +28,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 
 public class ListaClientiActivity extends AppCompatActivity {
@@ -38,7 +41,6 @@ public class ListaClientiActivity extends AppCompatActivity {
     private EditText etCerca;
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager layoutManager;
     private List<User> userList = new ArrayList<>();
     private FirebaseFirestore db;
     private CustomAdapterListaClienti adapter;
@@ -51,12 +53,13 @@ public class ListaClientiActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mRecyclerView = findViewById(R.id.recyclerview_users);
         mRecyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         etCerca = findViewById(R.id.cercaCliente);
 
         pd = new ProgressDialog(this);
@@ -103,9 +106,9 @@ public class ListaClientiActivity extends AppCompatActivity {
                                     doc.getString("Email"));
                             userList.add(user);
                         }
-
                         adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
                         mRecyclerView.setAdapter(adapter);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -165,7 +168,13 @@ public class ListaClientiActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.menuNovita: {
-                Intent intent = new Intent(ListaClientiActivity.this, Novitactivity.class);
+                Intent intent = new Intent(ListaClientiActivity.this, NovitaActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.menuNotifiche: {
+                Intent intent = new Intent(ListaClientiActivity.this, VisualizzaNotificheActivity.class);
                 startActivity(intent);
                 break;
             }

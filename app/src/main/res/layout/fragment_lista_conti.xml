@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white">
+    android:background="@color/grigio">
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:layout_marginTop="5dp">
 
     </ListView>
 
@@ -25,12 +27,13 @@
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFloatingMenu"
+        android:id="@+id/btnAggCred"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
+        android:visibility="invisible"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/viola"
+        android:backgroundTint="@color/verde1"
         app:fab_size="normal"
         android:foreground="@drawable/ic_add_circle_outline_black_24dp"/>
 
@@ -39,23 +42,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="80dp"
-        android:layout_marginEnd="16dp"
         android:visibility="invisible"
+        android:layout_margin="16dp"
         android:backgroundTint="@color/rosso2"
+        app:fab_size="normal"
         android:foreground="@drawable/ic_add_circle_outline_black_24dp"/>
-
-   <com.google.android.material.floatingactionbutton.FloatingActionButton
-       android:id="@+id/btnAggCred"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_gravity="bottom|right"
-       android:layout_marginEnd="80dp"
-       android:layout_marginBottom="16dp"
-       android:visibility="invisible"
-       android:backgroundTint="@color/verde1"
-       android:foreground="@drawable/ic_add_circle_outline_black_24dp"/>
-
 
 
 </FrameLayout>

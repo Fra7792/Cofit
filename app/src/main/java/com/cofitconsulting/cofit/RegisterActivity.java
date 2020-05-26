@@ -3,6 +3,7 @@ package com.cofitconsulting.cofit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -88,11 +92,28 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Utente creato correttamente", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
-                        } else
+                        } else if(!task.isSuccessful())
                         {
                             progressBar.setVisibility(View.INVISIBLE);
-                            //Se ci sono problemi verrà visualizzato un errore
-                            Toast.makeText(RegisterActivity.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            try
+                            {
+                                throw task.getException();
+                            }
+                            // if user enters wrong email.
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                            {
+                                Toast.makeText(RegisterActivity.this, "L'email è errata!", Toast.LENGTH_LONG).show();
+
+                            }
+                            catch (FirebaseAuthUserCollisionException existEmail)
+                            {
+                                Toast.makeText(RegisterActivity.this, "Email già utilizzata!", Toast.LENGTH_LONG).show();
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(RegisterActivity.this, "Errore!" , Toast.LENGTH_LONG).show();
+                            }
+
                         }
 
                     }

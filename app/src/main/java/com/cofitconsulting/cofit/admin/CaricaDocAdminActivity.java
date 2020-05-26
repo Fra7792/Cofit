@@ -8,9 +8,11 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -36,6 +38,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CaricaDocAdminActivity extends AppCompatActivity {
@@ -106,7 +110,12 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                         return;
                     } else
                 {
-                    uploadFile();
+                    try {
+                        uploadFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 }
         });
@@ -124,11 +133,10 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null)
         {
-            fileUri = data.getData();
+             fileUri = data.getData();
             Picasso.get().load(fileUri).into(imageView);
         }
     }
@@ -146,7 +154,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadFile() {
+    private void uploadFile() throws IOException {
         if(fileUri != null)
         {
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()
@@ -251,6 +259,18 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNomeDoc.setAdapter(arrayAdapter);
+    }
+
+    public byte[] getDownsizedImageBytes(Bitmap fullBitmap, int scaleWidth, int scaleHeight) throws IOException {
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, scaleWidth, scaleHeight, true);
+
+        // 2. Instantiate the downsized image content as a byte[]
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] downsizedImageBytes = baos.toByteArray();
+
+        return downsizedImageBytes;
     }
 
 }

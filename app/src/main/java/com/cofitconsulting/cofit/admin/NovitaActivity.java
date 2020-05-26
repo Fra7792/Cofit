@@ -3,6 +3,7 @@ package com.cofitconsulting.cofit.admin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
@@ -37,7 +39,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class Novitactivity extends AppCompatActivity {
+public class NovitaActivity extends AppCompatActivity {
+
+    private TextView titolo;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Button btnScegliImag, btnCaricaImag;
     private EditText fileName;
@@ -61,6 +65,8 @@ public class Novitactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carica_documento);
 
+        titolo = findViewById(R.id.titolo);
+        titolo.setText("Inserisci novità");
         btnScegliImag = findViewById(R.id.btnScegliFile);
         btnCaricaImag = findViewById(R.id.btnCarica);
         fileName = findViewById(R.id.nomeFile);
@@ -93,7 +99,7 @@ public class Novitactivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nome = fileName.getText().toString().trim();
-                Toast.makeText(Novitactivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NovitaActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
                 if(TextUtils.isEmpty(nome))
                 {
                     fileName.setError("Inserire il nome del file");
@@ -157,7 +163,7 @@ public class Novitactivity extends AppCompatActivity {
                                 }
                             }, 500);
 
-                            Toast.makeText(Novitactivity.this, "File caricato", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NovitaActivity.this, "File caricato", Toast.LENGTH_SHORT).show();
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while(! urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
@@ -173,7 +179,7 @@ public class Novitactivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Novitactivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NovitaActivity.this, "Caricamento fallito", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -196,7 +202,7 @@ public class Novitactivity extends AppCompatActivity {
         for(String perm : wanted) //per ogni permesso cercato
         {
             //se il permesso NON è stato dato allora lo dobbiamo richiedere
-            if(!(Novitactivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
+            if(!(NovitaActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
             {
                 result.add(perm);
             }
@@ -210,7 +216,7 @@ public class Novitactivity extends AppCompatActivity {
         {
             for(String perm : permissionsToRequest)//per ogni permesso in permissionsToRequest
             {
-                if(!(Novitactivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
+                if(!(NovitaActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) //se non è stato dato
                 {
                     permissionsRejected.add(perm);//lo aggiungiamo in permissionRejected
                 }
@@ -219,7 +225,7 @@ public class Novitactivity extends AppCompatActivity {
             {
                 if(shouldShowRequestPermissionRationale(permissionsRejected.get(0)))
                 {
-                    Toast.makeText(Novitactivity.this, "Approva tutto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NovitaActivity.this, "Approva tutto", Toast.LENGTH_SHORT).show();
                 }
             }
             else //altrimenti puoi procedere per cambiare l'immagine.

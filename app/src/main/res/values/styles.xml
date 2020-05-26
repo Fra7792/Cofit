@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/viola</item>
         <item name="colorPrimaryDark">@color/viola</item>
-        <item name="colorAccent">@color/prugna</item>
+        <item name="colorAccent">@color/prugna2</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

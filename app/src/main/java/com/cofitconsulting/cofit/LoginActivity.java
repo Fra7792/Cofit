@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -77,10 +79,22 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
-                        else
+                        else if(!task.isSuccessful())
                         {
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(LoginActivity.this, "Errore!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            try
+                            {
+                                throw task.getException();
+                            }
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                            {
+                                Toast.makeText(LoginActivity.this, "L'email è errata!", Toast.LENGTH_LONG).show();
+
+                            }
+                            catch (Exception e)
+                            {
+                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });

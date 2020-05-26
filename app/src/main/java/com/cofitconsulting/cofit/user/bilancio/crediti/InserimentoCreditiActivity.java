@@ -29,7 +29,7 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
 
     private Button btnStore;
     private ImageButton btnBack;
-    private TextView titolo;
+    private TextView titolo, textView2;
     private Spinner ettipo;
     private EditText etdescrizione, etimporto, etdata;
     private DatabaseHelper databaseHelper;
@@ -46,6 +46,8 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
         titolo.setText("Inserisci nuovo credito");
         btnStore = findViewById(R.id.btnAggiungi);
         btnBack = findViewById(R.id.btnBack);
+        textView2 = findViewById(R.id.textView2);
+        textView2.setText("Seleziona il tipo di credito");
         ettipo = findViewById(R.id.spinnerTipoDebito);
         adapterSpinner();
         etdescrizione = findViewById(R.id.editDescrizione);

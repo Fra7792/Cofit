@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sfondocofit"
-    android:orientation="vertical">
+    xmlns:recyclerviewfastscroller="http://schemas.android.com/tools"
+    android:background="@drawable/sfondocofit">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cerca cliente"
+            android:textColorLink="@android:color/white"
             android:drawablePadding="20dp"
             android:drawableRight="@drawable/ic_search_black_24dp"
             android:textColor="@android:color/white"
@@ -36,7 +36,16 @@
         android:id="@+id/recyclerview_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-         />
+        android:layout_below="@id/toolbar"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="10dp"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="right"
+        android:scrollbarThumbVertical="@color/viola"
+        android:fadeScrollbars="false"/>
 
-</LinearLayout>
+
+
+
+</RelativeLayout>

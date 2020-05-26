@@ -18,8 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".user.documenti.VisualizzaNovitaActivity"></activity>
-        <activity android:name=".admin.Novitactivity" />
+        <activity android:name=".admin.VisualizzaNotificheActivity"></activity>
+        <activity android:name=".user.documenti.VisualizzaNovitaActivity" />
+        <activity android:name=".admin.NovitaActivity" />
         <activity android:name=".user.WebActivity" />
         <activity android:name=".user.documenti.VisualizzaDocUsersActivity" />
         <activity android:name=".admin.VisualizzaDocAdminActivity" />

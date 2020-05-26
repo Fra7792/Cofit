@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -40,6 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CaricaDocUsersActivity extends AppCompatActivity {
 
@@ -52,6 +55,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
 
     private String userID;
     private Uri fileUri;
+    private String email;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -68,6 +72,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carica_documento);
 
+        email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         btnScegliImag = findViewById(R.id.btnScegliFile);
         btnCaricaImag = findViewById(R.id.btnCarica);
@@ -180,6 +185,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
 
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(strutturaUpload);
+                            writeOnDatabaseNotifiche(userID, email, strDate);
 
                         }
                     })
@@ -245,6 +251,18 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
                 openFileChooser();
             }
         }
+    }
+
+    private void writeOnDatabaseNotifiche(String id, String email, String data){
+        Map<String, Object> notifica = new HashMap<>();
+        notifica.put("Id", id);
+        notifica.put("Email", email);
+        notifica.put("Data", data);
+        notifica.put("Visto", "No");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Notifiche").document(userID).set(notifica);
+
     }
 
 }

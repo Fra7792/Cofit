@@ -12,7 +12,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/circle_border"
-
         android:scaleType="centerCrop"
         android:src="@drawable/ic_account_circle_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +36,10 @@
         android:layout_marginStart="10dp"
         android:text="Email"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/viewSupporter"
         app:layout_constraintStart_toEndOf="@id/profileImage"/>

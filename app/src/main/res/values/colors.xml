@@ -5,8 +5,10 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="viola">#4A3289</color>
     <color name="prugna">#A2186F</color>
+    <color name="prugna2">#FF009C</color>
     <color name="rosso1">#F62217</color>
     <color name="rosso2">#E42217</color>
     <color name="verde1">#41A317</color>
     <color name="verde2">#4AA02C</color>
+    <color name="grigio">#D2D2D2</color>
 </resources>
