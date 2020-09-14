@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 
 import java.util.ArrayList;
@@ -30,10 +33,13 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
     private TextView titoloDebito;
     private Spinner etTipo;
     private EditText etDescrizione, etImporto, etdata;
+    private RadioGroup radioGroupPagato;
+    private RadioButton pagSi, pagNo;
     private Button btnModifica, btnCancella;
     private ImageButton btnBack;
     private DatabaseHelper databaseHelper;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Utility utility = new Utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +48,17 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         strutturaConto = (StrutturaConto) intent.getSerializableExtra("user");
-
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Obbligazioni e obbligazioni convertibili");
-        arrayList.add("Crediti verso soci per finanziamenti");
-        arrayList.add("Crediti verso altri finanziatori");
-        arrayList.add("Crediti verso clienti");
-        arrayList.add("Crediti rappresentati da titoli di credito");
-        arrayList.add("Crediti verso imprese controllate");
-        arrayList.add("Acconti");
-        arrayList.add("Crediti verso imprese collegate");
-        arrayList.add("Crediti verso controllanti");
-        arrayList.add("Credi verso imprese sottoposte al controllo delle controllanti");
-        arrayList.add("Crediti tributari");
-        arrayList.add("Crediti verso istituti di previdenza e di sicurezza sociale");
-        arrayList.add("Altri crediti");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
         databaseHelper = new DatabaseHelper(this);
 
         btnBack = findViewById(R.id.btnBack);
         etTipo = findViewById(R.id.spinnerTipo);
-        etTipo.setAdapter(arrayAdapter);
+        utility.adapterSpinner(UpdateDeleteCreditiActivity.this, etTipo);
         etDescrizione = findViewById(R.id.editDescrizione);
         etImporto = findViewById(R.id.editImporto);
         etdata = findViewById(R.id.editData);
+        radioGroupPagato = findViewById(R.id.radioGroup3);
+        pagSi = findViewById(R.id.pagSi);
+        pagNo = findViewById(R.id.pagNo);
         btnModifica = findViewById(R.id.btnModifica);
         btnCancella = findViewById(R.id.btnCancella);
 
@@ -77,6 +67,15 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
         etDescrizione.setText(strutturaConto.getDescrizione());
         etImporto.setText(strutturaConto.getImporto());
         etdata.setText(strutturaConto.getData());
+        String pagato = strutturaConto.getPagato();
+       if(pagato.equals("Sì"))
+        {
+            pagSi.setChecked(true);
+        }
+          else if(pagato.equals("No"))
+          {
+            pagNo.setChecked(true);
+          }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +84,11 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
             }
         });
 
+          //procedo a modificare il credito
         btnModifica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.updateUser(strutturaConto.getId(),etTipo.getSelectedItem().toString(),etDescrizione.getText().toString(),etImporto.getText().toString(), etdata.getText().toString());
+                databaseHelper.updateCredito(strutturaConto.getId(),etTipo.getSelectedItem().toString(),etDescrizione.getText().toString(),etImporto.getText().toString(), etdata.getText().toString(), selectedIdRadioGroup(radioGroupPagato));
                 Toast.makeText(UpdateDeleteCreditiActivity.this, "Elemento modificato!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(UpdateDeleteCreditiActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -99,7 +99,7 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
         btnCancella.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.deleteUSer(strutturaConto.getId());
+                databaseHelper.deleteCredito(strutturaConto.getId());
                 Toast.makeText(UpdateDeleteCreditiActivity.this, "Elemento eliminato!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(UpdateDeleteCreditiActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -132,6 +132,7 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
 
     }
 
+    //prendo l'indice della voce selezionata dallo spinner
     private int getIndex(Spinner spinner, String myString){
         int index = 0;
         for (int i=0;i<spinner.getCount();i++){
@@ -140,6 +141,17 @@ public class UpdateDeleteCreditiActivity extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    //recupero la stringa selezionato dal radiogroup
+    private String selectedIdRadioGroup(RadioGroup radioGroup){
+        String scelta;
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        scelta = selectedRadioButton.getText().toString();
+        return scelta;
     }
 }
 

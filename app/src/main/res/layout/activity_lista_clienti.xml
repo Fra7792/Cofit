@@ -20,7 +20,7 @@
             android:id="@+id/cercaCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cerca cliente"
+            android:hint="Cerca cliente..."
             android:textColorLink="@android:color/white"
             android:drawablePadding="20dp"
             android:drawableRight="@drawable/ic_search_black_24dp"

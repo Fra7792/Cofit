@@ -1,67 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:backgroundTint="@color/grigio">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/et_style"
         android:backgroundTint="@android:color/white"
         android:padding="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/txtTipo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/archivo_black"
             android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
             android:text="Tipo di debito"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/txtDescrizione"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@id/txtTipo"
             android:paddingLeft="10dp"
-            android:text="Descrizione" />
+            android:layout_marginTop="10dp"
+            android:text="Descrizione"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/txtImporto"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="15sp"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/txtTipo"
             android:paddingLeft="10dp"
-            android:text="Importo" />
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/black"
+            android:text="Importo"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txtData"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:layout_below="@id/txtImporto"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
-            android:text="Data di sscadenza" />
+            android:text="Data di scadenza"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvScaduto"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/et_style"
+            android:layout_toRightOf="@id/txtData"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="SCADUTO"
+            android:visibility="gone"
+            android:layout_below="@id/txtImporto"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:textColor="@color/rosso2"
+            android:textSize="15sp" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -71,3 +97,4 @@
         android:background="@android:color/transparent"/>
 
 </LinearLayout>
+

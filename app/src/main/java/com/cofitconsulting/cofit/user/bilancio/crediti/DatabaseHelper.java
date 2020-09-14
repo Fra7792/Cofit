@@ -19,12 +19,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_DESCRIZIONE_CREDITO = "descrizione_crediti";
     private static final String TABLE_IMPORTO_CREDITO = "importo_crediti";
     private static final String TABLE_DATA_CREDITO = "data_crediti";
+    private static final String TABLE_PAGATO = "credito_pagato";
     private static final String KEY_ID = "id";
     private static final String KEY_TIPO = "tipo";
     private static final String KEY_DESCRIZIONE = "descrizione";
     private static final String KEY_IMPORTO = "importo";
     private static final String KEY_DATA = "data";
+    private static final String KEY_PAGATO = "pagato";
 
+
+    //creo la tabella del database per i crediti
     private static final String CREATE_TABLE_TIPO_CREDITO = "CREATE TABLE "
             + TABLE_TIPO_CREDITO + "(" + KEY_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_TIPO + " TEXT );";
@@ -38,6 +42,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_DATA_CREDITO = "CREATE TABLE "
             + TABLE_DATA_CREDITO + "(" + KEY_ID + " INTEGER,"+ KEY_DATA + " TEXT );";
 
+    private static final String CREATE_TABLE_PAGATO = "CREATE TABLE "
+            + TABLE_PAGATO + "(" + KEY_ID + " INTEGER,"+ KEY_PAGATO + " TEXT );";
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,24 +52,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("table", CREATE_TABLE_TIPO_CREDITO);
     }
 
+    //credo il database dei crediti
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_TIPO_CREDITO);
         db.execSQL(CREATE_TABLE_DESCRIZIONE_CREDITO);
         db.execSQL(CREATE_TABLE_IMPORTO_CREDITO);
         db.execSQL(CREATE_TABLE_DATA_CREDITO);
+        db.execSQL(CREATE_TABLE_PAGATO);
     }
 
+    //se il database esiste già e intendo modificarlo
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_TIPO_CREDITO + "'");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_DESCRIZIONE_CREDITO + "'");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_IMPORTO_CREDITO + "'");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_DATA_CREDITO + "'");
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_PAGATO + "'");
         onCreate(db);
     }
 
-    public void addUser(String tipo, String descrizione, String importo, String data) {
+    public void addCredito(String tipo, String descrizione, String importo, String data, String pagato) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues valuesTipo = new ContentValues();
@@ -86,9 +97,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         valuesData.put(KEY_DATA, data);
         db.insert(TABLE_DATA_CREDITO,null, valuesData);
 
+        ContentValues valuesPagato = new ContentValues();
+        valuesPagato.put(KEY_ID, id);
+        valuesPagato.put(KEY_PAGATO, pagato);
+        db.insert(TABLE_PAGATO,null, valuesPagato);
+
     }
 
-    public ArrayList<StrutturaConto> getAllUsers() {
+    //metodo per recuperare tutti i crediti salvati nel database
+    public ArrayList<StrutturaConto> getAllCrediti() {
         ArrayList<StrutturaConto> strutturaContoArrayList = new ArrayList<StrutturaConto>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_TIPO_CREDITO;
@@ -134,6 +151,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     } while (cData.moveToNext());
                 }
 
+                String selectPagatoQuery = "SELECT  * FROM " + TABLE_PAGATO+" WHERE "+KEY_ID+" = "+ strutturaConto.getId();;
+
+                Cursor cPagato = db.rawQuery(selectPagatoQuery, null);
+
+                if (cPagato.moveToFirst()) {
+                    do {
+                        strutturaConto.setPagato(cPagato.getString(cPagato.getColumnIndex(KEY_PAGATO)));
+                    } while (cPagato.moveToNext());
+                }
 
                 strutturaContoArrayList.add(strutturaConto);
             } while (c.moveToNext());
@@ -141,7 +167,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return strutturaContoArrayList;
     }
 
-    public void updateUser(int id, String tipo, String descrizione, String importo, String data) {
+    //metodo per modificare il credito
+    public void updateCredito(int id, String tipo, String descrizione, String importo, String data, String pagato) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues valuesTipo = new ContentValues();
@@ -159,9 +186,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues valuesData = new ContentValues();
         valuesData.put(KEY_DATA, data);
         db.update(TABLE_DATA_CREDITO, valuesData, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+
+        ContentValues valuesPagato = new ContentValues();
+        valuesPagato.put(KEY_PAGATO, pagato);
+        db.update(TABLE_PAGATO, valuesPagato, KEY_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
-    public void deleteUSer(int id) {
+    //metodo per cancellare il credito mediante l'id
+    public void deleteCredito(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -172,6 +204,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_IMPORTO_CREDITO, KEY_ID + " = ?",new String[]{String.valueOf(id)});
 
         db.delete(TABLE_DATA_CREDITO, KEY_ID + " = ?",new String[]{String.valueOf(id)});
+
+        db.delete(TABLE_PAGATO, KEY_ID + " = ?",new String[]{String.valueOf(id)});
+
+
     }
 
 }

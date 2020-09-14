@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cofitconsulting.cofit.R;
@@ -13,7 +14,8 @@ import com.cofitconsulting.cofit.R;
 
 public class MenuAdminActivity extends AppCompatActivity {
 
-    private TextView titolo, tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
+    private TextView titolo;
+    private ImageView tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
     private ImageButton btnBack;
     private String userID, denominazione;
 
@@ -24,11 +26,11 @@ public class MenuAdminActivity extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btnBack);
         titolo = findViewById(R.id.titolo);
-        tvAnagrafica = findViewById(R.id.tvAnagrafica);
-        tvVisualizzaTasse = findViewById(R.id.tvVisualizzaTasse);
-        tvTasse = findViewById(R.id.tvTasse);
-        tvVisualizzaDoc = findViewById(R.id.tvVisualizzaDoc);
-        tvInserisciDoc = findViewById(R.id.tvInserisciDoc);
+        tvAnagrafica = findViewById(R.id.btnAnagrafica);
+        tvVisualizzaTasse = findViewById(R.id.btnVisf24);
+        tvTasse = findViewById(R.id.btnAddf24);
+        tvVisualizzaDoc = findViewById(R.id.btnVisDoc);
+        tvInserisciDoc = findViewById(R.id.btnAddDoc);
 
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();

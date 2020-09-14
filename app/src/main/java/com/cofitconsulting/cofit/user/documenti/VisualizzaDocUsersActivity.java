@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.admin.VisualizzaDocAdminActivity;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterDoc;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +52,7 @@ public class VisualizzaDocUsersActivity extends AppCompatActivity implements Cus
     private DatabaseReference databaseReference;
     private ValueEventListener mDbListener;
     private List<StrutturaUpload> mUploads;
+    private Utility utility = new Utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,22 +156,8 @@ public class VisualizzaDocUsersActivity extends AppCompatActivity implements Cus
     public void onDownloadClick(int position) {
         StrutturaUpload selectedItem = mUploads.get(position);
         String fileExtension = MimeTypeMap.getFileExtensionFromUrl(selectedItem.getFileUrl());
-        downloadFiles(VisualizzaDocUsersActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
+        utility.downloadFiles(VisualizzaDocUsersActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
         Toast.makeText(VisualizzaDocUsersActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
-
-    }
-
-
-    private void downloadFiles(Context context, String fileName, String fileExtension, String destinatonDirectory, String url){
-        DownloadManager downloadManager = (DownloadManager) context.
-                getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName + "." + fileExtension);
-
-        downloadManager.enqueue(request);
 
     }
 

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +60,7 @@ public class NovitaActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private StorageTask uploadTask;
+    private Utility utility = new Utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +80,14 @@ public class NovitaActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("Novità");
         databaseReference = FirebaseDatabase.getInstance().getReference("Novità");
 
+        //chiedo i permessi se ancora non sono stati richiesti
         btnScegliImag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 permissions.add(Manifest.permission.CAMERA);
                 permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-                permissionsToRequest = findUnaskedPermissions(permissions);
+                permissionsToRequest = utility.findUnaskedPermissions(permissions, NovitaActivity.this);
                 if(permissionsToRequest.size()>0)//se abbiamo qualche permesso da richiedere
                 {
                     requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),ALL_PERMISSIONS_RESULT);
@@ -139,17 +142,11 @@ public class NovitaActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private String getFileExtension(Uri uri){
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
     private void uploadFile() {
         if(fileUri != null)
         {
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    + "." + getFileExtension(fileUri));
+                    + "." + utility.getFileExtension(fileUri, NovitaActivity.this));
 
             uploadTask = fileReference.putFile(fileUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -196,19 +193,6 @@ public class NovitaActivity extends AppCompatActivity {
 
     }
 
-    //Metodo per cercare i permessi non dati
-    private ArrayList findUnaskedPermissions(ArrayList<String> wanted){
-        ArrayList<String> result = new ArrayList<>();
-        for(String perm : wanted) //per ogni permesso cercato
-        {
-            //se il permesso NON è stato dato allora lo dobbiamo richiedere
-            if(!(NovitaActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
-            {
-                result.add(perm);
-            }
-        }
-        return result;
-    }
 
     //Metodo per sapere se i permessi sono stati dati
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){

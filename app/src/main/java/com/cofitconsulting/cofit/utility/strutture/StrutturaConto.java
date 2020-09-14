@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class StrutturaConto implements Serializable {
 
-    private String tipo, descrizione, importo, data;
+    private String tipo, descrizione, importo, data, pagato;
     private int id;
 
     public String getImporto() {
@@ -42,4 +42,12 @@ public class StrutturaConto implements Serializable {
     public String getData() { return data; }
 
     public void setData(String data) { this.data = data; }
+
+    public String getPagato() {
+        return pagato;
+    }
+
+    public void setPagato(String pagato) {
+        this.pagato = pagato;
+    }
 }

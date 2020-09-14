@@ -4,19 +4,14 @@
     <string name="close" />
 
     <array name="debiti">
-        <item>Obbligazioni e obbligazioni convertibili</item>
-        <item>Debiti verso soci per finanziamenti</item>
-        <item>Debiti verso banche</item>
-        <item>Debiti verso altri finanziatori</item>
-        <item>Acconti</item>
-        <item>Debiti verso fornitori</item>
-        <item>Debiti rappresentati da titoli di credito</item>
-        <item>Debiti verso imprese controllate</item>
-        <item>Debiti verso imprese collegate</item>
-        <item>Debiti verso controllanti</item>
-        <item>Debiti verso imprese sottoposte al controllo delle controllanti</item>
-        <item>Debiti tributari</item>
-        <item>Debiti verso istituti di previdenza e di sicurezza sociale</item>
+        <item>Affitto</item>
+        <item>Assicurazione</item>
+        <item>Fattura fornitore</item>
+        <item>Canone di Leasing</item>
+        <item>Utenze</item>
+        <item>Stipendi</item>
+        <item>Finanziamento</item>
+        <item>Mutuo</item>
         <item>Altri debiti</item>
     </array>
 

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +25,15 @@ import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 import java.util.Calendar;
 
 
-public class UpdateDeleteActivity extends AppCompatActivity {
+public class UpdateDeleteDebitiActivity extends AppCompatActivity {
 
     private StrutturaConto strutturaConto;
     private ImageButton btnBack;
     private TextView titoloDebito;
     private Spinner etTipo;
     private EditText etDescrizione, etImporto, etdata;
+    private RadioGroup radioGroupPagato;
+    private RadioButton pagSi, pagNo;
     private Button btnModifica, btnCancella;
     private DatabaseHelper databaseHelper;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -49,6 +53,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         etDescrizione = findViewById(R.id.editDescrizione);
         etImporto = findViewById(R.id.editImporto);
         etdata = findViewById(R.id.editData);
+        radioGroupPagato = findViewById(R.id.radioGroup3);
+        pagSi = findViewById(R.id.pagSi);
+        pagNo = findViewById(R.id.pagNo);
         btnModifica = findViewById(R.id.btnModifica);
         btnCancella = findViewById(R.id.btnCancella);
 
@@ -57,6 +64,17 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         etDescrizione.setText(strutturaConto.getDescrizione());
         etImporto.setText(strutturaConto.getImporto());
         etdata.setText(strutturaConto.getData());
+
+        String pagato = strutturaConto.getPagato();
+        if(pagato.equals("Sì"))
+        {
+            pagSi.setChecked(true);
+        }
+        else if(pagato.equals("No"))
+        {
+            pagNo.setChecked(true);
+        }
+
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +86,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         btnModifica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.updateUser(strutturaConto.getId(),etTipo.getSelectedItem().toString(),etDescrizione.getText().toString(),etImporto.getText().toString(), etdata.getText().toString());
-                Toast.makeText(UpdateDeleteActivity.this, "Elemento modificato!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(UpdateDeleteActivity.this, MainActivity.class);
+                databaseHelper.updateDebito(strutturaConto.getId(),etTipo.getSelectedItem().toString(),etDescrizione.getText().toString(),etImporto.getText().toString(), etdata.getText().toString(), selectedIdRadioGroup(radioGroupPagato));
+                Toast.makeText(UpdateDeleteDebitiActivity.this, "Elemento modificato!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UpdateDeleteDebitiActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -79,9 +97,9 @@ public class UpdateDeleteActivity extends AppCompatActivity {
         btnCancella.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.deleteUSer(strutturaConto.getId());
-                Toast.makeText(UpdateDeleteActivity.this, "Elemento eliminato!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(UpdateDeleteActivity.this, MainActivity.class);
+                databaseHelper.deleteDebito(strutturaConto.getId());
+                Toast.makeText(UpdateDeleteDebitiActivity.this, "Elemento eliminato!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UpdateDeleteDebitiActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -94,7 +112,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
                 int anno = calendar.get(Calendar.YEAR);
                 int mese = calendar.get(Calendar.MONTH);
                 int giorno = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(UpdateDeleteActivity.this,
+                DatePickerDialog dialog = new DatePickerDialog(UpdateDeleteDebitiActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, anno, mese, giorno);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
@@ -112,6 +130,7 @@ public class UpdateDeleteActivity extends AppCompatActivity {
 
     }
 
+    //prendo l'indice della voce selezionata dallo spinner
     private int getIndex(Spinner spinner, String myString){
         int index = 0;
         for (int i=0;i<spinner.getCount();i++){
@@ -120,5 +139,16 @@ public class UpdateDeleteActivity extends AppCompatActivity {
             }
         }
         return index;
+    }
+
+    //recupero in formato stringa ciò che è selezionato dal radiogroup
+    private String selectedIdRadioGroup(RadioGroup radioGroup){
+        String scelta;
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        scelta = selectedRadioButton.getText().toString();
+        return scelta;
     }
 }

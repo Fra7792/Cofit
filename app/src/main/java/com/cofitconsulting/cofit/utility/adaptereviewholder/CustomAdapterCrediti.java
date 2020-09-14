@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class CustomAdapterCrediti extends BaseAdapter {
@@ -51,11 +55,11 @@ public class CustomAdapterCrediti extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.lv_item_conti, null, true);
 
-            holder.tvtipo = (TextView) convertView.findViewById(R.id.txtTipo);
-            holder.tvdescrizione = (TextView) convertView.findViewById(R.id.txtDescrizione);
-            holder.tvimporto = (TextView) convertView.findViewById(R.id.txtImporto);
-            holder.tvimporto.setTextColor(0xFF41A317);
-            holder.tvdata = (TextView) convertView.findViewById(R.id.txtData);
+            holder.tvtipo = convertView.findViewById(R.id.txtTipo);
+            holder.tvdescrizione = convertView.findViewById(R.id.txtDescrizione);
+            holder.tvimporto = convertView.findViewById(R.id.txtImporto);
+            holder.tvdata = convertView.findViewById(R.id.txtData);
+            holder.tvScaduto = convertView.findViewById(R.id.tvScaduto);
 
 
             convertView.setTag(holder);
@@ -65,9 +69,25 @@ public class CustomAdapterCrediti extends BaseAdapter {
         }
 
         holder.tvtipo.setText(strutturaContoArrayList.get(position).getTipo());
-        holder.tvdescrizione.setText("Descrizione: "+ strutturaContoArrayList.get(position).getDescrizione());
+        holder.tvdescrizione.setText(strutturaContoArrayList.get(position).getDescrizione());
         holder.tvimporto.setText(strutturaContoArrayList.get(position).getImporto() + "€");
         holder.tvdata.setText("Data Scadenza: "+ strutturaContoArrayList.get(position).getData());
+        String pagato = strutturaContoArrayList.get(position).getPagato();
+        String data = strutturaContoArrayList.get(position).getData();
+
+        //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
+        if(scaduto(data) && pagato.equals("No"))
+        {
+            holder.tvScaduto.setVisibility(View.VISIBLE);
+
+        }
+        //se è stato pagato rende visibile la textView e gli scrive pagato
+        else if(pagato.equals("Sì"))
+        {
+            holder.tvScaduto.setVisibility(View.VISIBLE);
+            holder.tvScaduto.setText("PAGATO");
+            holder.tvScaduto.setTextColor(0xFF41A317);
+        }
 
 
         return convertView;
@@ -75,7 +95,24 @@ public class CustomAdapterCrediti extends BaseAdapter {
 
     private class ViewHolder {
 
-        protected TextView tvtipo, tvdescrizione, tvimporto, tvdata;
+        protected TextView tvtipo, tvdescrizione, tvimporto, tvdata, tvScaduto;
+    }
+
+    //metodo per sapere se una data è antecedente a quella di oggi
+    public boolean scaduto(String data_scadenza){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
+        Date currentTime = Calendar.getInstance().getTime();
+        try {
+            Date date = dateFormat.parse(data_scadenza);
+            if(currentTime.after(date))
+            {
+                return true;
+            }
+            else return false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

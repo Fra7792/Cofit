@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,8 +32,8 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
     private EditText text_nome, text_citta, text_indirizzo, text_numero, text_cellulare, text_iva, text_cf;
     private Spinner text_contabilita;
-    private RadioGroup radioGroupTipo, radioGroupCliente;
-    private RadioButton azienda, societa, professionista, clienteSi, clienteNo;
+    private RadioGroup radioGroupTipo;
+    private RadioButton azienda, societa, professionista;
     private Button btnSalva;
     private ImageButton btnBack;
     private FirebaseAuth fAuth;
@@ -55,11 +56,8 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         azienda = findViewById(R.id.tipoAzienda);
         societa = findViewById(R.id.tipoSocieta);
         professionista = findViewById(R.id.tipoProfessionista);
-        clienteSi = findViewById(R.id.clienteSi);
-        clienteNo = findViewById(R.id.clienteNo);
 
         radioGroupTipo = findViewById(R.id.radioGroup1);
-        radioGroupCliente = findViewById(R.id.radioGroup2);
 
         btnSalva = findViewById(R.id.btnSalva);
         btnBack = findViewById(R.id.btnBack);
@@ -75,7 +73,8 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
             }
         });
 
-        final DocumentReference documentReference = fStore.collection("Anagrafica").document(userId);
+        //recuupero le informazioni già caricate in database e setto le edittext
+        final DocumentReference documentReference = fStore.collection("Users").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -90,19 +89,14 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                     text_cf.setText(documentSnapshot.getString("Codice Fiscale"));
                     text_contabilita.setSelection(getIndex(text_contabilita, cont));
                     String tipoCliente = documentSnapshot.getString("Tipo cliente");
-                    String cliente = documentSnapshot.getString("Cliente");
 
+                    //seleziono il radiobutton relazivo al tipo cliente salvato nel database
                     if (tipoCliente.equals("Società")) {
                         societa.setChecked(true);
                     } else if (tipoCliente.equals("Professionista")) {
                         professionista.setChecked(true);
                     } else if (tipoCliente.equals("Azienda")) {
                         azienda.setChecked(true);
-                    }
-                    if (cliente.equals("Sì")) {
-                        clienteSi.setChecked(true);
-                    } else if (cliente.equals("No")) {
-                        clienteNo.setChecked(true);
                     }
                 }catch (NullPointerException E)
                 {
@@ -111,7 +105,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 }
         });
 
-
+        //salvo nel database i dati modificati
         btnSalva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,26 +119,25 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 final String contabilita = text_contabilita.getSelectedItem().toString();
                 final String email = fAuth.getCurrentUser().getEmail();
 
-                if(!(checkedRadioGroup(radioGroupTipo)) || !(checkedRadioGroup(radioGroupCliente)))
+                if(!(checkedRadioGroup(radioGroupTipo)))
                 {
                    Toast.makeText(InserimentoAnagraficaActivity.this, "Devi completare tutti i campi", Toast.LENGTH_SHORT).show();
                    return;
                 }
                 final String tipo_cliente = selectedIdRadioGroup(radioGroupTipo);
-                final String cliente = selectedIdRadioGroup(radioGroupCliente);
 
                 String uid= FirebaseAuth.getInstance().getCurrentUser().getUid();
-                writeOnDatabaseAnagrafica(nome, citta, indirizzo, numero, cellulare, iva, cf, contabilita, tipo_cliente, cliente, email, uid);
+                writeOnDatabaseUsers(nome, citta, indirizzo, numero, cellulare, iva, cf, contabilita, tipo_cliente, email, uid);
                 Toast.makeText(InserimentoAnagraficaActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
-                writeOnDatabaseUser(nome, email, userId);
-                Intent intent = new Intent(InserimentoAnagraficaActivity.this, ModificaAnagraficaActivity.class);
+                Intent intent = new Intent(InserimentoAnagraficaActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
 
-    private void writeOnDatabaseAnagrafica(String nome, String citta, String indirizzo, String numero, String cellulare, String iva, String cf, String contabilita, String tipo_cliente, String cliente, String email, String uid){
+    //scrivo nel database
+    private void writeOnDatabaseUsers(String nome, String citta, String indirizzo, String numero, String cellulare, String iva, String cf, String contabilita, String tipo_cliente, String email, String uid){
         Map<String, Object> user = new HashMap<>();
         user.put("Id", uid);
         user.put("Email", email);
@@ -157,24 +150,13 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         user.put("Codice Fiscale", cf);
         user.put("Tipo di contabilità", contabilita);
         user.put("Tipo cliente", tipo_cliente);
-        user.put("Cliente", cliente);
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Anagrafica").document(uid).set(user);
-    }
-
-    private void writeOnDatabaseUser(String nome,  String email, String uid) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("Id", uid);
-        user.put("Email", email);
-        user.put("Denominazione", nome);
         user.put("search", nome.toLowerCase());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(uid).set(user);
     }
 
-
+    //metodo per recuperare l'indice selezionato nello spinner
     private int getIndex(Spinner spinner, String myString){
         int index = 0;
         for (int i=0;i<spinner.getCount();i++){
@@ -185,6 +167,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         return index;
     }
 
+    //verifico che il radiogroup sia stato selezionato
     private boolean checkedRadioGroup(RadioGroup radioGroup){
         if(radioGroup.getCheckedRadioButtonId()==-1)
         {
@@ -197,6 +180,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
     }
 
+    //recupero ciò che è stato selezionato
     private String selectedIdRadioGroup(RadioGroup radioGroup){
         String scelta;
 

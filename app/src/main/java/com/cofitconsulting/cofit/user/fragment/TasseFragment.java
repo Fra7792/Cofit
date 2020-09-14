@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -62,14 +63,19 @@ public class TasseFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull StrutturaTassa model) {
                 holder.text_tassa.setText(model.getTassa());
-                holder.text_scadenza.setText(model.getScadenza());
+                holder.text_scadenza.setText("Data scadenza: " + model.getScadenza());
                 holder.text_importo.setText(model.getImporto());
                 String dataScadenza = model.getScadenza();
                 String pagato = model.getPagato();
+
+                //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
                 if(scaduto(dataScadenza) && pagato.equals("No"))
                 {
                     holder.tv_scaduto.setVisibility(View.VISIBLE);
+
                 }
+
+                //se è stato pagato rende visibile la textView e gli scrive pagato
                 if(pagato.equals("Sì"))
                 {
                     holder.tv_scaduto.setVisibility(View.VISIBLE);
@@ -116,6 +122,7 @@ public class TasseFragment extends Fragment {
         adapter.startListening();
     }
 
+    //metodo per sapere se una data è antecedente a quella di oggi
     public boolean scaduto(String data_scadenza){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
         Date currentTime = Calendar.getInstance().getTime();

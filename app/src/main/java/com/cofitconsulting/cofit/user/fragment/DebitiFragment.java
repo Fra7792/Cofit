@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.user.bilancio.debiti.DatabaseHelper;
 import com.cofitconsulting.cofit.user.bilancio.debiti.InserimentoDebitiActivity;
-import com.cofitconsulting.cofit.user.bilancio.debiti.UpdateDeleteActivity;
+import com.cofitconsulting.cofit.user.bilancio.debiti.UpdateDeleteDebitiActivity;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterDebiti;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,7 +44,7 @@ public class DebitiFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
 
-        strutturaContoArrayList = databaseHelper.getAllUsers();
+        strutturaContoArrayList = databaseHelper.getAllDebiti();
 
         customAdapter = new CustomAdapterDebiti(getContext(), strutturaContoArrayList);
         listView.setAdapter(customAdapter);
@@ -55,7 +55,7 @@ public class DebitiFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), UpdateDeleteActivity.class);
+                Intent intent = new Intent(getContext(), UpdateDeleteDebitiActivity.class);
                 intent.putExtra("user", strutturaContoArrayList.get(position));
                 startActivity(intent);
             }

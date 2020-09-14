@@ -53,10 +53,12 @@ public class CreditiFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
 
-        strutturaContoArrayList = databaseHelper.getAllUsers();
+        strutturaContoArrayList = databaseHelper.getAllCrediti();
 
         customAdapterCrediti = new CustomAdapterCrediti(getContext(), strutturaContoArrayList);
         listView.setAdapter(customAdapterCrediti);
+
+        //se la lista è vuota compare la scritta contenuta in tvEmpty
         listView.setEmptyView(tvEmpty);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

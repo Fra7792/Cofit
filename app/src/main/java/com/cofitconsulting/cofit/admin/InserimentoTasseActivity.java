@@ -45,6 +45,7 @@ public class InserimentoTasseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasse_cliente);
 
+        //raccolto l'intent con l'id del cliente
         final Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
         fStore = FirebaseFirestore.getInstance();
@@ -59,14 +60,16 @@ public class InserimentoTasseActivity extends AppCompatActivity {
         radioGroupPagato = findViewById(R.id.radioGroup3);
         btnInserisci = findViewById(R.id.btnInserisci);
 
+        //creo un arraylist con gli anni che vanno dal 2017 ad oggi
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = 2017; i <= thisYear; i++) {
+        for (int i = thisYear; i >= 2017; i--) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
         annoRif.setAdapter(adapter);
 
+        //uso un oggetto di tipo Calendar per inserire la data che mi serve
         scadenza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +103,7 @@ public class InserimentoTasseActivity extends AppCompatActivity {
         btnInserisci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //prendo i dati dalle edittext presenti
                 String f24 = tipoF24.getSelectedItem().toString().trim();
                 String anno = annoRif.getSelectedItem().toString().trim();
                 String mese = meseRif.getSelectedItem().toString().trim();
@@ -124,6 +128,7 @@ public class InserimentoTasseActivity extends AppCompatActivity {
 
     }
 
+    //inserisco nel database la tassa del cliente, la raccolta prende il nome dall'id del cliente
     private void writeOnDatabaseTasse(String f24, String anno, String mese, String valore, String dataScadenza, String pagato, String totale){
         Map<String, Object> user = new HashMap<>();
         user.put("Tassa", totale);
@@ -137,6 +142,7 @@ public class InserimentoTasseActivity extends AppCompatActivity {
     }
 
 
+    //controllo se è stato selezionato un opzione del radiogroup
     private boolean checkedRadioGroup(RadioGroup radioGroup){
         if(radioGroup.getCheckedRadioButtonId()==-1)
         {
@@ -149,14 +155,12 @@ public class InserimentoTasseActivity extends AppCompatActivity {
 
     }
 
+    //raccolto ciò che è stato selezionato dal radiogroup e lo trasformo in stringa
     private String selectedIdRadioGroup(RadioGroup radioGroup){
         String scelta;
-
         int selectedId = radioGroup.getCheckedRadioButtonId();
-
         RadioButton selectedRadioButton = findViewById(selectedId);
         scelta = selectedRadioButton.getText().toString();
-        Toast.makeText(getApplicationContext(), scelta + " is selected", Toast.LENGTH_SHORT).show();
         return scelta;
     }
 

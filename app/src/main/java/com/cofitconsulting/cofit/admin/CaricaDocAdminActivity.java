@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.ContentResolver;
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,7 +17,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,11 +38,12 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+
+
 
 public class CaricaDocAdminActivity extends AppCompatActivity {
 
@@ -58,6 +61,8 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
     private final static int ALL_PERMISSIONS_RESULT = 107;
+    private static final int CAMERA_REQUEST = 1888;
+    private Utility utility = new Utility();
 
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
@@ -68,6 +73,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carica_documento);
 
+        //raccolto l'intent con l'id del cliente per poter caricare i documenti nella directory associata all'id
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
 
@@ -79,22 +85,25 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         btnBack = findViewById(R.id.btnBack);
         progressBar = findViewById(R.id.progressBar3);
+
+        //mi collego allo storage e al database
         storageReference = FirebaseStorage.getInstance().getReference(userID);
         databaseReference = FirebaseDatabase.getInstance().getReference(userID);
 
+        //richiedo i permessi per poter accedere alla camera, memoria interna ed esterna
         btnScegliImag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 permissions.add(Manifest.permission.CAMERA);
                 permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-                permissionsToRequest = findUnaskedPermissions(permissions);
+                permissionsToRequest = utility.findUnaskedPermissions(permissions, CaricaDocAdminActivity.this);
                 if(permissionsToRequest.size()>0)//se abbiamo qualche permesso da richiedere
                 {
                     requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),ALL_PERMISSIONS_RESULT);
                 }
                 else {
-                    openFileChooser();
+                    chooserIntent();
                 }
             }
         });
@@ -102,21 +111,26 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         btnCaricaImag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   String nome = fileName.getText().toString().trim();
-                Toast.makeText(CaricaDocAdminActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
-                    if(TextUtils.isEmpty(nome))
-                    {
+                    String nome = fileName.getText().toString().trim(); //il nome utilizzato per caricare il file sarà preso dal contenuto di filename
+                    String default_ = "Tipo di documento";
+                    String spinner = spinnerNomeDoc.getSelectedItem().toString().trim();
+
+                //se la stringa nome è vuota dà errore
+                    if(TextUtils.isEmpty(nome)) {
                         fileName.setError("Inserire il nome del file");
                         return;
-                    } else
-                {
-                    try {
-                        uploadFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
 
-                }
+                    //se nello spinner non è selezionato nulla dà errore
+                     else if(default_.equals(spinner))
+                        {
+                            Toast.makeText(CaricaDocAdminActivity.this, "Seleziona il tipo di documento da inviare", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                     else
+                        {
+                            uploadFile();
+                        }
                 }
         });
 
@@ -130,17 +144,67 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
     }
 
 
+    //facciamo comparire un AlertDialog per scegliere da dove prendere il file
+    public void chooserIntent()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CaricaDocAdminActivity.this);
+        builder.setTitle("Seleziona la sorgente");
+        builder.setIcon(R.drawable.ic_insert_drive_file_black_24dp);
+        String[] option = {"Gestione file","Fotocamera"};
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    openFileChooser();
+                }
+                if (which == 1)
+                {
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                    fileUri = getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                }
+            }
+
+        }).create().show();
+    }
+
+
+    //utilizziamo onActivityResult per prendere il contenuto dell'intent lanciato
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+
+        //se è un'immagine presa dalla memoria interna o ed esterna
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null)
         {
-             fileUri = data.getData();
+            fileUri = data.getData();
             Picasso.get().load(fileUri).into(imageView);
+        }
+
+        //se è utilizzata la camera dello smartphone
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK)
+        {
+            try {
+                Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
+                        getContentResolver(), fileUri);
+                Bitmap image = utility.getResizedBitmap(thumbnail, 1417, 1024);
+                fileUri =  utility.getImageUri(this, image);
+                Picasso.get().load(fileUri).into(imageView);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
+  //per lanciare l'intent di gestione file
     private void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -148,17 +212,13 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private String getFileExtension(Uri uri){
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
 
-    private void uploadFile() throws IOException {
+    //per caricare l'immagine nello storage
+    private void uploadFile() {
         if(fileUri != null)
         {
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    + "." + getFileExtension(fileUri));
+                    + "." + utility.getFileExtension(fileUri, CaricaDocAdminActivity.this));
 
             uploadTask = fileReference.putFile(fileUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -182,6 +242,7 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
                             String uploadId = databaseReference.push().getKey();
                             databaseReference.child(uploadId).setValue(strutturaUpload);
 
+                            //una volta caricato il file chiudiamo questa activity e passiamo in quella per visualizzare tutti i file
                             Intent intent = new Intent(CaricaDocAdminActivity.this, VisualizzaDocAdminActivity.class);
                             intent.putExtra("User_ID", userID);
                             startActivity(intent);
@@ -209,19 +270,6 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
 
     }
 
-    //Metodo per cercare i permessi non dati
-    private ArrayList findUnaskedPermissions(ArrayList<String> wanted){
-        ArrayList<String> result = new ArrayList<>();
-        for(String perm : wanted) //per ogni permesso cercato
-        {
-            //se il permesso NON è stato dato allora lo dobbiamo richiedere
-            if(!(CaricaDocAdminActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
-            {
-                result.add(perm);
-            }
-        }
-        return result;
-    }
 
     //Metodo per sapere se i permessi sono stati dati
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){
@@ -243,14 +291,17 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
             }
             else //altrimenti puoi procedere per cambiare l'immagine.
             {
-                openFileChooser();
+                chooserIntent();
             }
         }
     }
 
     private void adapterSpinner()
     {
+
+        //crea un ArrayList con tutte le voci dello spinner
         ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Tipo di documento");
         arrayList.add("F24");
         arrayList.add("Dichiarazione");
         arrayList.add("Busta paga");
@@ -261,16 +312,6 @@ public class CaricaDocAdminActivity extends AppCompatActivity {
         spinnerNomeDoc.setAdapter(arrayAdapter);
     }
 
-    public byte[] getDownsizedImageBytes(Bitmap fullBitmap, int scaleWidth, int scaleHeight) throws IOException {
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, scaleWidth, scaleHeight, true);
-
-        // 2. Instantiate the downsized image content as a byte[]
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] downsizedImageBytes = baos.toByteArray();
-
-        return downsizedImageBytes;
-    }
 
 }

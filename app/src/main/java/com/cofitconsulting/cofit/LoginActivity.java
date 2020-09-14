@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail)
                             {
-                                Toast.makeText(LoginActivity.this, "L'email è errata!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Email e password non coincidono!", Toast.LENGTH_LONG).show();
 
                             }
                             catch (Exception e)

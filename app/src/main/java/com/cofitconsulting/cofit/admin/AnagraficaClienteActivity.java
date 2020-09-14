@@ -42,6 +42,8 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifica_anagrafica);
 
+
+        //raccolgo l'intent con l'id del cliente
         Intent intent = getIntent();
 
 
@@ -72,6 +74,7 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
             }
         });
 
+        //mi collego allo storage di firebase per riprendere l'immagine del profilo
         storageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference profileRef = storageReference.child("users/" + userID + "profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -81,7 +84,8 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
             }
         });
 
-        final DocumentReference documentReference = fStore.collection("Anagrafica").document(userID);
+        //mi collego al database di firebase per riprendere i dati anagrafici del cliente
+        final DocumentReference documentReference = fStore.collection("Users").document(userID);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -132,6 +136,7 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
             }
         });
 
+        //google maps associato all'indirizzo del cliente
         indirizzo_completo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

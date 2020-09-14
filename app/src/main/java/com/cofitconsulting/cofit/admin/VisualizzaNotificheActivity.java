@@ -61,6 +61,7 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
         });
     }
 
+    //visualizzo le informazioni dalla collezione notifiche
     private void showData() {
         pd.setTitle("Loading Data...");
         pd.show();
@@ -94,6 +95,7 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
                 });
     }
 
+    //metodo per cancellare la notifica
     public void deleteData(int index){
 
         pd.setTitle("Delete Data...");

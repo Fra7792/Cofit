@@ -131,6 +131,50 @@
         app:layout_constraintTop_toBottomOf="@+id/editImporto"
         app:layout_constraintVertical_bias="0.0" />
 
+    <RadioGroup
+        android:id="@+id/radioGroup3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editScadenza"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Pagato: "
+            android:textColor="@color/prugna"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/pagSi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:text="Sì"
+            android:textColor="@color/viola"
+            android:buttonTint="@color/prugna"/>
+
+        <RadioButton
+            android:id="@+id/pagNo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:text="No"
+            android:checked="true"
+            android:textColor="@color/viola"
+            android:buttonTint="@color/prugna"/>
+
+
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnAggiungi"
         android:layout_width="match_parent"
@@ -146,7 +190,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editScadenza"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup3"
         app:layout_constraintVertical_bias="0.0" />
 
 

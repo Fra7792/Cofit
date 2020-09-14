@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class InserimentoDebitiActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private Spinner ettipo;
     private EditText etdescrizione, etimporto, etdata;
+    private RadioGroup radioGroupPagato;
 
     private DatabaseHelper databaseHelper;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
@@ -48,6 +51,7 @@ public class InserimentoDebitiActivity extends AppCompatActivity {
         ettipo = findViewById(R.id.spinnerTipoDebito);
         etdescrizione = findViewById(R.id.editDescrizione);
         etimporto = findViewById(R.id.editImporto);
+        radioGroupPagato = findViewById(R.id.radioGroup3);
         etdata = findViewById(R.id.editScadenza);
         etdata.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,13 +75,11 @@ public class InserimentoDebitiActivity extends AppCompatActivity {
             }
         };
 
+        //inserisco il debito nel database
         btnStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.addUser(ettipo.getSelectedItem().toString(), etdescrizione.getText().toString(), etimporto.getText().toString(), etdata.getText().toString());
-                etdescrizione.setText("");
-                etimporto.setText("");
-                etdata.setText("");
+                databaseHelper.addDebito(ettipo.getSelectedItem().toString(), etdescrizione.getText().toString(), etimporto.getText().toString(), etdata.getText().toString(), selectedIdRadioGroup(radioGroupPagato));
                 Toast.makeText(InserimentoDebitiActivity.this, "Elemento inserito!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InserimentoDebitiActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -91,6 +93,17 @@ public class InserimentoDebitiActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //recupero in formato stringa ciò che è selezionato dal radiogroup
+    private String selectedIdRadioGroup(RadioGroup radioGroup){
+        String scelta;
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        scelta = selectedRadioButton.getText().toString();
+        return scelta;
     }
 
 }

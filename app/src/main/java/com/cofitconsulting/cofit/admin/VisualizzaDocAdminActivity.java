@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterDoc;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 
@@ -47,6 +48,7 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
     private CustomAdapterDoc mAdapter;
     private ProgressBar mProgressBar;
     private String userID;
+    private Utility utility = new Utility();
 
     private FirebaseStorage firebaseStorage;
     private DatabaseReference databaseReference;
@@ -76,6 +78,7 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
 
 
 
+        //raccolgo tutte le informazioni richieste dal database di firebase
         mDbListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,6 +103,7 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
             }
         });
 
+        //cerco i file nel database in base al nome
        inputSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -155,28 +159,16 @@ public class VisualizzaDocAdminActivity extends AppCompatActivity implements Cus
     }
 
 
+    //metodo per scaricare il file in base alla posizione in cui si trova il file nella recyclerview
     @Override
     public void onDownloadClick(int position) {
         StrutturaUpload selectedItem = mUploads.get(position);
         String fileExtension = MimeTypeMap.getFileExtensionFromUrl(selectedItem.getFileUrl());
-        downloadFiles(VisualizzaDocAdminActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
+        utility.downloadFiles(VisualizzaDocAdminActivity.this, selectedItem.getFileName(), fileExtension, DIRECTORY_DOWNLOADS, selectedItem.getFileUrl());
         Toast.makeText(VisualizzaDocAdminActivity.this, "Download in corso...",Toast.LENGTH_SHORT).show();
     }
 
-
-        private void downloadFiles(Context context, String fileName, String fileExtension, String destinatonDirectory, String url){
-        DownloadManager downloadManager = (DownloadManager) context.
-                getSystemService(Context.DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(url);
-        DownloadManager.Request request = new DownloadManager.Request(uri);
-
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(context, destinatonDirectory, fileName + "." + fileExtension);
-
-        downloadManager.enqueue(request);
-
-    }
-
+    ////metodo per eliminare il file in base alla posizione in cui si trova il file nella recyclerview
     @Override
     public void onDeleteClick(final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(VisualizzaDocAdminActivity.this);

@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Tipo di società: "
+            android:text="Tipo di cliente: "
             android:textColor="@color/prugna"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -394,50 +394,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
 
-        <RadioGroup
-            android:id="@+id/radioGroup2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.54"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerTipoContabilita"
-            app:layout_constraintVertical_bias="0.04000002">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="10dp"
-                android:text="Sei cliente COFIT? "
-                android:textColor="@color/prugna"
-                android:textSize="20sp" />
-
-            <RadioButton
-                android:id="@+id/clienteSi"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:text="Sì"
-                android:textColor="@color/viola"
-                android:buttonTint="@color/prugna"/>
-
-            <RadioButton
-                android:id="@+id/clienteNo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:text="No"
-                android:textColor="@color/viola"
-                android:buttonTint="@color/prugna"/>
-
-        </RadioGroup>
-
         <Button
             android:id="@+id/btnSalva"
             android:layout_width="match_parent"
@@ -451,7 +407,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTipoContabilita" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

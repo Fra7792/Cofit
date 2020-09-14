@@ -53,14 +53,13 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener{
 
         public TextView textViewName;
-        public ImageButton btnDownload, btnMenu;
+        public ImageButton btnMenu;
 
 
         public ImageViewHolder(@NonNull final View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.nome);
-        //    btnDownload = itemView.findViewById(R.id.btnDownload);
             btnMenu = itemView.findViewById(R.id.btnMenu);
 
 
@@ -102,32 +101,6 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
                 }
             });
 
-
-       //     btnDelete.setOnCreateContextMenuListener(this);
-
-     /*       btnDownload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            mListener.onDownloadClick(position);
-                        }
-                    }
-                }
-            });*/
-
-       /*     btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            mListener.onDeleteClick(position);
-                        }
-                    }
-                }
-            });*/
         }
 
 

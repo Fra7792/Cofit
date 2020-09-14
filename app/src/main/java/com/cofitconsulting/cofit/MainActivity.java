@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.admin.ListaClientiActivity;
-import com.cofitconsulting.cofit.user.WebActivity;
 import com.cofitconsulting.cofit.user.anagrafica.InserimentoAnagraficaActivity;
 import com.cofitconsulting.cofit.user.anagrafica.ModificaAnagraficaActivity;
 import com.cofitconsulting.cofit.user.documenti.CaricaDocUsersActivity;
@@ -31,6 +30,7 @@ import com.cofitconsulting.cofit.user.documenti.VisualizzaDocUsersActivity;
 import com.cofitconsulting.cofit.user.documenti.VisualizzaNovitaActivity;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.PageAdapterMainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -72,11 +72,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
 
-        if (email.equals("francesco0792@gmail.com") || email.equals("admin@prova.com")) {
+        //se l'utente ha uno di questi indirizzi entra nella versione admin
+        if (email.equals("francesco0792@gmail.com") || email.equals("cofitconsulting@outlook.it")) {
             Intent intent = new Intent(MainActivity.this, ListaClientiActivity.class);
             startActivity(intent);
             finish();
         } else {
+
+            //utilizzo le sharedPreferences per far inserire l'anagrafica al primo avvio
             SharedPreferences preferences = getSharedPreferences("anagrafica", MODE_PRIVATE);  //se il boolean firstrun all'interno delle Preferences è true lanciamo la LoginActivity con l'intent.
             if (preferences.getBoolean("firstrun", true)) {
                 Toast.makeText(MainActivity.this, "INSERISCI SUBITO LA TUA ANAGRAFICA", Toast.LENGTH_LONG).show();
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.getTabAt(1).setText("Crediti");
         tabLayout.getTabAt(2).setText("Debiti");
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -173,12 +177,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.menuIndirizzo: {
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("google.navigation:q=Co.Fi.T+Consulting+-+Studio+di+consulenza+it+via+rigopiano+20+pescara"));
+                        Uri.parse("google.navigation:q=via+Gabriele+d'annunzio+24+pescara"));
                 startActivity(intent);
                 break;
             }
             case R.id.menuTelefono: {
-                String phone = "0854170136";
+                String phone = "085377395";
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
                 startActivity(intent);
                 break;
@@ -220,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.menuWeb: {
-                Intent intent = new Intent(MainActivity.this, WebActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://www.cofitconsulting.com")));
                 break;
             }
 
@@ -284,5 +288,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         finishAffinity();
     }
+
 
 }

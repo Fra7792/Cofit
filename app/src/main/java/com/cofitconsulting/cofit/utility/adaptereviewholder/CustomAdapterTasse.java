@@ -93,13 +93,17 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
 
         viewHolderTasse.mDescrizione.setText(modelList.get(i).getTassa());
         viewHolderTasse.mImporto.setText(modelList.get(i).getImporto());
-        viewHolderTasse.mScadenza.setText(modelList.get(i).getScadenza());
+        viewHolderTasse.mScadenza.setText("Data scadenza: " + modelList.get(i).getScadenza());
         String dataScadenza = modelList.get(i).getScadenza();
         String pagato = modelList.get(i).getPagato();
+
+        //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
        if(scaduto(dataScadenza) && pagato.equals("No"))
         {
             viewHolderTasse.tvScaduto.setVisibility(View.VISIBLE);
         }
+
+        //se è stato pagato rende visibile la textView e gli scrive pagato
         if(pagato.equals("Sì"))
         {
             viewHolderTasse.tvScaduto.setVisibility(View.VISIBLE);
@@ -114,6 +118,7 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
         return modelList.size();
     }
 
+    //metodo per sapere se una data è antecedente a quella di oggi
     public boolean scaduto(String data_scadenza){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
         Date currentTime = Calendar.getInstance().getTime();

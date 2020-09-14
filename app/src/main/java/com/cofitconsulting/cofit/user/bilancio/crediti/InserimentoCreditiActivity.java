@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cofitconsulting.cofit.MainActivity;
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +35,10 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
     private TextView titolo, textView2;
     private Spinner ettipo;
     private EditText etdescrizione, etimporto, etdata;
+    private RadioGroup radioGroupPagato;
     private DatabaseHelper databaseHelper;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Utility utility = new Utility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +54,10 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.textView2);
         textView2.setText("Seleziona il tipo di credito");
         ettipo = findViewById(R.id.spinnerTipoDebito);
-        adapterSpinner();
+        utility.adapterSpinner(InserimentoCreditiActivity.this, ettipo);
         etdescrizione = findViewById(R.id.editDescrizione);
         etimporto = findViewById(R.id.editImporto);
+        radioGroupPagato = findViewById(R.id.radioGroup3);
         etdata = findViewById(R.id.editScadenza);
         etdata.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +84,7 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
         btnStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseHelper.addUser(ettipo.getSelectedItem().toString(), etdescrizione.getText().toString(), etimporto.getText().toString(), etdata.getText().toString());
-                etdescrizione.setText("");
-                etimporto.setText("");
-                etdata.setText("");
+                databaseHelper.addCredito(ettipo.getSelectedItem().toString(), etdescrizione.getText().toString(), etimporto.getText().toString(), etdata.getText().toString(), selectedIdRadioGroup(radioGroupPagato));
                 Toast.makeText(InserimentoCreditiActivity.this, "Elemento inserito!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InserimentoCreditiActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -97,25 +100,15 @@ public class InserimentoCreditiActivity extends AppCompatActivity {
 
     }
 
-    private void adapterSpinner()
-    {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Obbligazioni e obbligazioni convertibili");
-        arrayList.add("Crediti verso soci per finanziamenti");
-        arrayList.add("Crediti verso altri finanziatori");
-        arrayList.add("Crediti verso clienti");
-        arrayList.add("Crediti rappresentati da titoli di credito");
-        arrayList.add("Crediti verso imprese controllate");
-        arrayList.add("Acconti");
-        arrayList.add("Crediti verso imprese collegate");
-        arrayList.add("Crediti verso controllanti");
-        arrayList.add("Credi verso imprese sottoposte al controllo delle controllanti");
-        arrayList.add("Crediti tributari");
-        arrayList.add("Crediti verso istituti di previdenza e di sicurezza sociale");
-        arrayList.add("Altri crediti");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ettipo.setAdapter(arrayAdapter);
+    //recupero ciò che ho selezionato dal radiogroup
+    private String selectedIdRadioGroup(RadioGroup radioGroup){
+        String scelta;
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        RadioButton selectedRadioButton = findViewById(selectedId);
+        scelta = selectedRadioButton.getText().toString();
+        return scelta;
     }
 }
 

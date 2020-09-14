@@ -5,12 +5,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -21,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.admin.CaricaDocAdminActivity;
+import com.cofitconsulting.cofit.admin.VisualizzaDocAdminActivity;
+import com.cofitconsulting.cofit.utility.Utility;
 import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,6 +47,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +59,7 @@ import java.util.Map;
 public class CaricaDocUsersActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int CAMERA_REQUEST = 1888;
     private Button btnScegliImag, btnCaricaImag;
     private EditText text_fileName;
     private Spinner spinner_NomeFile;
@@ -61,6 +74,8 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
     private final static int ALL_PERMISSIONS_RESULT = 107;
+    private Utility utility = new Utility();
+
 
     private FirebaseAuth fAuth;
     private StorageReference storageReference;
@@ -91,13 +106,13 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
                 permissions.add(Manifest.permission.CAMERA);
                 permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-                permissionsToRequest = findUnaskedPermissions(permissions);
+                permissionsToRequest = utility.findUnaskedPermissions(permissions, CaricaDocUsersActivity.this);
                 if(permissionsToRequest.size()>0)//se abbiamo qualche permesso da richiedere
                 {
                     requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),ALL_PERMISSIONS_RESULT);
                 }
                 else {
-                    openFileChooser();
+                    chooserIntent();
                 }
             }
         });
@@ -112,10 +127,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
                     Toast.makeText(CaricaDocUsersActivity.this, "Seleziona il tipo di documento da inviare", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                if (uploadTask != null && uploadTask.isInProgress()) {
-                    Toast.makeText(CaricaDocUsersActivity.this, "Caricamento in corso", Toast.LENGTH_SHORT).show();
-                } else {
+                else {
                     uploadFile();
                 }
             }
@@ -130,6 +142,33 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
 
     }
 
+    public void chooserIntent() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CaricaDocUsersActivity.this);
+        builder.setTitle("Seleziona la sorgente");
+        builder.setIcon(R.drawable.ic_insert_drive_file_black_24dp);
+        String[] option = {"Gestione file","Fotocamera"};
+        builder.setItems(option, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    openFileChooser();
+                }
+                if (which == 1) {
+                   ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                    fileUri = getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+
+                }
+            }
+
+        }).create().show();
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -140,7 +179,21 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
             fileUri = data.getData();
             Picasso.get().load(fileUri).into(imageView);
         }
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK)
+        {
+            try {
+               Bitmap thumbnail = MediaStore.Images.Media.getBitmap(
+                        getContentResolver(), fileUri);
+               Bitmap image = utility.getResizedBitmap(thumbnail, 1417, 1024);
+             fileUri =  utility.getImageUri(this, image);
+                Picasso.get().load(fileUri).into(imageView);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -149,16 +202,11 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
 
     private void uploadFile() {
         if (fileUri != null) {
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    + "." + getFileExtension(fileUri));
+                    + "." + utility.getFileExtension(fileUri, CaricaDocUsersActivity.this));
 
             uploadTask = fileReference.putFile(fileUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -187,6 +235,10 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
                             databaseReference.child(uploadId).setValue(strutturaUpload);
                             writeOnDatabaseNotifiche(userID, email, strDate);
 
+                            Intent intent = new Intent(CaricaDocUsersActivity.this, VisualizzaDocUsersActivity.class);
+                            startActivity(intent);
+                            finish();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -214,19 +266,6 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
         }
     }
 
-    //Metodo per cercare i permessi non dati
-    private ArrayList findUnaskedPermissions(ArrayList<String> wanted){
-        ArrayList<String> result = new ArrayList<>();
-        for(String perm : wanted) //per ogni permesso cercato
-        {
-            //se il permesso NON è stato dato allora lo dobbiamo richiedere
-            if(!(CaricaDocUsersActivity.this.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED))
-            {
-                result.add(perm);
-            }
-        }
-        return result;
-    }
 
     //Metodo per sapere se i permessi sono stati dati
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){
@@ -248,7 +287,7 @@ public class CaricaDocUsersActivity extends AppCompatActivity {
             }
             else //altrimenti puoi procedere per cambiare l'immagine.
             {
-                openFileChooser();
+                chooserIntent();
             }
         }
     }

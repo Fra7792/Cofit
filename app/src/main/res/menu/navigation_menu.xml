@@ -36,11 +36,11 @@
         <menu>
 
             <item android:id="@+id/menuIndirizzo"
-                android:title="Via Rigopiano 20/5, Pescara"
+                android:title="Via Gabriele d'Annunzio 24, Pescara"
                 android:icon="@drawable/position1"/>
 
             <item android:id="@+id/menuTelefono"
-                android:title="085 4170136"
+                android:title="085 377395"
                 android:icon="@drawable/icontelephone"/>
 
             <item android:id="@+id/menuWhatsapp"

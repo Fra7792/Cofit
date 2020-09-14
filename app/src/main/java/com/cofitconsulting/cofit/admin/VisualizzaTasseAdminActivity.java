@@ -63,6 +63,7 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
 
     }
 
+    //recupero tutte le tasse presenti nella directory associata all'id del cliente
     private void showData() {
         pd.setTitle("Loading Data...");
         pd.show();
@@ -96,6 +97,7 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
                 });
     }
 
+    ////metodo per eliminare la tassa  dal database
     public void deleteData(int index){
 
         pd.setTitle("Delete Data...");
@@ -120,6 +122,7 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
                 });
     }
 
+    //metodo per aggiornare il pagamento effettuato
     public void updateData(int index, String pagato){
         fStore.collection(userID).document(modelList.get(index).getTassa()).update("Pagato", pagato)
         .addOnCompleteListener(new OnCompleteListener<Void>() {

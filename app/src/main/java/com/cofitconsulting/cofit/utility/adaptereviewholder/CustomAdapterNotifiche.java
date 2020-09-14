@@ -39,10 +39,7 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
             @Override
             public void onItemCLick(View view, int position) {
 
-                String email = modelList.get(position).getEmail();
-                String data = modelList.get(position).getData();
                 String id = modelList.get(position).getId();
-                String visto = modelList.get(position).getVisto();
 
                 Intent intent = new Intent(visualizzaNotificheActivity, VisualizzaDocAdminActivity.class);
                 intent.putExtra("User_ID", id);
@@ -56,13 +53,13 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
             public void onItemLongClick(View view, final int position) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(visualizzaNotificheActivity);
-                String[] option = {"Segna come letto", "Elimina"};
+                String[] option = {"Contrassegna come letto", "Elimina"};
                 builder.setItems(option, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(visualizzaNotificheActivity);
-                            builder.setMessage("Segna come letto?")
+                            builder.setMessage("E' stato letto?")
                                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

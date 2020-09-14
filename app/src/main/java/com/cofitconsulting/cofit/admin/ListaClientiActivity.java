@@ -66,6 +66,7 @@ public class ListaClientiActivity extends AppCompatActivity {
 
         showData();
 
+        //cerca i clienti se premo Enter dalla tastiera dello smartphone
        etCerca.setOnKeyListener(new View.OnKeyListener() {
            @Override
            public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -89,6 +90,7 @@ public class ListaClientiActivity extends AppCompatActivity {
     }
 
 
+    //riprendo tutti i clienti presenti nella raccolta Users dal database, ordinati per nome
     private void showData() {
         pd.setTitle("Loading...");
         pd.show();
@@ -106,6 +108,8 @@ public class ListaClientiActivity extends AppCompatActivity {
                                     doc.getString("Email"));
                             userList.add(user);
                         }
+
+                        //i risultati vengono adattati alla recyclerView
                         adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
                         mRecyclerView.setAdapter(adapter);
 
@@ -120,6 +124,8 @@ public class ListaClientiActivity extends AppCompatActivity {
                 });
     }
 
+    //stessa cosa del metodo precedente, ma non prendo tutti i risultati dal database ma solo quelli che contengono nella
+    // denominazione, ciò che è contenuto nella stringa s, ovvero nella searchBar
     private void searchData(final String s) {
         pd.setTitle("Loading...");
         pd.show();
@@ -157,6 +163,7 @@ public class ListaClientiActivity extends AppCompatActivity {
 
     }
 
+    //implemento il menù con novità, ed esci
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_admin, menu);
@@ -190,6 +197,7 @@ public class ListaClientiActivity extends AppCompatActivity {
 
     }
 
+    //se premo indietro dallo smartphone esco dall'app
     @Override
     public void onBackPressed() {
         finishAffinity();
