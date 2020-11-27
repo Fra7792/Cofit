@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.cofitconsulting.cofit.LoginActivity;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterListaClienti;
-import com.cofitconsulting.cofit.utility.strutture.User;
+import com.cofitconsulting.cofit.utility.model.ModelUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,16 +32,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
-import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
-
 
 public class ListaClientiActivity extends AppCompatActivity {
 
     private EditText etCerca;
     private Toolbar toolbar;
     private RecyclerView mRecyclerView;
-    private List<User> userList = new ArrayList<>();
+    private List<ModelUser> modelUserList = new ArrayList<>();
     private FirebaseFirestore db;
     private CustomAdapterListaClienti adapter;
     private ProgressDialog pd;
@@ -103,14 +100,14 @@ public class ListaClientiActivity extends AppCompatActivity {
                         pd.dismiss();
                         for(DocumentSnapshot doc : task.getResult())
                         {
-                            User user = new User(doc.getString("Id"),
+                            ModelUser modelUser = new ModelUser(doc.getString("Id"),
                                     doc.getString("Denominazione"),
                                     doc.getString("Email"));
-                            userList.add(user);
+                            modelUserList.add(modelUser);
                         }
 
                         //i risultati vengono adattati alla recyclerView
-                        adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
+                        adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, modelUserList);
                         mRecyclerView.setAdapter(adapter);
 
                     }
@@ -136,17 +133,17 @@ public class ListaClientiActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         pd.dismiss();
-                        userList.clear();
+                        modelUserList.clear();
                         for (DocumentSnapshot doc : task.getResult())
                         {
-                            User user = new User(doc.getString("Id"),
+                            ModelUser modelUser = new ModelUser(doc.getString("Id"),
                                     doc.getString("Denominazione"),
                                     doc.getString("Email"));
                             if(doc.getString("search").contains(s))
                             {
-                                userList.add(user);
+                                modelUserList.add(modelUser);
                             }
-                            adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, userList);
+                            adapter = new CustomAdapterListaClienti(ListaClientiActivity.this, modelUserList);
                             mRecyclerView.setAdapter(adapter);
                         }
 

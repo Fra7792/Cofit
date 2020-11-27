@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -53,15 +52,15 @@ public class LoginActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){   //TextUtils controlla la lunghezza della stringa
-                    mEmail.setError("Inserire l'email.");
+                    mEmail.setError("Inserire l'email!");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Inserire la password");
+                    mPassword.setError("Inserire la password!");
                     return;
                 }
                 if(password.length() < 6){
-                    mPassword.setError("La password dev'essere almeno di 6 caratteri");
+                    mPassword.setError("La password dev'essere almeno di 6 caratteri!");
                     return;
                 }
 

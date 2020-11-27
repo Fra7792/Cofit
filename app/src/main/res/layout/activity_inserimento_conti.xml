@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/sfondocofit"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -100,6 +98,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:digits="0123456789.,"
         android:hint="Importo"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"

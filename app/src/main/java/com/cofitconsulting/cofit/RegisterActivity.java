@@ -2,8 +2,9 @@ package com.cofitconsulting.cofit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,14 +21,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText  mEmail, mPassword, mConfPass;
     private Button mBtnRegistra;
-    private TextView linkLogin;
+    private TextView linkLogin, condizioni;
     private ProgressBar progressBar;
     private FirebaseAuth fAuth; //crea un oggetto della classe FirebaseAuth per l'autentificazione
 
@@ -43,7 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
         linkLogin = findViewById(R.id.btnViewLogin);
         fAuth = FirebaseAuth.getInstance(); //crea un'istanza
         progressBar = findViewById(R.id.progressBar);
-
+        condizioni = findViewById(R.id.condizioni);
+        String htmlText = "Registrandoti dichiari di aver preso visione e accetti integralmente i nostri " +
+                "<A HREF='https://www.cofitconsulting.com/termini-e-condizioni-duso/'>termini e condizioni</A>. " +
+                "\nI tuoi dati personali saranno trattati in conformità con privacy policy.";
+        condizioni.setText(Html.fromHtml(htmlText));
+        condizioni.setMovementMethod(LinkMovementMethod.getInstance());
 
         if(fAuth.getCurrentUser() != null)
         {
@@ -59,23 +64,23 @@ public class RegisterActivity extends AppCompatActivity {
                 String confPass = mConfPass.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){   //TextUtils controlla la lunghezza della stringa
-                    mEmail.setError("Inserire l'email.");
+                    mEmail.setError("Inserire l'email!");
                     return;
                 }
                 if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Inserire la password");
+                    mPassword.setError("Inserire la password!");
                     return;
                 }
                 if(TextUtils.isEmpty(confPass)){
-                    mConfPass.setError("Inserire nuovamente la password");
+                    mConfPass.setError("Inserire nuovamente la password!");
                 }
                 if(password.length() < 6){
-                    mPassword.setError("La password dev'essere almeno di 6 caratteri");
+                    mPassword.setError("La password dev'essere almeno di 6 caratteri!");
                     return;
                 }
                 if(!(password.equals(confPass)))
                 {
-                    mConfPass.setError("Le password non coincidono");
+                    mConfPass.setError("Le password non coincidono!");
                     return;
                 }
 

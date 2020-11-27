@@ -1,6 +1,7 @@
 package com.cofitconsulting.cofit.admin;
 
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -8,25 +9,37 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 
+import com.cofitconsulting.cofit.utility.sendNotificationPack.APIService;
+import com.cofitconsulting.cofit.utility.sendNotificationPack.Client;
+import com.cofitconsulting.cofit.utility.sendNotificationPack.Data;
+import com.cofitconsulting.cofit.utility.sendNotificationPack.MyResponse;
+import com.cofitconsulting.cofit.utility.sendNotificationPack.NotificationSender;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class InserimentoTasseActivity extends AppCompatActivity {
@@ -34,11 +47,12 @@ public class InserimentoTasseActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private Spinner tipoF24, annoRif, meseRif;
     private EditText importo, scadenza;
-    private RadioGroup radioGroupPagato;
     private Button btnInserisci;
     private String userID;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private FirebaseFirestore fStore;
+    private String token;
+    private APIService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +71,9 @@ public class InserimentoTasseActivity extends AppCompatActivity {
         meseRif = findViewById(R.id.spinnerMese);
         importo = findViewById(R.id.etImporto);
         scadenza = findViewById(R.id.etScadenza);
-        radioGroupPagato = findViewById(R.id.radioGroup3);
         btnInserisci = findViewById(R.id.btnInserisci);
+
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         //creo un arraylist con gli anni che vanno dal 2017 ad oggi
         ArrayList<String> years = new ArrayList<String>();
@@ -99,6 +114,14 @@ public class InserimentoTasseActivity extends AppCompatActivity {
             }
         });
 
+       final DocumentReference documentReference = fStore.collection("Users").document(userID);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                token = documentSnapshot.getString("Token").trim();
+            }
+        });
 
         btnInserisci.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,17 +130,29 @@ public class InserimentoTasseActivity extends AppCompatActivity {
                 String f24 = tipoF24.getSelectedItem().toString().trim();
                 String anno = annoRif.getSelectedItem().toString().trim();
                 String mese = meseRif.getSelectedItem().toString().trim();
-                String valore = importo.getText().toString().trim() + "€";
+                String valore = importo.getText().toString().trim();
                 String dataScadenza = scadenza.getText().toString().trim();
                 String totale = f24 + " " + mese + " " + anno;
 
-                if(!(checkedRadioGroup(radioGroupPagato)))
-                {
-                    Toast.makeText(InserimentoTasseActivity.this, "Devi completare tutti i campi", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(valore)){   //TextUtils controlla la lunghezza della stringa
+                    importo.setError("Inserire l'importo!");
                     return;
                 }
-                final String pagato = selectedIdRadioGroup(radioGroupPagato);
-                writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, pagato, totale);
+                else
+                {
+                    valore = importo.getText().toString() + "€";
+                }
+                if(TextUtils.isEmpty(dataScadenza)){   //TextUtils controlla la lunghezza della stringa
+                    scadenza.setError("Inserire la data di scadenza!");
+                    return;
+                }
+                writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, totale);
+
+                String message = totale;
+
+               sendNotifications(token, "Hai una nuova scadenza", message );
+
+                //fino a qui
                 Toast.makeText(InserimentoTasseActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(InserimentoTasseActivity.this, VisualizzaTasseAdminActivity.class);
                 intent.putExtra("User_ID", userID);
@@ -129,39 +164,36 @@ public class InserimentoTasseActivity extends AppCompatActivity {
     }
 
     //inserisco nel database la tassa del cliente, la raccolta prende il nome dall'id del cliente
-    private void writeOnDatabaseTasse(String f24, String anno, String mese, String valore, String dataScadenza, String pagato, String totale){
+    private void writeOnDatabaseTasse(String f24, String anno, String mese, String valore, String dataScadenza, String totale){
         Map<String, Object> user = new HashMap<>();
         user.put("Tassa", totale);
         user.put("Importo", valore);
         user.put("Scadenza", dataScadenza);
-        user.put("Pagato", pagato);
+        user.put("Pagato", "No");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(userID).document(f24 + " " + mese + " " + anno).set(user);
 
     }
 
+    public void sendNotifications(String usertoken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().success != 1) {
+                        Toast.makeText(InserimentoTasseActivity.this, "Failed ", Toast.LENGTH_LONG);
+                    }
+                }
+            }
 
-    //controllo se è stato selezionato un opzione del radiogroup
-    private boolean checkedRadioGroup(RadioGroup radioGroup){
-        if(radioGroup.getCheckedRadioButtonId()==-1)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
 
-    }
-
-    //raccolto ciò che è stato selezionato dal radiogroup e lo trasformo in stringa
-    private String selectedIdRadioGroup(RadioGroup radioGroup){
-        String scelta;
-        int selectedId = radioGroup.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = findViewById(selectedId);
-        scelta = selectedRadioButton.getText().toString();
-        return scelta;
+            }
+        });
     }
 
 }

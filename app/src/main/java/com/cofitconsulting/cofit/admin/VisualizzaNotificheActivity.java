@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterNotifiche;
-import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterTasse;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaNotifica;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
+import com.cofitconsulting.cofit.utility.model.ModelNotifica;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +27,7 @@ import java.util.List;
 
 public class VisualizzaNotificheActivity extends AppCompatActivity {
 
-    private List<StrutturaNotifica> modelList = new ArrayList<>();
+    private List<ModelNotifica> modelList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseFirestore fStore;
@@ -74,11 +72,11 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
                         pd.dismiss();
                         for(DocumentSnapshot doc: task.getResult())
                         {
-                            StrutturaNotifica strutturaNotifica = new StrutturaNotifica(doc.getString("Id"),
+                            ModelNotifica modelNotifica = new ModelNotifica(doc.getString("Id"),
                                     doc.getString("Email"),
                                     doc.getString("Data"),
                                     doc.getString("Visto"));
-                            modelList.add(strutturaNotifica);
+                            modelList.add(modelNotifica);
                         }
 
                         adapter = new CustomAdapterNotifiche(VisualizzaNotificheActivity.this, modelList);

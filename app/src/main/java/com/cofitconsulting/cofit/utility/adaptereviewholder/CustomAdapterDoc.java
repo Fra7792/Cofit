@@ -2,7 +2,6 @@ package com.cofitconsulting.cofit.utility.adaptereviewholder;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,18 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.model.ModelFile;
 
 import java.util.List;
 
 public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.ImageViewHolder> {
     private Context mContext;
-    private List<StrutturaUpload> mStrutturaUploadList;
+    private List<ModelFile> mModelFileList;
     private OnItemClickListener mListener;
 
-    public CustomAdapterDoc(Context context, List<StrutturaUpload> uploads ){
+    public CustomAdapterDoc(Context context, List<ModelFile> uploads ){
         mContext = context;
-        mStrutturaUploadList = uploads;
+        mModelFileList = uploads;
     }
 
     @Override
@@ -39,14 +38,14 @@ public class CustomAdapterDoc extends RecyclerView.Adapter<CustomAdapterDoc.Imag
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        StrutturaUpload uploadCurrent = mStrutturaUploadList.get(position);
+        ModelFile uploadCurrent = mModelFileList.get(position);
         holder.textViewName.setText(uploadCurrent.getFileName());
 
     }
 
     @Override
     public int getItemCount() {
-        return mStrutturaUploadList.size();
+        return mModelFileList.size();
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements

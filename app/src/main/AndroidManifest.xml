@@ -18,13 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin.VisualizzaNotificheActivity"></activity>
-        <activity android:name=".user.documenti.VisualizzaNovitaActivity" />
+        <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".admin.VisualizzaNotificheActivity" />
         <activity android:name=".admin.NovitaActivity" />
-        <activity android:name=".user.documenti.VisualizzaDocUsersActivity" />
-        <activity android:name=".admin.VisualizzaDocAdminActivity" />
-        <activity android:name=".user.documenti.CaricaDocUsersActivity" />
-        <activity android:name=".admin.CaricaDocAdminActivity" />
+        <activity android:name=".admin.VisualizzaFileAdminActivity" />
+        <activity android:name=".admin.CaricaFileAdminActivity" />
         <activity android:name=".admin.VisualizzaTasseAdminActivity" />
         <activity android:name=".RegisterActivity">
             <intent-filter>
@@ -34,23 +33,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".user.anagrafica.ModificaAnagraficaActivity" />
-        <activity android:name=".user.anagrafica.InserimentoAnagraficaActivity" />
+        <activity android:name=".modelUser.anagrafica.InserimentoAnagraficaActivity" />
         <activity android:name=".admin.InserimentoTasseActivity" />
         <activity android:name=".admin.MenuAdminActivity" />
         <activity android:name=".admin.ListaClientiActivity" />
         <activity android:name=".admin.AnagraficaClienteActivity" />
-        <activity android:name=".user.bilancio.crediti.UpdateDeleteCreditiActivity" />
-        <activity android:name=".user.bilancio.crediti.InserimentoCreditiActivity" />
-        <activity android:name=".user.bilancio.debiti.InserimentoDebitiActivity" />
-        <activity android:name=".user.bilancio.debiti.UpdateDeleteDebitiActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".modelUser.registro_finanziario.crediti.UpdateDeleteCreditiActivity" />
+        <activity android:name=".modelUser.registro_finanziario.crediti.InserimentoCreditiActivity" />
+        <activity android:name=".modelUser.registro_finanziario.debiti.InserimentoDebitiActivity" />
+        <activity android:name=".modelUser.registro_finanziario.debiti.UpdateDeleteDebitiActivity" />
 
-        <service android:name=".Java.MyFirebaseMessagingService">
+        <service android:name=".utility.sendNotificationPack.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
 
         <meta-data
             android:name="preloaded_fonts"

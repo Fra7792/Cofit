@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cofit</string>
+    <string name="app_name">CoFiT</string>
     <string name="open" />
     <string name="close" />
 
@@ -73,6 +73,9 @@
         <item>Comunicazioni</item>
         <item>DURC</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

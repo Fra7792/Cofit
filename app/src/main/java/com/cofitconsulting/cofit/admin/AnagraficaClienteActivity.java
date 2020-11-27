@@ -31,7 +31,7 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
 
     private String userID;
     private TextView nome, numero, numeroCell, email, indirizzo_completo, contabilita, pi, cf, tipo_azienda;
-    private ImageButton btnBack, btnModifica, btnChiamata, btnEmail;
+    private ImageButton btnChiamata, btnEmail;
     private CircleImageView profileImage;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
@@ -40,14 +40,12 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modifica_anagrafica);
+        setContentView(R.layout.fragment_profilo);
 
 
         //raccolgo l'intent con l'id del cliente
         Intent intent = getIntent();
 
-
-        btnBack = findViewById(R.id.btnBack);
         profileImage = findViewById(R.id.profileImage);
         btnChiamata = findViewById(R.id.btnChiamata);
         btnEmail = findViewById(R.id.btnEmail);
@@ -61,18 +59,11 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
         contabilita = findViewById(R.id.text_contabilita);
         pi = findViewById(R.id.text_pIva);
         cf = findViewById(R.id.text_cf);
-        btnModifica = findViewById(R.id.btnModifica);
-        btnModifica.setVisibility(View.INVISIBLE);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         fAuth.getCurrentUser();
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
 
         //mi collego allo storage di firebase per riprendere l'immagine del profilo
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -94,12 +85,34 @@ public class AnagraficaClienteActivity extends AppCompatActivity {
                 email.setText(documentSnapshot.getString("Email"));
                 String citta = documentSnapshot.getString("Città");
                 String indirizzo = documentSnapshot.getString("Indirizzo");
-                indirizzo_completo.setText(citta + ", " + indirizzo);
-                numero.setText(documentSnapshot.getString("Numero di telefono"));
-                numeroCell.setText(documentSnapshot.getString("Numero di cellulare"));
+                String numeroCivico = documentSnapshot.getString("Numero civico");
+                String nTelefono = documentSnapshot.getString("Numero di telefono");
+                String pIva = documentSnapshot.getString("Partita IVA");
+                String cFiscale = documentSnapshot.getString("Codice Fiscale");
+                String nCellulare = documentSnapshot.getString("Numero di cellulare");
+                indirizzo_completo.setText(indirizzo + " " + numeroCivico + ", " + citta);
+                numero.setText(nTelefono);
+                numeroCell.setText(nCellulare);
                 contabilita.setText(documentSnapshot.getString("Tipo di contabilità"));
-                pi.setText(documentSnapshot.getString("Partita IVA"));
-                cf.setText(documentSnapshot.getString("Codice Fiscale"));
+                pi.setText(pIva);
+                cf.setText(cFiscale);
+
+                if(nTelefono.isEmpty())
+                {
+                    numero.setText("Non inserito");
+                }
+                if(pIva.isEmpty())
+                {
+                    pi.setText("Non inserita");
+                }
+                if(cFiscale.isEmpty())
+                {
+                    cf.setText("Non inserito");
+                }
+                if(nCellulare.isEmpty())
+                {
+                    numeroCell.setText("Non inserito");
+                }
             }
         });
 

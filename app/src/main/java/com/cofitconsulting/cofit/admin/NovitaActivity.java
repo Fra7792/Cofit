@@ -3,10 +3,8 @@ package com.cofitconsulting.cofit.admin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +22,7 @@ import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.Utility;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.model.ModelFile;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -165,10 +162,10 @@ public class NovitaActivity extends AppCompatActivity {
                             while(! urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
                             String nomeCompleto = fileName.getText().toString().trim();
-                            StrutturaUpload strutturaUpload = new StrutturaUpload(nomeCompleto, downloadUrl.toString());
+                            ModelFile modelFile = new ModelFile(nomeCompleto, downloadUrl.toString());
 
                             String uploadId = databaseReference.push().getKey();
-                            databaseReference.child(uploadId).setValue(strutturaUpload);
+                            databaseReference.child(uploadId).setValue(modelFile);
 
 
                         }

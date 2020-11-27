@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaUpload;
+import com.cofitconsulting.cofit.utility.model.ModelFile;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class CustomAdapterNovita extends RecyclerView.Adapter<CustomAdapterNovita.ImageViewHolder> {
 
     private Context mContext;
-    private List<StrutturaUpload> mUploads;
+    private List<ModelFile> mUploads;
 
-    public CustomAdapterNovita(Context context, List<StrutturaUpload> uploads){
+    public CustomAdapterNovita(Context context, List<ModelFile> uploads){
         mContext = context;
         mUploads = uploads;
     }
@@ -34,7 +34,7 @@ public class CustomAdapterNovita extends RecyclerView.Adapter<CustomAdapterNovit
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
 
-        StrutturaUpload uploadCurrent = mUploads.get(position);
+        ModelFile uploadCurrent = mUploads.get(position);
         Picasso.get()
                 .load(uploadCurrent.getFileUrl())
                 .fit()

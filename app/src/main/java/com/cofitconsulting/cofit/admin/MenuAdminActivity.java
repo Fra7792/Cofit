@@ -69,7 +69,7 @@ public class MenuAdminActivity extends AppCompatActivity {
         tvVisualizzaDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuAdminActivity.this, VisualizzaDocAdminActivity.class);
+                Intent intent = new Intent(MenuAdminActivity.this, VisualizzaFileAdminActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }
@@ -78,7 +78,7 @@ public class MenuAdminActivity extends AppCompatActivity {
         tvInserisciDoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuAdminActivity.this, CaricaDocAdminActivity.class);
+                Intent intent = new Intent(MenuAdminActivity.this, CaricaFileAdminActivity.class);
                 intent.putExtra("User_ID", userID);
                 startActivity(intent);
             }

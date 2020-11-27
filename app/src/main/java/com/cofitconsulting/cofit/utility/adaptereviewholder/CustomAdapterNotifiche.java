@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.admin.VisualizzaDocAdminActivity;
+import com.cofitconsulting.cofit.admin.VisualizzaFileAdminActivity;
 import com.cofitconsulting.cofit.admin.VisualizzaNotificheActivity;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaNotifica;
+import com.cofitconsulting.cofit.utility.model.ModelNotifica;
 
 import java.util.List;
 
 public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotifiche> {
 
     VisualizzaNotificheActivity visualizzaNotificheActivity;
-    List<StrutturaNotifica> modelList;
+    List<ModelNotifica> modelList;
 
-    public CustomAdapterNotifiche(VisualizzaNotificheActivity visualizzaNoticheActivity, List<StrutturaNotifica> modelList) {
+    public CustomAdapterNotifiche(VisualizzaNotificheActivity visualizzaNoticheActivity, List<ModelNotifica> modelList) {
         this.visualizzaNotificheActivity = visualizzaNoticheActivity;
         this.modelList = modelList;
     }
@@ -41,7 +40,7 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
 
                 String id = modelList.get(position).getId();
 
-                Intent intent = new Intent(visualizzaNotificheActivity, VisualizzaDocAdminActivity.class);
+                Intent intent = new Intent(visualizzaNotificheActivity, VisualizzaFileAdminActivity.class);
                 intent.putExtra("User_ID", id);
                 visualizzaNotificheActivity.startActivity(intent);
                 String vista = "Sì";

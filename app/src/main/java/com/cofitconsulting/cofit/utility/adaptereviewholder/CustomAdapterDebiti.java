@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cofitconsulting.cofit.R;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaConto;
+import com.cofitconsulting.cofit.utility.model.ModelRegistro;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,23 +21,23 @@ import java.util.Date;
 public class CustomAdapterDebiti extends BaseAdapter {
 
     private Context context;
-    private ArrayList<StrutturaConto> strutturaContoArrayList;
+    private ArrayList<ModelRegistro> modelRegistroArrayList;
 
-    public CustomAdapterDebiti(Context context, ArrayList<StrutturaConto> strutturaContoArrayList) {
+    public CustomAdapterDebiti(Context context, ArrayList<ModelRegistro> modelRegistroArrayList) {
 
         this.context = context;
-        this.strutturaContoArrayList = strutturaContoArrayList;
+        this.modelRegistroArrayList = modelRegistroArrayList;
     }
 
 
     @Override
     public int getCount() {
-        return strutturaContoArrayList.size();
+        return modelRegistroArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return strutturaContoArrayList.get(position);
+        return modelRegistroArrayList.get(position);
     }
 
     @Override
@@ -68,13 +68,13 @@ public class CustomAdapterDebiti extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        holder.tvtipo.setText(strutturaContoArrayList.get(position).getTipo());
-        holder.tvdescrizione.setText("Descrizione: "+ strutturaContoArrayList.get(position).getDescrizione());
-        holder.tvimporto.setText(strutturaContoArrayList.get(position).getImporto() + "€");
-        holder.tvdata.setText("Data Scadenza: "+ strutturaContoArrayList.get(position).getData());
+        holder.tvtipo.setText(modelRegistroArrayList.get(position).getTipo());
+        holder.tvdescrizione.setText("Descrizione: "+ modelRegistroArrayList.get(position).getDescrizione());
+        holder.tvimporto.setText(modelRegistroArrayList.get(position).getImporto() + "€");
+        holder.tvdata.setText("Data Scadenza: "+ modelRegistroArrayList.get(position).getData());
 
-        String pagato = strutturaContoArrayList.get(position).getPagato();
-        String data = strutturaContoArrayList.get(position).getData();
+        String pagato = modelRegistroArrayList.get(position).getPagato();
+        String data = modelRegistroArrayList.get(position).getData();
 
         //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
         if(scaduto(data) && pagato.equals("No"))

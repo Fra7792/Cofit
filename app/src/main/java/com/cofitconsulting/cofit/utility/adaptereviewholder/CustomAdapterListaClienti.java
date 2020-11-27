@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.admin.ListaClientiActivity;
 import com.cofitconsulting.cofit.admin.MenuAdminActivity;
-import com.cofitconsulting.cofit.utility.strutture.User;
+import com.cofitconsulting.cofit.utility.model.ModelUser;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -24,10 +23,10 @@ import java.util.List;
 public class CustomAdapterListaClienti extends RecyclerView.Adapter<ViewHolderClienti> {
 
     ListaClientiActivity listaClientiActivity;
-    List<User> modelList;
+    List<ModelUser> modelList;
     private StorageReference storageReference;
 
-    public CustomAdapterListaClienti(ListaClientiActivity listaClientiActivity, List<User> modelList) {
+    public CustomAdapterListaClienti(ListaClientiActivity listaClientiActivity, List<ModelUser> modelList) {
         this.listaClientiActivity = listaClientiActivity;
         this.modelList = modelList;
     }

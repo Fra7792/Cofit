@@ -12,11 +12,11 @@
         android:layout_height="match_parent">
 
 
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/quicksand"
             android:text="ACCEDI AL TUO ACCOUNT"
             android:textColor="@color/prugna"
@@ -32,9 +32,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="32dp"
             app:boxStrokeColor="@color/viola"
             app:hintTextColor="@color/prugna"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -63,9 +63,9 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
             android:background="@android:color/transparent"
             app:boxStrokeColor="@color/viola"
             app:hintTextColor="@color/prugna"
@@ -97,9 +97,9 @@
             android:id="@+id/btnAccedi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="60dp"
             android:layout_marginBottom="136dp"
             android:background="@drawable/et_style"
             android:backgroundTint="@color/prugna"
@@ -118,6 +118,7 @@
             android:id="@+id/createText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:fontFamily="@font/abeezee"
             android:text="Non hai un Account? REGISTRATI"
             android:textColor="@color/viola"
@@ -133,11 +134,13 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passdim" />
+            app:layout_constraintTop_toBottomOf="@+id/btnAccedi"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/passdim"
@@ -155,12 +158,13 @@
 
         <ImageView
             android:id="@+id/imageVIew"
-            android:layout_width="350dp"
-            android:layout_height="250dp"
+            android:layout_width="333dp"
+            android:layout_height="112dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
             android:background="@drawable/background_white"
             android:padding="5dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/nuovo_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

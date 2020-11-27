@@ -3,7 +3,6 @@ package com.cofitconsulting.cofit.utility.adaptereviewholder;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.admin.VisualizzaTasseAdminActivity;
-import com.cofitconsulting.cofit.utility.adaptereviewholder.ViewHolderTasse;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
+import com.cofitconsulting.cofit.utility.model.ModelTassa;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,9 +23,9 @@ import java.util.List;
 public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
 
     VisualizzaTasseAdminActivity visualizzaTasseAdminActivity;
-    List<StrutturaTassa> modelList;
+    List<ModelTassa> modelList;
 
-    public CustomAdapterTasse(VisualizzaTasseAdminActivity visualizzaTasseAdminActivity, List<StrutturaTassa> modelList) {
+    public CustomAdapterTasse(VisualizzaTasseAdminActivity visualizzaTasseAdminActivity, List<ModelTassa> modelList) {
         this.visualizzaTasseAdminActivity = visualizzaTasseAdminActivity;
         this.modelList = modelList;
     }
@@ -35,7 +33,7 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
     @NonNull
     @Override
     public ViewHolderTasse onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.lv_item_tasse_cliente, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.lv_item_tasse, viewGroup, false);
         ViewHolderTasse viewHolderTasse = new ViewHolderTasse(itemView);
         viewHolderTasse.setOnClickListener(new ViewHolderTasse.ClickListener() {
             @Override
@@ -52,7 +50,7 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
             public void onItemLongClick(View view, final int position) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(visualizzaTasseAdminActivity);
-                String[] option = {"Registra pagamento","Elimina"};
+                String[] option = {"Modifica stato pagamento","Elimina"};
                 builder.setItems(option, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -1,0 +1,43 @@
+package com.cofitconsulting.cofit.utility.model;
+
+public class ModelUser {
+
+    private String Id;
+    private String Denominazione;
+    private String Email;
+
+    private ModelUser(){}
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        this.Id = id;
+    }
+
+    public String getDenominazione() {
+        return Denominazione;
+    }
+
+    public void setDenominazione(String denominazione) {
+        this.Denominazione = denominazione;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        this.Email = email;
+    }
+
+    public ModelUser(String id, String denominazione, String email) {
+        this.Id = id;
+        this.Denominazione = denominazione;
+        this.Email = email;
+    }
+}
+
+
+

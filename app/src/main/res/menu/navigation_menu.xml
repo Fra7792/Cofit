@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
+    <item android:id="@+id/menuHome"
+        android:title="Home"
+        android:icon="@drawable/ic_home_black_24dp"/>
+
     <item android:id="@+id/menuProfile"
         android:title="Profilo"
         android:icon="@drawable/ic_account_circle_black_24dp" />
@@ -48,7 +52,7 @@
                 android:icon="@drawable/whatsappbrands01" />
 
             <item android:id="@+id/menuEmail"
-                android:title="info@cofit.consulting.com"
+                android:title="info@cofitconsulting.com"
                 android:icon="@drawable/ic_email_black_24dp"/>
 
             <item android:id="@+id/menuFacebook"
@@ -71,23 +75,39 @@
         <menu>
 
         <item android:id="@+id/menuEntrate"
-            android:title="Agenzia delle entrate"/>
+            android:title="Agenzia delle entrate"
+            android:icon="@drawable/agenziaentrate"/>
 
             <item android:id="@+id/menuRiscossione"
-                android:title="Agenzia entrate riscossione"/>
+                android:title="Agenzia entrate riscossione"
+                android:icon="@drawable/agenziariscossione"/>
 
             <item android:id="@+id/menuInps"
-                android:title="INPS"/>
+                android:title="INPS"
+                android:icon="@drawable/inps"/>
 
             <item android:id="@+id/menuInail"
-                android:title="INAIL"/>
+                android:title="INAIL"
+                android:icon="@drawable/inail"/>
 
             <item android:id="@+id/menuCciaa"
-                android:title="Camera di commercio Pescara"/>
+                android:title="Camera di commercio Pescara"
+                android:icon="@drawable/camera"/>
 
 
         </menu>
 
+
+    </item>
+
+    <item android:title="Informazioni">
+        <menu>
+
+            <item android:id="@+id/menuInfo"
+                android:title="Termini e condizioni"
+                android:icon="@drawable/ic_info_black_24dp"/>
+
+        </menu>
 
     </item>
 
@@ -101,10 +121,5 @@
         </menu>
 
     </item>
-
-
-
-
-
 
 </menu>

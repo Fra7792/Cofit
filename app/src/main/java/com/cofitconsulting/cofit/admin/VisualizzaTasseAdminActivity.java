@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cofitconsulting.cofit.R;
 import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterTasse;
-import com.cofitconsulting.cofit.utility.strutture.StrutturaTassa;
+import com.cofitconsulting.cofit.utility.model.ModelTassa;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class VisualizzaTasseAdminActivity extends AppCompatActivity {
 
-    private List<StrutturaTassa> modelList = new ArrayList<>();
+    private List<ModelTassa> modelList = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseFirestore fStore;
@@ -76,11 +76,11 @@ public class VisualizzaTasseAdminActivity extends AppCompatActivity {
                         pd.dismiss();
                         for(DocumentSnapshot doc: task.getResult())
                         {
-                            StrutturaTassa strutturaTassa = new StrutturaTassa(doc.getString("Tassa"),
+                            ModelTassa modelTassa = new ModelTassa(doc.getString("Tassa"),
                                     doc.getString("Importo"),
                                     doc.getString("Scadenza"),
                                     doc.getString("Pagato"));
-                            modelList.add(strutturaTassa);
+                            modelList.add(modelTassa);
                         }
 
                         adapter = new CustomAdapterTasse(VisualizzaTasseAdminActivity.this, modelList);

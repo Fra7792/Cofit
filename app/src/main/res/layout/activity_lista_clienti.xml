@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:recyclerviewfastscroller="http://schemas.android.com/tools"
-    android:background="@drawable/sfondocofit">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -37,13 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:foreground="@drawable/sfondo_trasparente"
+        android:foregroundGravity="center|bottom"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarSize="10dp"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
         android:verticalScrollbarPosition="right"
         android:scrollbarThumbVertical="@color/viola"
-        android:fadeScrollbars="false"/>
+        android:fadeScrollbars="false" />
 
 
 

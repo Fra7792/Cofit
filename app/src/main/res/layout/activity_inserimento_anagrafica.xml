@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Denominazione: "
+            android:text="Cognome e nome o Denominazione d'azienda: "
             android:textColor="@color/prugna"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +126,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Denominazione"
+            android:hint="Cognome e nome/Denominazione d'azienda"
             android:background="@drawable/et_style"
             android:padding="10dp"
             android:inputType="textPersonName"
@@ -199,16 +199,37 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:background="@drawable/et_style"
             android:ems="10"
             android:hint="Indirizzo"
-            android:background="@drawable/et_style"
-            android:padding="10dp"
             android:inputType="textPersonName"
+            android:padding="10dp"
             android:textColor="@color/viola"
             android:textColorHint="@color/viola"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_numeroCivico"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvIndirizzo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/text_numeroCivico"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_style"
+            android:ems="10"
+            android:hint="n"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColorHint="@color/viola"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvIndirizzo"
             app:layout_constraintVertical_bias="0.0" />
@@ -349,7 +370,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:textAllCaps="true"
             android:hint="C. F."
             android:textColor="@color/viola"
             android:background="@drawable/et_style"
@@ -408,6 +428,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinnerTipoContabilita" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
