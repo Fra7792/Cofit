@@ -1,6 +1,6 @@
 package com.cofitconsulting.cofit;
 
-
+//Ciao a tutti
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
