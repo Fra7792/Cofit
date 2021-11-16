@@ -89,7 +89,7 @@ public class ListaClientiActivity extends AppCompatActivity {
 
     //riprendo tutti i clienti presenti nella raccolta Users dal database, ordinati per nome
     private void showData() {
-        pd.setTitle("Loading...");
+        pd.setTitle("Caricamento in corso...");
         pd.show();
 
         db.collection("Users").orderBy("Denominazione")
@@ -124,7 +124,7 @@ public class ListaClientiActivity extends AppCompatActivity {
     //stessa cosa del metodo precedente, ma non prendo tutti i risultati dal database ma solo quelli che contengono nella
     // denominazione, ciò che è contenuto nella stringa s, ovvero nella searchBar
     private void searchData(final String s) {
-        pd.setTitle("Loading...");
+        pd.setTitle("Caricamento in corso...");
         pd.show();
 
         db.collection("Users").orderBy("Denominazione")

@@ -24,6 +24,11 @@
         <item>Agricoltura</item>
     </array>
 
+    <array name="grafico">
+        <item>Pagate</item>
+        <item>Da pagare</item>
+    </array>
+
     <array name="f24">
         <item>IVA</item>
         <item>INPS</item>
@@ -75,7 +80,42 @@
     </array>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="crea_un_nuovo_account">CREA UN NUOVO ACCOUNT</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="conferma_password">Conferma Password</string>
+    <string name="registrati">Registrati</string>
+    <string name="sei_gi_registrato_accedi">Sei già registrato? ACCEDI</string>
+    <string name="accedi_al_tuo_account">ACCEDI AL TUO ACCOUNT</string>
+    <string name="login">Login</string>
+    <string name="non_hai_un_account_registrati">Non hai un Account? REGISTRATI</string>
+    <string name="password_dimenticata">Password dimenticata?</string>
+    <string name="home">Home</string>
+    <string name="profilo">Profilo</string>
+    <string name="novit">Novità</string>
+    <string name="documenti">Documenti</string>
+    <string name="inserisci_documenti">Inserisci documenti</string>
+    <string name="scarica_documenti">Scarica documenti</string>
+    <string name="assistenza">Assistenza</string>
+    <string name="via_gabriele_d_annunzio_24_pescara">Via Gabriele d\'Annunzio 24, Pescara</string>
+    <string name="_085_377395">085 377395</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="info_cofitconsulting_com">info@cofitconsulting.com</string>
+    <string name="pagina_facebook">Pagina Facebook</string>
+    <string name="www_cofitconsulting_com">www.cofitconsulting.com</string>
+    <string name="link_utili">Link utili</string>
+    <string name="agenzia_delle_entrate">Agenzia delle entrate</string>
+    <string name="agenzia_entrate_riscossione">Agenzia entrate riscossione</string>
+    <string name="inps">INPS</string>
+    <string name="inail">INAIL</string>
+    <string name="camera_di_commercio_pescara">Camera di commercio Pescara</string>
+    <string name="informazioni">Informazioni</string>
+    <string name="termini_e_condizioni">Termini e condizioni</string>
+    <string name="esci">Esci</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="grafico">Grafico tasse</string>
 
 
 </resources>

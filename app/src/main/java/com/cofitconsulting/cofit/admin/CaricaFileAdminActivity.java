@@ -352,7 +352,7 @@ public class CaricaFileAdminActivity extends AppCompatActivity {
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.code() == 200) {
                     if (response.body().success != 1) {
-                        Toast.makeText(CaricaFileAdminActivity.this, "Failed ", Toast.LENGTH_LONG);
+                        Toast.makeText(CaricaFileAdminActivity.this, "Errore ", Toast.LENGTH_LONG);
                     }
                 }
             }

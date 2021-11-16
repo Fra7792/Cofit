@@ -145,7 +145,7 @@
         android:textColor="@color/viola"
         android:textColorHint="@color/viola"
         android:inputType="numberDecimal"
-        android:digits="0123456789.,"
+        android:digits="0123456789."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

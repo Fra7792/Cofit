@@ -96,7 +96,7 @@ public class ProfiloFragment extends Fragment {
         });
 
 
-            //recupero le informazioni dal database e setto le textView
+            //recupero le informazioni dal database e setto il text dele textView
 
             final DocumentReference documentReference = fStore.collection("Users").document(userId);
             documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {

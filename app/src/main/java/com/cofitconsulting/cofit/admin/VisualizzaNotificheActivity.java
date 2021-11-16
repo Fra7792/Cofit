@@ -61,10 +61,10 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
 
     //visualizzo le informazioni dalla collezione notifiche
     private void showData() {
-        pd.setTitle("Loading Data...");
+        pd.setTitle("Caricamento in corso...");
         pd.show();
 
-        fStore.collection("Notifiche").orderBy("Visto")
+        fStore.collection("Notifiche").orderBy("Letta")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -75,7 +75,7 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
                             ModelNotifica modelNotifica = new ModelNotifica(doc.getString("Id"),
                                     doc.getString("Email"),
                                     doc.getString("Data"),
-                                    doc.getString("Visto"));
+                                    doc.getBoolean("Letta"));
                             modelList.add(modelNotifica);
                         }
 
@@ -96,7 +96,7 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
     //metodo per cancellare la notifica
     public void deleteData(int index){
 
-        pd.setTitle("Delete Data...");
+        pd.setTitle("Eliminazione in corso...");
         pd.show();
 
         fStore.collection("Notifiche").document(modelList.get(index).getId()).delete()
@@ -118,8 +118,8 @@ public class VisualizzaNotificheActivity extends AppCompatActivity {
                 });
     }
 
-    public void updateData(int index, String visto){
-        fStore.collection("Notifiche").document(modelList.get(index).getId()).update("Visto", visto)
+    public void updateData(int index, Boolean letta){
+        fStore.collection("Notifiche").document(modelList.get(index).getId()).update("Letta", letta)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

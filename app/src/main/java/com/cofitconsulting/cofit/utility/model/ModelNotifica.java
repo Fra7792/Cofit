@@ -5,15 +5,15 @@ public class ModelNotifica {
     private String Id;
     private String Email;
     private String Data;
-    private String Visto;
+    private Boolean Letta;
 
     private ModelNotifica(){}
 
-    public ModelNotifica(String id, String email, String data, String visto) {
+    public ModelNotifica(String id, String email, String data, Boolean letta) {
         Id = id;
         Email = email;
         Data = data;
-        Visto = visto;
+        Letta = letta;
     }
 
     public String getId() {
@@ -40,11 +40,11 @@ public class ModelNotifica {
         Data = data;
     }
 
-    public String getVisto() {
-        return Visto;
+    public Boolean getLetta() {
+        return Letta;
     }
 
-    public void setVisto(String visto) {
-        Visto = visto;
+    public void setLetta(Boolean letta) {
+        Letta = letta;
     }
 }

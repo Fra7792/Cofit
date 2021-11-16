@@ -137,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 if (cImporto.moveToFirst()) {
                     do {
-                        modelRegistro.setImporto(cImporto.getString(cImporto.getColumnIndex(KEY_IMPORTO)));
+                        modelRegistro.setImporto(cImporto.getDouble(cImporto.getColumnIndex(KEY_IMPORTO)));
                     } while (cImporto.moveToNext());
                 }
 

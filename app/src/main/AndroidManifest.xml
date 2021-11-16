@@ -33,15 +33,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".modelUser.anagrafica.InserimentoAnagraficaActivity" />
+        <activity android:name=".user.anagrafica.InserimentoAnagraficaActivity" />
         <activity android:name=".admin.InserimentoTasseActivity" />
         <activity android:name=".admin.MenuAdminActivity" />
         <activity android:name=".admin.ListaClientiActivity" />
         <activity android:name=".admin.AnagraficaClienteActivity" />
-        <activity android:name=".modelUser.registro_finanziario.crediti.UpdateDeleteCreditiActivity" />
-        <activity android:name=".modelUser.registro_finanziario.crediti.InserimentoCreditiActivity" />
-        <activity android:name=".modelUser.registro_finanziario.debiti.InserimentoDebitiActivity" />
-        <activity android:name=".modelUser.registro_finanziario.debiti.UpdateDeleteDebitiActivity" />
+        <activity android:name=".user.registro_finanziario.crediti.UpdateDeleteCreditiActivity" />
+        <activity android:name=".user.registro_finanziario.crediti.InserimentoCreditiActivity" />
+        <activity android:name=".user.registro_finanziario.debiti.InserimentoDebitiActivity" />
+        <activity android:name=".user.registro_finanziario.debiti.UpdateDeleteDebitiActivity" />
 
         <service android:name=".utility.sendNotificationPack.MyFirebaseMessagingService"
             android:enabled="true"

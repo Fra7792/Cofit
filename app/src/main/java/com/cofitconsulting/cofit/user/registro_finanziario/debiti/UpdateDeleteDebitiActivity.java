@@ -63,7 +63,7 @@ public class UpdateDeleteDebitiActivity extends AppCompatActivity {
         String tipoDeb = modelRegistro.getTipo();
         etTipo.setSelection(getIndex(etTipo, tipoDeb));
         etDescrizione.setText(modelRegistro.getDescrizione());
-        etImporto.setText(modelRegistro.getImporto());
+        etImporto.setText(modelRegistro.getImporto().toString());
         etdata.setText(modelRegistro.getData());
 
         String pagato = modelRegistro.getPagato();

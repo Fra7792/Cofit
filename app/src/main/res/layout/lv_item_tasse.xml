@@ -17,11 +17,11 @@
         android:id="@+id/txt_tassa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="12sp"
+        android:layout_marginStart="32dp"
         android:autoSizeMaxTextSize="100sp"
+        android:autoSizeMinTextSize="12sp"
         android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
         android:fontFamily="@font/archivo_black"
         android:text="F24"
         android:textColor="@android:color/black"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_tassa"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:inputType="date"
         android:text="Scadenza"
@@ -103,6 +103,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_scadenza"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imagePermesso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/txt_scadenza"
+        app:layout_constraintEnd_toStartOf="@+id/txt_tassa"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/semaforo_verde_24dp"
+        android:tint="@color/verde2"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

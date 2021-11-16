@@ -130,25 +130,26 @@ public class InserimentoTasseActivity extends AppCompatActivity {
                 String f24 = tipoF24.getSelectedItem().toString().trim();
                 String anno = annoRif.getSelectedItem().toString().trim();
                 String mese = meseRif.getSelectedItem().toString().trim();
-                String valore = importo.getText().toString().trim();
+                Double valore;
                 String dataScadenza = scadenza.getText().toString().trim();
-                String totale = f24 + " " + mese + " " + anno;
+                String title = f24 + " " + mese + " " + anno;
 
-                if(TextUtils.isEmpty(valore)){   //TextUtils controlla la lunghezza della stringa
+                if(TextUtils.isEmpty(importo.getText().toString())){   //TextUtils controlla la lunghezza della stringa
                     importo.setError("Inserire l'importo!");
                     return;
                 }
                 else
                 {
-                    valore = importo.getText().toString() + "€";
+                    valore = Double.parseDouble(importo.getText().toString());
+
                 }
                 if(TextUtils.isEmpty(dataScadenza)){   //TextUtils controlla la lunghezza della stringa
                     scadenza.setError("Inserire la data di scadenza!");
                     return;
                 }
-                writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, totale);
+                writeOnDatabaseTasse(f24, anno, mese, valore, dataScadenza, title);
 
-                String message = totale;
+                String message = title;
 
                sendNotifications(token, "Hai una nuova scadenza", message );
 
@@ -164,12 +165,13 @@ public class InserimentoTasseActivity extends AppCompatActivity {
     }
 
     //inserisco nel database la tassa del cliente, la raccolta prende il nome dall'id del cliente
-    private void writeOnDatabaseTasse(String f24, String anno, String mese, String valore, String dataScadenza, String totale){
+    private void writeOnDatabaseTasse(String f24, String anno, String mese, Double valore, String dataScadenza, String totale){
         Map<String, Object> user = new HashMap<>();
         user.put("Tassa", totale);
         user.put("Importo", valore);
         user.put("Scadenza", dataScadenza);
-        user.put("Pagato", "No");
+        user.put("Pagato", false);
+        user.put("Permesso pagamento", false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(userID).document(f24 + " " + mese + " " + anno).set(user);
@@ -184,7 +186,7 @@ public class InserimentoTasseActivity extends AppCompatActivity {
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                 if (response.code() == 200) {
                     if (response.body().success != 1) {
-                        Toast.makeText(InserimentoTasseActivity.this, "Failed ", Toast.LENGTH_LONG);
+                        Toast.makeText(InserimentoTasseActivity.this, "Errore ", Toast.LENGTH_LONG);
                     }
                 }
             }

@@ -11,4 +11,6 @@
     <color name="verde1">#41A317</color>
     <color name="verde2">#4AA02C</color>
     <color name="grigio">#D2D2D2</color>
+    <color name="giallo">#FDE910</color>
+    <color name="nero">#000000</color>
 </resources>

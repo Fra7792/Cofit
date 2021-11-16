@@ -3,30 +3,34 @@
 
 
     <item android:id="@+id/menuHome"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_home_black_24dp"/>
 
     <item android:id="@+id/menuProfile"
-        android:title="Profilo"
+        android:title="@string/profilo"
         android:icon="@drawable/ic_account_circle_black_24dp" />
 
+    <item android:id="@+id/menuGrafico"
+        android:title="@string/grafico"
+        android:icon="@drawable/pie_chart" />
+
     <item android:id="@+id/menuNovita"
-        android:title="Novità"
+        android:title="@string/novit"
         android:icon="@drawable/ic_star_black_24dp"/>
 
 
-    <item android:title="Documenti">
+    <item android:title="@string/documenti">
 
 
         <menu>
 
             <item android:id="@+id/menuInserisciDoc"
-                android:title="Inserisci documenti"
+                android:title="@string/inserisci_documenti"
                 android:icon="@drawable/ic_cloud_upload_black_24dp" />
 
 
             <item android:id="@+id/menuVisualizzaDoc"
-                android:title="Scarica documenti"
+                android:title="@string/scarica_documenti"
                 android:icon="@drawable/ic_description_black_24dp" />
 
 
@@ -35,32 +39,32 @@
     </item>
 
 
-    <item android:title="Assistenza">
+    <item android:title="@string/assistenza">
 
         <menu>
 
             <item android:id="@+id/menuIndirizzo"
-                android:title="Via Gabriele d'Annunzio 24, Pescara"
+                android:title="@string/via_gabriele_d_annunzio_24_pescara"
                 android:icon="@drawable/position1"/>
 
             <item android:id="@+id/menuTelefono"
-                android:title="085 377395"
+                android:title="@string/_085_377395"
                 android:icon="@drawable/icontelephone"/>
 
             <item android:id="@+id/menuWhatsapp"
-                android:title="Whatsapp"
+                android:title="@string/whatsapp"
                 android:icon="@drawable/whatsappbrands01" />
 
             <item android:id="@+id/menuEmail"
-                android:title="info@cofitconsulting.com"
+                android:title="@string/info_cofitconsulting_com"
                 android:icon="@drawable/ic_email_black_24dp"/>
 
             <item android:id="@+id/menuFacebook"
-                android:title="Pagina Facebook"
+                android:title="@string/pagina_facebook"
                 android:icon="@drawable/iconfacebook"/>
 
             <item android:id="@+id/menuWeb"
-                android:title="www.cofitconsulting.com"
+                android:title="@string/www_cofitconsulting_com"
                 android:icon="@drawable/iconweb"/>
 
 
@@ -70,28 +74,28 @@
 
     </item>
 
-    <item android:title="Link utili">
+    <item android:title="@string/link_utili">
 
         <menu>
 
         <item android:id="@+id/menuEntrate"
-            android:title="Agenzia delle entrate"
+            android:title="@string/agenzia_delle_entrate"
             android:icon="@drawable/agenziaentrate"/>
 
             <item android:id="@+id/menuRiscossione"
-                android:title="Agenzia entrate riscossione"
+                android:title="@string/agenzia_entrate_riscossione"
                 android:icon="@drawable/agenziariscossione"/>
 
             <item android:id="@+id/menuInps"
-                android:title="INPS"
+                android:title="@string/inps"
                 android:icon="@drawable/inps"/>
 
             <item android:id="@+id/menuInail"
-                android:title="INAIL"
+                android:title="@string/inail"
                 android:icon="@drawable/inail"/>
 
             <item android:id="@+id/menuCciaa"
-                android:title="Camera di commercio Pescara"
+                android:title="@string/camera_di_commercio_pescara"
                 android:icon="@drawable/camera"/>
 
 
@@ -100,11 +104,11 @@
 
     </item>
 
-    <item android:title="Informazioni">
+    <item android:title="@string/informazioni">
         <menu>
 
             <item android:id="@+id/menuInfo"
-                android:title="Termini e condizioni"
+                android:title="@string/termini_e_condizioni"
                 android:icon="@drawable/ic_info_black_24dp"/>
 
         </menu>
@@ -115,7 +119,7 @@
         <menu>
 
             <item android:id="@+id/menuEsci"
-                android:title="Esci"
+                android:title="@string/esci"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"/>
 
         </menu>

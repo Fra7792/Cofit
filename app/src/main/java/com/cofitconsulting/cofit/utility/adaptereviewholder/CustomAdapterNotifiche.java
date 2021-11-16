@@ -43,8 +43,7 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
                 Intent intent = new Intent(visualizzaNotificheActivity, VisualizzaFileAdminActivity.class);
                 intent.putExtra("User_ID", id);
                 visualizzaNotificheActivity.startActivity(intent);
-                String vista = "Sì";
-                visualizzaNotificheActivity.updateData(position, vista);
+                visualizzaNotificheActivity.updateData(position, true);
 
             }
 
@@ -62,14 +61,12 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
                                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String vista = "Sì";
-                                            visualizzaNotificheActivity.updateData(position, vista);
+                                            visualizzaNotificheActivity.updateData(position, true);
                                         }
                                     })
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            String vista = "No";
-                                            visualizzaNotificheActivity.updateData(position, vista);
+                                            visualizzaNotificheActivity.updateData(position, false);
                                         }
                                     });
                             builder.show();
@@ -91,8 +88,8 @@ public class CustomAdapterNotifiche extends RecyclerView.Adapter<ViewHolderNotif
 
         viewHolderNotifiche.mEmail.setText(modelList.get(i).getEmail());
         viewHolderNotifiche.mData.setText(modelList.get(i).getData());
-        String visto = modelList.get(i).getVisto();
-        if (visto.equals("No"))
+        Boolean letta = modelList.get(i).getLetta();
+        if (!letta)
         {
             viewHolderNotifiche.mEmail.setTextColor(visualizzaNotificheActivity.getResources().getColor(R.color.rosso2));
         }

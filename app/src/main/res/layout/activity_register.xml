@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/quicksand"
-            android:text="CREA UN NUOVO ACCOUNT"
+            android:text="@string/crea_un_nuovo_account"
             android:textColor="@color/prugna"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,8 +41,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageVIew"
             app:layout_constraintVertical_bias="0.0" />
-
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etEmailLayout"
@@ -67,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="15dp"
                 android:textColor="@color/viola"
@@ -101,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
                 android:fontFamily="sans-serif-black"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:padding="15dp"
                 android:textColor="@color/viola"
@@ -134,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
                 android:fontFamily="sans-serif-black"
-                android:hint="Conferma Password"
+                android:hint="@string/conferma_password"
                 android:inputType="textPassword"
                 android:padding="15dp"
                 android:textColor="@color/viola"
@@ -153,7 +151,7 @@
             android:background="@drawable/et_style"
             android:backgroundTint="@color/prugna"
             android:fontFamily="sans-serif"
-            android:text="Registrati"
+            android:text="@string/registrati"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -169,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/abeezee"
-            android:text="Sei già registrato? ACCEDI"
+            android:text="@string/sei_gi_registrato_accedi"
             android:textColor="@color/prugna"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

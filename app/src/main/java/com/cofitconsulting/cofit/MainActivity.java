@@ -1,5 +1,7 @@
 package com.cofitconsulting.cofit;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -26,6 +28,7 @@ import com.cofitconsulting.cofit.admin.ListaClientiActivity;
 import com.cofitconsulting.cofit.user.anagrafica.InserimentoAnagraficaActivity;
 import com.cofitconsulting.cofit.user.documenti.AddFileFragment;
 import com.cofitconsulting.cofit.user.documenti.DownloadFileFragment;
+import com.cofitconsulting.cofit.user.registro_finanziario.GraficoTasseFragment;
 import com.cofitconsulting.cofit.user.registro_finanziario.HomeFragment;
 import com.cofitconsulting.cofit.user.anagrafica.ProfiloFragment;
 import com.cofitconsulting.cofit.user.documenti.VisNovitaFragment;
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_main);
 
         frameLayout = findViewById(R.id.fragment);
         toolbar = findViewById(R.id.toolbar);
@@ -171,6 +174,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitle("Il tuo profilo");
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu(R.menu.menu_profilo);
+                break;
+            }
+
+            case R.id.menuGrafico: {
+
+                GraficoTasseFragment fragGrafico = new GraficoTasseFragment();
+                ft.replace(R.id.fragment, fragGrafico);
+                ft.commit();
+                toolbar.setTitle("La tua situazione");
+                toolbar.getMenu().clear();
                 break;
             }
 

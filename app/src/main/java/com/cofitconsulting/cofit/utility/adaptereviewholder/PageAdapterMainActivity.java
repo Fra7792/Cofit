@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.cofitconsulting.cofit.user.registro_finanziario.TasseFragment;
 import com.cofitconsulting.cofit.user.registro_finanziario.crediti.CreditiFragment;
 import com.cofitconsulting.cofit.user.registro_finanziario.debiti.DebitiFragment;
-import com.cofitconsulting.cofit.user.registro_finanziario.TasseFragment;
 
 public class PageAdapterMainActivity extends FragmentPagerAdapter {
 

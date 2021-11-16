@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 public class ModelRegistro implements Serializable {
 
-    private String tipo, descrizione, importo, data, pagato;
+    private String tipo, descrizione, data, pagato;
+    private  Double importo;
     private int id;
 
-    public String getImporto() {
+    public Double getImporto() {
         return importo;
     }
 
-    public void setImporto(String importo) {
+    public void setImporto(Double importo) {
         this.importo = importo;
     }
 

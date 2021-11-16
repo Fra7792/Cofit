@@ -2,6 +2,7 @@ package com.cofitconsulting.cofit.utility.adaptereviewholder;
 
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.cofitconsulting.cofit.R;
 public class ViewHolderTasse extends RecyclerView.ViewHolder {
 
     TextView mDescrizione, mImporto, mScadenza, tvScaduto;
+    ImageView permesso;
     View mView;
 
     public ViewHolderTasse(@NonNull View itemView){
@@ -38,6 +40,7 @@ public class ViewHolderTasse extends RecyclerView.ViewHolder {
         mImporto = itemView.findViewById(R.id.txt_importo);
         mScadenza = itemView.findViewById(R.id.txt_scadenza);
         tvScaduto = itemView.findViewById(R.id.tvScaduto);
+        permesso = itemView.findViewById(R.id.imagePermesso);
     }
 
     private ViewHolderTasse.ClickListener mClickListener;

@@ -1,35 +1,39 @@
 package com.cofitconsulting.cofit.user.registro_finanziario;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.cofitconsulting.cofit.R;
+import com.cofitconsulting.cofit.utility.adaptereviewholder.CustomAdapterTasseClienti;
 import com.cofitconsulting.cofit.utility.model.ModelTassa;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class TasseFragment extends Fragment {
 
-    private FirebaseFirestore firebaseFirestore;
+    private List<ModelTassa> modelList = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private FirestoreRecyclerAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private FirebaseFirestore fStore;
+    private CustomAdapterTasseClienti adapter;
+    private ProgressDialog pd;
     private FirebaseAuth fAuth;
     private String userID;
 
@@ -37,105 +41,71 @@ public class TasseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_tasse, container, false);
 
+        fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getInstance().getCurrentUser().getUid();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-
 
         mRecyclerView = v.findViewById(R.id.recyclerview_tasse);
-
-        Query query = firebaseFirestore.collection(userID).orderBy("Pagato");
-        final FirestoreRecyclerOptions<ModelTassa> options = new FirestoreRecyclerOptions.Builder<ModelTassa>()
-                .setQuery(query, ModelTassa.class)
-                .build();
-
-        adapter = new FirestoreRecyclerAdapter<ModelTassa, UserViewHolder>(options) {
-            @NonNull
-            @Override
-            public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lv_item_tasse, parent, false);
-
-                return new UserViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull ModelTassa model) {
-                holder.text_tassa.setText(model.getTassa());
-                holder.text_scadenza.setText("Data scadenza: " + model.getScadenza());
-                holder.text_importo.setText(model.getImporto());
-                String dataScadenza = model.getScadenza();
-                String pagato = model.getPagato();
-
-                //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
-                if(scaduto(dataScadenza) && pagato.equals("No"))
-                {
-                    holder.tv_scaduto.setVisibility(View.VISIBLE);
-
-                }
-
-                //se è stato pagato rende visibile la textView e gli scrive pagato
-                if(pagato.equals("Sì"))
-                {
-                    holder.tv_scaduto.setVisibility(View.VISIBLE);
-                    holder.tv_scaduto.setText("PAGATO");
-                    holder.tv_scaduto.setTextColor(getResources().getColor(R.color.verde1));
-                }
-
-            }
-        };
-
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        pd = new ProgressDialog(getContext());
+
+        showData();
 
         return v;
     }
 
-    private class UserViewHolder extends RecyclerView.ViewHolder{
+    //recupero tutte le tasse presenti nella directory associata all'id del cliente
+    private void showData() {
+        pd.setTitle("Caricamento in corso...");
+        pd.show();
 
-        private TextView text_tassa;
-        private TextView text_importo;
-        private TextView text_scadenza;
-        private TextView tv_scaduto;
+        fStore.collection(userID).orderBy("Pagato")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        pd.dismiss();
+                        for(DocumentSnapshot doc: task.getResult())
+                        {
+                            ModelTassa modelTassa = new ModelTassa(doc.getString("Tassa"),
+                                    doc.getDouble("Importo"),
+                                    doc.getString("Scadenza"),
+                                    doc.getBoolean("Pagato"),
+                                    doc.getBoolean("Permesso pagamento"));
 
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
+                            modelList.add(modelTassa);
+                        }
 
-            text_tassa = itemView.findViewById(R.id.txt_tassa);
-            text_importo = itemView.findViewById(R.id.txt_importo);
-            text_scadenza = itemView.findViewById(R.id.txt_scadenza);
-            tv_scaduto = itemView.findViewById(R.id.tvScaduto);
-        }
+                        adapter = new CustomAdapterTasseClienti(TasseFragment.this, modelList);
+                        mRecyclerView.setAdapter(adapter);
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+
+                    }
+                });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
 
-    //metodo per sapere se una data è antecedente a quella di oggi
-    public boolean scaduto(String data_scadenza){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/M/yyyy");
-        Date currentTime = Calendar.getInstance().getTime();
-        try {
-            Date date = dateFormat.parse(data_scadenza);
-            if(currentTime.after(date))
-            {
-               return true;
-            }
-            else return false;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
+    //metodo per aggiornare il pagamento effettuato
+    public void updatePermesso(int index, Boolean permesso){
+        fStore.collection(userID).document(modelList.get(index).getTassa()).update("Permesso pagamento", permesso)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        modelList.clear();
+                        showData();
+                    }
+                });
     }
 
 }

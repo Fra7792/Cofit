@@ -40,9 +40,9 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
             public void onItemCLick(View view, int position) {
 
                 String descrizione = modelList.get(position).getTassa();
-                String importo = modelList.get(position).getImporto();
+                Double importo = modelList.get(position).getImporto();
                 String scadenza = modelList.get(position).getScadenza();
-                String pagato = modelList.get(position).getPagato();
+                Boolean pagato = modelList.get(position).getPagato();
 
             }
 
@@ -61,14 +61,12 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
                                     .setPositiveButton("Sì", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String pagato = "Sì";
-                                            visualizzaTasseAdminActivity.updateData(position, pagato);
+                                            visualizzaTasseAdminActivity.updateData(position, true);
                                         }
                                     })
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            String pagato = "No";
-                                            visualizzaTasseAdminActivity.updateData(position, pagato);
+                                            visualizzaTasseAdminActivity.updateData(position, false);
                                         }
                                     });
                             builder.show();
@@ -90,10 +88,11 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
     public void onBindViewHolder(@NonNull ViewHolderTasse viewHolderTasse, int i) {
 
         viewHolderTasse.mDescrizione.setText(modelList.get(i).getTassa());
-        viewHolderTasse.mImporto.setText(modelList.get(i).getImporto());
+        viewHolderTasse.mImporto.setText(modelList.get(i).getImporto().toString() + "€");
         viewHolderTasse.mScadenza.setText("Data scadenza: " + modelList.get(i).getScadenza());
         String dataScadenza = modelList.get(i).getScadenza();
-        String pagato = modelList.get(i).getPagato();
+        Boolean pagato = modelList.get(i).getPagato();
+        Boolean permesso = modelList.get(i).getPermesso();
 
         //se la tassa non è stata pagato ed è scaduta allora rende visibile la textView "SCADUTO"
        if(scaduto(dataScadenza) && pagato.equals("No"))
@@ -102,13 +101,17 @@ public class CustomAdapterTasse extends RecyclerView.Adapter<ViewHolderTasse> {
         }
 
         //se è stato pagato rende visibile la textView e gli scrive pagato
-        if(pagato.equals("Sì"))
+        if(pagato)
         {
             viewHolderTasse.tvScaduto.setVisibility(View.VISIBLE);
             viewHolderTasse.tvScaduto.setText("PAGATO");
             viewHolderTasse.tvScaduto.setTextColor(visualizzaTasseAdminActivity.getResources().getColor(R.color.verde1));
         }
-
+        if(!permesso) {
+            viewHolderTasse.permesso.setColorFilter(visualizzaTasseAdminActivity.getResources().getColor(R.color.rosso2));
+        } else if(permesso && !pagato){
+            viewHolderTasse.permesso.setColorFilter(visualizzaTasseAdminActivity.getResources().getColor(R.color.giallo));
+        } else if (pagato) viewHolderTasse.permesso.setColorFilter(visualizzaTasseAdminActivity.getResources().getColor(R.color.verde1));
     }
 
     @Override

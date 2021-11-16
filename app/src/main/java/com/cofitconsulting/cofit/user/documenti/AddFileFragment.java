@@ -332,7 +332,7 @@ public class AddFileFragment extends Fragment {
         notifica.put("Id", id);
         notifica.put("Email", email);
         notifica.put("Data", data);
-        notifica.put("Visto", "No");
+        notifica.put("Letta", false);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Notifiche").document(userID).set(notifica);

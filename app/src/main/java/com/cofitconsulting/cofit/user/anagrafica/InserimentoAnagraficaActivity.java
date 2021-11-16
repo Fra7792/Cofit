@@ -166,15 +166,15 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 String tokenUser = FirebaseInstanceId.getInstance().getToken();
                 writeOnDatabaseUsers(nome, citta, indirizzo, numeroCivico, numero, cellulare, iva, cf, contabilita, tipo_cliente, email, uid, tokenUser);
                 Toast.makeText(InserimentoAnagraficaActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(InserimentoAnagraficaActivity.this, MainActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
     }
 
     //scrivo nel database
-    private void writeOnDatabaseUsers(String nome, String citta, String indirizzo, String numeroCivico, String numero, String cellulare, String iva, String cf, String contabilita, String tipo_cliente, String email, String uid, String token){
+    private void writeOnDatabaseUsers(String nome, String citta, String indirizzo, String numeroCivico,
+                                      String numero, String cellulare, String iva, String cf, String contabilita,
+                                      String tipo_cliente, String email, String uid, String token){
         Map<String, Object> user = new HashMap<>();
         user.put("Id", uid);
         user.put("Token", token);

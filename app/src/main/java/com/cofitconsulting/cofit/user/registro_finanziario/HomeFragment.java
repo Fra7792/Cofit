@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
 
         adapter = new PageAdapterMainActivity(getActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager, true);
         tabLayout.getTabAt(0).setText("F24/Tasse");
         tabLayout.getTabAt(1).setText("Crediti");

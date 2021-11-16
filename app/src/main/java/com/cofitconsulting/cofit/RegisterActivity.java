@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button mBtnRegistra;
     private TextView linkLogin, condizioni;
     private ProgressBar progressBar;
-    private FirebaseAuth fAuth; //crea un oggetto della classe FirebaseAuth per l'autentificazione
+    private FirebaseAuth fAuth; //crea un oggetto della classe FirebaseAuth per l'autenticazione
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         mBtnRegistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmail.getText().toString().trim();
+                final String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String confPass = mConfPass.getText().toString().trim();
 
@@ -107,11 +107,13 @@ public class RegisterActivity extends AppCompatActivity {
                             // if user enters wrong email.
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail)
                             {
+                                mEmail.setError("E-mail errata!");
                                 Toast.makeText(RegisterActivity.this, "L'email è errata!", Toast.LENGTH_LONG).show();
 
                             }
                             catch (FirebaseAuthUserCollisionException existEmail)
                             {
+                                mEmail.setError("E-mail già utilizzata");
                                 Toast.makeText(RegisterActivity.this, "Email già utilizzata!", Toast.LENGTH_LONG).show();
                             }
                             catch (Exception e)
