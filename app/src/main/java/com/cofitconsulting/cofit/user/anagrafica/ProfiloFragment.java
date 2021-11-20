@@ -105,7 +105,9 @@ public class ProfiloFragment extends Fragment {
 
                     try {
                     tipo_azienda.setText("Tipo Cliente: " + documentSnapshot.getString("Tipo cliente"));
-                    nome.setText(documentSnapshot.getString("Denominazione"));
+                    String cogonome = documentSnapshot.getString("Cognome");
+                    String nm = documentSnapshot.getString("Denominazione");
+                    nome.setText(nm + " " + cogonome);
                     email.setText(documentSnapshot.getString("Email"));
                     String citta = documentSnapshot.getString("Città");
                     String indirizzo = documentSnapshot.getString("Indirizzo");

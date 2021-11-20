@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class InserimentoAnagraficaActivity extends AppCompatActivity {
 
-    private EditText text_nome, text_citta, text_indirizzo, text_numeroCivico, text_numero, text_cellulare, text_iva, text_cf;
+    private EditText text_nome, text_cognome, text_citta, text_indirizzo, text_numeroCivico, text_numero, text_cellulare, text_iva, text_cf;
     private Spinner text_contabilita;
     private RadioGroup radioGroupTipo;
     private RadioButton azienda, societa, professionista;
@@ -47,6 +47,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserimento_anagrafica);
         text_nome = findViewById(R.id.text_denominazione);
+        text_cognome = findViewById(R.id.text_cognome);
         text_citta = findViewById(R.id.text_citta);
         text_indirizzo = findViewById(R.id.text_indirizzo);
         text_numeroCivico = findViewById(R.id.text_numeroCivico);
@@ -84,6 +85,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 try {
                     String cont = documentSnapshot.getString("Tipo di contabilità");
                     text_nome.setText(documentSnapshot.getString("Denominazione"));
+                    text_cognome.setText(documentSnapshot.getString("Cognome"));
                     text_citta.setText(documentSnapshot.getString("Città"));
                     text_indirizzo.setText(documentSnapshot.getString("Indirizzo"));
                     text_numeroCivico.setText(documentSnapshot.getString("Numero civico"));
@@ -114,6 +116,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String nome = text_nome.getText().toString();
+                final String cognome = text_cognome.getText().toString();
                 final String indirizzo = text_indirizzo.getText().toString();
                 final String numeroCivico = text_numeroCivico.getText().toString();
                 final String citta = text_citta.getText().toString();
@@ -132,11 +135,31 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                    Toast.makeText(InserimentoAnagraficaActivity.this, "Devi completare tutti i campi", Toast.LENGTH_SHORT).show();
                    return;
                 }
-                final String tipo_cliente = selectedIdRadioGroup(radioGroupTipo);
+
                 if(TextUtils.isEmpty(nome)){   //TextUtils controlla la lunghezza della stringa
-                    text_nome.setError("Inserire la denominazione!");
+                    text_nome.setError("Inserire un nome!");
                     return;
                 }
+
+                final String tipo_cliente = selectedIdRadioGroup(radioGroupTipo);
+
+                if(tipo_cliente.equals("Professionista"))
+                {
+                    if ((TextUtils.isEmpty(cognome)))
+                    {
+                        text_cognome.setError("Inserire il cognome!");
+                        return;
+                    }
+                }
+                if(tipo_cliente.equals("Azienda") || tipo_cliente.equals("Società"))
+                {
+                    if(!TextUtils.isEmpty(cognome))
+                    {
+                        text_cognome.setError("Solo per persone fisiche");
+                        return;
+                    }
+                }
+
                 if(TextUtils.isEmpty(indirizzo)){   //TextUtils controlla la lunghezza della stringa
                     text_indirizzo.setError("Inserire l'indirizzo!");
                     return;
@@ -156,7 +179,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                     Toast.makeText(InserimentoAnagraficaActivity.this, "Inserire almeno un numero di telefono!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if((countCF < 16 || countCF > 16) && (countIva < 11 || countIva > 11)){
+                if((countCF != 16) && (countIva != 11)){
                     text_iva.setError("Partita IVA non corretta");
                     text_cf.setError("Codice Fiscale non corretto");
                     Toast.makeText(InserimentoAnagraficaActivity.this, "Uno tra Partita IVA e Codice Fiscale è obbligatorio!", Toast.LENGTH_LONG).show();
@@ -164,7 +187,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
                 }
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 String tokenUser = FirebaseInstanceId.getInstance().getToken();
-                writeOnDatabaseUsers(nome, citta, indirizzo, numeroCivico, numero, cellulare, iva, cf, contabilita, tipo_cliente, email, uid, tokenUser);
+                writeOnDatabaseUsers(nome, cognome, citta, indirizzo, numeroCivico, numero, cellulare, iva, cf, contabilita, tipo_cliente, email, uid, tokenUser);
                 Toast.makeText(InserimentoAnagraficaActivity.this, "Inserimento avvenuto", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -172,7 +195,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
     }
 
     //scrivo nel database
-    private void writeOnDatabaseUsers(String nome, String citta, String indirizzo, String numeroCivico,
+    private void writeOnDatabaseUsers(String nome, String cognome, String citta, String indirizzo, String numeroCivico,
                                       String numero, String cellulare, String iva, String cf, String contabilita,
                                       String tipo_cliente, String email, String uid, String token){
         Map<String, Object> user = new HashMap<>();
@@ -180,6 +203,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         user.put("Token", token);
         user.put("Email", email);
         user.put("Denominazione", nome);
+        user.put("Cognome", cognome);
         user.put("Numero di telefono", numero);
         user.put("Numero di cellulare", cellulare);
         user.put("Città", citta);
@@ -189,7 +213,7 @@ public class InserimentoAnagraficaActivity extends AppCompatActivity {
         user.put("Codice Fiscale", cf);
         user.put("Tipo di contabilità", contabilita);
         user.put("Tipo cliente", tipo_cliente);
-        user.put("search", nome.toLowerCase());
+        user.put("search", nome.toLowerCase() + " " + cognome.toLowerCase());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Users").document(uid).set(user);

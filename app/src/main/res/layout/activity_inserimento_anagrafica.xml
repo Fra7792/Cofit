@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Cognome e nome o Denominazione d'azienda: "
+            android:text="Nome o Denominazione d'azienda: "
             android:textColor="@color/prugna"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +126,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="Cognome e nome/Denominazione d'azienda"
+            android:hint="Nome/Denominazione d'azienda"
             android:background="@drawable/et_style"
             android:padding="10dp"
             android:inputType="textPersonName"
@@ -137,6 +137,43 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDenominazione"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvCognome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Cognome: "
+            android:textColor="@color/prugna"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_denominazione"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/text_cognome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Cognome"
+            android:background="@drawable/et_style"
+            android:padding="10dp"
+            android:inputType="textPersonName"
+            android:textColor="@color/viola"
+            android:textColorHint="@color/viola"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCognome"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -152,7 +189,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_denominazione"
+            app:layout_constraintTop_toBottomOf="@+id/text_cognome"
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
@@ -240,7 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Numero di telefono: "
+            android:text="Numero di telefono fisso: "
             android:textColor="@color/prugna"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"

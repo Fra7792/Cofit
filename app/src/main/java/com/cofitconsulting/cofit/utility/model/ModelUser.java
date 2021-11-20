@@ -4,9 +4,12 @@ public class ModelUser {
 
     private String Id;
     private String Denominazione;
+    private String Cognome;
     private String Email;
 
-    private ModelUser(){}
+    private ModelUser(String cognome){
+        this.Cognome = cognome;
+    }
 
     public String getId() {
         return Id;
@@ -18,6 +21,15 @@ public class ModelUser {
 
     public String getDenominazione() {
         return Denominazione;
+    }
+
+    public  String getCognome()
+    {
+        return Cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.Cognome = cognome;
     }
 
     public void setDenominazione(String denominazione) {
@@ -32,9 +44,10 @@ public class ModelUser {
         this.Email = email;
     }
 
-    public ModelUser(String id, String denominazione, String email) {
+    public ModelUser(String id, String denominazione, String cognome, String email) {
         this.Id = id;
         this.Denominazione = denominazione;
+        this.Cognome = cognome;
         this.Email = email;
     }
 }

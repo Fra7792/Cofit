@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -53,6 +55,19 @@ public class InserimentoTasseActivity extends AppCompatActivity {
     private FirebaseFirestore fStore;
     private String token;
     private APIService apiService;
+    private String blockCharacterSet = "@_-+*()=/:;'€~#^|$%&*!?,";
+
+    private InputFilter filter = new InputFilter() {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +85,13 @@ public class InserimentoTasseActivity extends AppCompatActivity {
         annoRif = findViewById(R.id.spinnerAnno);
         meseRif = findViewById(R.id.spinnerMese);
         importo = findViewById(R.id.etImporto);
+        importo.setFilters(new InputFilter[] {filter});
         scadenza = findViewById(R.id.etScadenza);
         btnInserisci = findViewById(R.id.btnInserisci);
 
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
+
 
         //creo un arraylist con gli anni che vanno dal 2017 ad oggi
         ArrayList<String> years = new ArrayList<String>();

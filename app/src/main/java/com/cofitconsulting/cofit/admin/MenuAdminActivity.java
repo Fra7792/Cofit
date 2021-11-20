@@ -17,7 +17,7 @@ public class MenuAdminActivity extends AppCompatActivity {
     private TextView titolo;
     private ImageView tvAnagrafica, tvVisualizzaTasse, tvTasse, tvVisualizzaDoc, tvInserisciDoc;
     private ImageButton btnBack;
-    private String userID, denominazione;
+    private String userID, denominazione, cognome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,10 @@ public class MenuAdminActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userID = intent.getStringExtra("User_ID").trim();
         denominazione = intent.getStringExtra("Nome").trim();
+        cognome = intent.getStringExtra("Cognome").trim();
 
 
-        titolo.setText(denominazione);
+        titolo.setText(denominazione + " " + cognome);
 
         tvVisualizzaTasse.setOnClickListener(new View.OnClickListener() {
             @Override

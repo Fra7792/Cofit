@@ -102,6 +102,7 @@ public class ListaClientiActivity extends AppCompatActivity {
                         {
                             ModelUser modelUser = new ModelUser(doc.getString("Id"),
                                     doc.getString("Denominazione"),
+                                    doc.getString("Cognome"),
                                     doc.getString("Email"));
                             modelUserList.add(modelUser);
                         }
@@ -127,7 +128,7 @@ public class ListaClientiActivity extends AppCompatActivity {
         pd.setTitle("Caricamento in corso...");
         pd.show();
 
-        db.collection("Users").orderBy("Denominazione")
+        db.collection("Users").orderBy("Cognome")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -138,6 +139,7 @@ public class ListaClientiActivity extends AppCompatActivity {
                         {
                             ModelUser modelUser = new ModelUser(doc.getString("Id"),
                                     doc.getString("Denominazione"),
+                                    doc.getString("Cognome"),
                                     doc.getString("Email"));
                             if(doc.getString("search").contains(s))
                             {

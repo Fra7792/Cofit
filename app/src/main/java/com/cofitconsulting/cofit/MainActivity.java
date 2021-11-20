@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImage);
+                Picasso.get().load(uri).resize(50, 50 ).into(profileImage);
             }
         });
     }

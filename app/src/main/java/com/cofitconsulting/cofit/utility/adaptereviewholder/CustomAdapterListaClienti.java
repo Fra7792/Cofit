@@ -42,9 +42,11 @@ public class CustomAdapterListaClienti extends RecyclerView.Adapter<ViewHolderCl
             public void onItemClick(View view, int position) {
                 String denominazione = modelList.get(position).getDenominazione();
                 String id = modelList.get(position).getId();
+                String cognome = modelList.get(position).getCognome();
                 Intent intent = new Intent(listaClientiActivity, MenuAdminActivity.class);
                 intent.putExtra("User_ID", id);
                 intent.putExtra("Nome", denominazione);
+                intent.putExtra("Cognome", cognome);
                 listaClientiActivity.startActivity(intent);
             }
         });
@@ -55,7 +57,9 @@ public class CustomAdapterListaClienti extends RecyclerView.Adapter<ViewHolderCl
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderClienti viewHolderClienti, int i) {
 
-        viewHolderClienti.mDenominazione.setText(modelList.get(i).getDenominazione());
+        String nome = modelList.get(i).getDenominazione();
+        String cognome = modelList.get(i).getCognome();
+        viewHolderClienti.mDenominazione.setText(cognome + " " + nome);
         viewHolderClienti.mEmail.setText(modelList.get(i).getEmail());
 
         storageReference = FirebaseStorage.getInstance().getReference();
